@@ -1,8 +1,8 @@
 # Cryptography in use
 
-## Required Tools
+## Chapter 1 : Required Tools
 
-## Chapter 1 :  Encoding
+## Chapter 2 : Encoding
 Different popular encodings in cryptography 
 
 ### Binary to Text Encoding
