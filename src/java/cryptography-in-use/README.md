@@ -1,0 +1,5 @@
+# Run Tests
+
+```
+$ mvn test
+```
