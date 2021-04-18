@@ -106,15 +106,13 @@ If we try to do same one for `base64url` :
 
 #### create a binary file
 
-In Linux or macOS, you can use `echo` in command line interface but in Windows, 
-you can use [Git Bash](https://git-scm.com/download/win) as a reliable CLI: 
+You can use `echo` in command line interface : 
 
 ``` 
 $  echo -n -e \\xff\\xe2 > data_binary.bin
 ```
 
-To check the content of the binary file, you can use `hexdump` command. 
-You can download it for Windows [hexdump](https://www.di-mgt.com.au/hexdump-for-windows.html)
+To check the content of the binary file :
 
 ``` 
 $  hexdump data_binary.bin
@@ -124,6 +122,12 @@ $  hexdump data_binary.bin
 
 ``` 
 $ openssl enc -base64 -e -in data_binary.bin
+```
+
+#### decode from standard Base64
+
+```
+$ openssl enc -base64 -d <<< /+I= | od -vt x1
 ```
 
 
