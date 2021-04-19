@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -15,23 +17,28 @@ import org.apache.pdfbox.pdmodel.PDDocument;
  */
 public class CryptoPdfTest 
 {
+    private File _originalFile;
     private PDDocument _originalDocument;
     private String _password;
     private CryptoPdf _cryptoPdf;
     private String _testDataPath;
+    private String _pfxFilePath;
+    private String _pfxFilePassword;
 
     @BeforeEach                                         
     public void setUp() throws IOException {
         _cryptoPdf = new CryptoPdf();
         _testDataPath = "D:/workspace/cryptography-in-use/test-data";
-        File originalFile = new File(_testDataPath + "/pdf/plain_document.pdf");
-        _originalDocument = Loader.loadPDF(originalFile);
+        _originalFile = new File(_testDataPath + "/pdf/plain_document.pdf");
+        _originalDocument = Loader.loadPDF(_originalFile);
         _password = "123456";
+        _pfxFilePath = "D:/workspace/cryptography-in-use/test-data/private/signer_bundle.pfx";
+        _pfxFilePassword = "123456";
     }
 
     @Test
     @DisplayName("Encrypt a PDF document")
-    public void encryptPdfDocumentTest() throws IOException
+    public void encryptDocumentTest() throws IOException
     {
         PDDocument cipheredDocument = new PDDocument(_originalDocument.getDocument());
         Boolean result = _cryptoPdf.encrypt(_originalDocument, 
@@ -41,5 +48,19 @@ public class CryptoPdfTest
 
         cipheredDocument.save(_testDataPath + "/pdf/ciphered_document.pdf");
         cipheredDocument.close();
+    }
+
+    @Test
+    @DisplayName("Sign a PDF document")
+    public void signDocumentTest() throws FileNotFoundException {
+        int result = _cryptoPdf.loadPrivateKey(_pfxFilePath, _pfxFilePassword);
+        Assertions.assertEquals(result, CryptoObject.NO_ERROR);
+
+        String name = _originalFile.getName();
+        String substring = name.substring(0, name.lastIndexOf('.'));
+        File signedFile = new File(_originalFile.getParent(), substring + "_signed.pdf");
+        FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
+        Boolean signResult = _cryptoPdf.signDocument(_originalDocument, signedFileOutputStream);
+        Assertions.assertTrue(signResult);
     }
 }

@@ -1,6 +1,6 @@
-# Encoders in python
+## Encoders in python
 
-## Run unit tests
+### Run unit tests
 
 ```
 $ python .\unittest_encoding.py
