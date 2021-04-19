@@ -26,7 +26,7 @@ You can download it for Windows [hexdump](https://www.di-mgt.com.au/hexdump-for-
 You need this tool to build and run Java source codes. To install it, 
 just follow the instructions on [Installing Apache Maven](https://maven.apache.org/install.html) 
 
-## Chapter 2 : [Encoding]()
+## Chapter 2 : [Encoding](https://github.com/KeyvanArj/cryptography-in-use/tree/main/encoding)
 
 ### [Binary to Text Encoding](https://github.com/KeyvanArj/cryptography-in-use/tree/main/encoding/binary-to-text)
 
