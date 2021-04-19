@@ -30,11 +30,11 @@ just follow the instructions on [Installing Apache Maven](https://maven.apache.o
 
 Different popular encodings in cryptography 
 
-### Binary to Text Encoding
+### [Binary to Text Encoding](https://github.com/KeyvanArj/cryptography-in-use/tree/main/encoding/binary-to-text)
 
-### Data Structure Encoding
+### [Data Structure Encoding](https://github.com/KeyvanArj/cryptography-in-use/tree/main/encoding/data-structure-encoding)
 
-## Chapter 3 : Secrecy
+## Chapter 3 : [Secrecy](https://github.com/KeyvanArj/cryptography-in-use/tree/main/secrecy)
 
 ## Chapter 4 : Integrity & Authetication
 
