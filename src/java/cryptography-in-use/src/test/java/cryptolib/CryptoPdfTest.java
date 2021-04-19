@@ -56,11 +56,30 @@ public class CryptoPdfTest
         int result = _cryptoPdf.loadPrivateKey(_pfxFilePath, _pfxFilePassword);
         Assertions.assertEquals(result, CryptoObject.NO_ERROR);
 
-        String name = _originalFile.getName();
-        String substring = name.substring(0, name.lastIndexOf('.'));
-        File signedFile = new File(_originalFile.getParent(), substring + "_signed.pdf");
+        File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
         FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
         Boolean signResult = _cryptoPdf.signDocument(_originalDocument, signedFileOutputStream);
         Assertions.assertTrue(signResult);
+    }
+
+    @Test
+    @DisplayName("Sign a PDF document and encrypt it as a file")
+    public void encryptSignedDocumentTest() throws FileNotFoundException {
+        int result = _cryptoPdf.loadPrivateKey(_pfxFilePath, _pfxFilePassword);
+        Assertions.assertEquals(result, CryptoObject.NO_ERROR);
+
+        File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
+        FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
+        Boolean signResult = _cryptoPdf.signDocument(_originalDocument, signedFileOutputStream);
+        Assertions.assertTrue(signResult);
+
+        String  keyBase64 = "QNV2GQxfFWXwmZTWmoJrSxYNLmqTUxv9g5NeQpabc7E=";
+        String  ivBase64 = "0eQbwlW32F6wbv7ca2n8bg==";
+        File cipheredFile = new File(_testDataPath + "/pdf/ciphered_signed_file.pdf");
+        Boolean cipherResult = _cryptoPdf.encrypt(signedFile, 
+                                            keyBase64,
+                                            ivBase64, 
+                                            cipheredFile);
+        Assertions.assertTrue(cipherResult);
     }
 }
