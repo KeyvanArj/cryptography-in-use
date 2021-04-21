@@ -10,11 +10,7 @@ class CryptoPdf :
     def __init__(self):
         pass
 
-    def verify_document(self, pdf_file, certificate_file):
-
-        # Read binary stream of pdf file and certificate
-        pdf_data = pdf_file.read()
-        certificate_data = certificate_file.read()
+    def verify_document(self, pdf_data, certificate_data):
 
         # Extract the content and signed data of pdf
         (cms_data, signed_data) = self.extract_signature_data(pdf_data)
@@ -67,7 +63,7 @@ class CryptoPdf :
         cms_hash_verfication = (digest_result == cms_hash)
 
         # Verify signature embedded in cms
-        signature = cms_content['signer_infos'][0].native['signature']
+        signature = cms_content['signer_infos'][0]['signature'].native
         serial = cms_content['signer_infos'][0]['sid'].native['serial_number']
         public_key = None
         for certificate in cms_content['certificates']:
