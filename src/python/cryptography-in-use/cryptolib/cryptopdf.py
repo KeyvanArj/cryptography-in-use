@@ -17,9 +17,9 @@ class CryptoPdf :
 
         # verify the hash of signed data by which is included in cms_data
         # and the signature emdedded in cms_data 
-        (cms_hash_verfication, cms_signature_verfication, cms_certificates)  = self.verify_cms(cms_data, signed_data)
+        (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates)  = self.verify_cms(cms_data, signed_data)
 
-        return (cms_hash_verfication, cms_signature_verfication, cms_certificates)
+        return (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates)
 
     def extract_signature_data(self, pdf_data):
         
@@ -45,12 +45,15 @@ class CryptoPdf :
         cms_content = cms.ContentInfo.load(cms_data)['content']
         digest_algorithm = cms_content['digest_algorithms'][0]['algorithm'].native
         attributes = cms_content['signer_infos'][0]['signed_attrs']
+        cms_signing_time = None
         digest_result = getattr(hashlib, digest_algorithm)(signed_data).digest()
         if attributes is not None and not isinstance(attributes, core.Void):
             cms_hash = None
-            for attr in attributes:
-                if attr['type'].native == 'message_digest':
-                    cms_hash = attr['values'].native[0]
+            for attribute in attributes:
+                if attribute['type'].native == 'message_digest':
+                    cms_hash = attribute['values'].native[0]
+                if attribute['type'].native == 'signing_time':
+                    cms_signing_time = attribute['values'].native[0]     
             cms_signed_data = attributes.dump()
             cms_signed_data = b'\x31' + cms_signed_data[1:]
         else:
@@ -63,11 +66,16 @@ class CryptoPdf :
         signature = cms_content['signer_infos'][0]['signature'].native
         serial = cms_content['signer_infos'][0]['sid'].native['serial_number']
         public_key = None
+        not_before = None
+        not_after = None
         for certificate in cms_content['certificates']:
             if serial == certificate.native['tbs_certificate']['serial_number']:
                 certificate = certificate.dump()
                 certificate = pem.armor(u'CERTIFICATE', certificate)
-                public_key = crypto.load_certificate(crypto.FILETYPE_PEM, certificate).get_pubkey().to_cryptography_key()
+                certificate = crypto.load_certificate(crypto.FILETYPE_PEM, certificate)
+                public_key = certificate.get_pubkey().to_cryptography_key()
+                not_before = certificate.get_notBefore().decode()
+                not_after = certificate.get_notAfter().decode()
                 break
 
         signature_algorithm = cms_content['signer_infos'][0]['signature_algorithm']
@@ -101,11 +109,18 @@ class CryptoPdf :
         else:
             raise ValueError('Unknown signature algorithm')
 
-        # TODO verify certificates
+        # extract certificates
         cms_certificates = []
         for certificate in cms_content['certificates']:
             certificate_data = pem.armor(u'CERTIFICATE', certificate.dump()).decode()
             cms_certificates.append(certificate_data)
     
-        return (cms_hash_verfication, cms_signature_verfication, cms_certificates) 
+        # verify signing time
+        signing_time = cms_signing_time.strftime('%Y%m%d%H%M%SZ')
+        signing_time_verification = (not_before <= signing_time <= not_after)
+        # print('Siging Time : ', signing_time)        
+        # print('Not Before : ', not_before)
+        # print('Not After : ', not_after)
+
+        return (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates) 
     

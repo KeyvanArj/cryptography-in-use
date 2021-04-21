@@ -17,10 +17,11 @@ class TestCryptoPdf(unittest.TestCase):
             pdf_data = file_handler.read()
         
         # Verify Signature and Hash of data embedded in cms
-        (cms_hash_verfication, cms_signature_verfication, cms_certificates) = self.crypto_pdf.verify_document(pdf_data)
+        (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates) = self.crypto_pdf.verify_document(pdf_data)
         self.assertTrue(cms_hash_verfication)
         self.assertTrue(cms_signature_verfication)
-
+        self.assertTrue(signing_time_verification)
+            
         # Verify certificates embedded in cms
         with open(self.test_data_path + '/certs/signer_cert.pem', 'rt') as file_handler:
             signer_certificate_data = file_handler.read()
@@ -33,7 +34,7 @@ class TestCryptoPdf(unittest.TestCase):
                 file_handler.write(cms_certificate)
             # You can see the content of cms certificate by the following command : 
             # $ openssl x509 -in certs/cms_cert.crt -text -noout 
-            
+
         pass
 
 if __name__ == '__main__':
