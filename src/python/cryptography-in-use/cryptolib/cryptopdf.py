@@ -10,19 +10,16 @@ class CryptoPdf :
     def __init__(self):
         pass
 
-    def verify_document(self, pdf_data, certificate_data):
+    def verify_document(self, pdf_data):
 
         # Extract the content and signed data of pdf
         (cms_data, signed_data) = self.extract_signature_data(pdf_data)
 
-        # Load certificates
-        self.load_certificate(certificate_data)
-
         # verify the hash of signed data by which is included in cms_data
         # and the signature emdedded in cms_data 
-        (cms_hash_verfication, cms_signature_verfication)  = self.verify_cms(cms_data, signed_data)
+        (cms_hash_verfication, cms_signature_verfication, cms_certificates)  = self.verify_cms(cms_data, signed_data)
 
-        return (cms_hash_verfication, cms_signature_verfication)
+        return (cms_hash_verfication, cms_signature_verfication, cms_certificates)
 
     def extract_signature_data(self, pdf_data):
         
@@ -104,9 +101,11 @@ class CryptoPdf :
         else:
             raise ValueError('Unknown signature algorithm')
 
-        return (cms_hash_verfication, cms_signature_verfication) 
+        # TODO verify certificates
+        cms_certificates = []
+        for certificate in cms_content['certificates']:
+            certificate_data = pem.armor(u'CERTIFICATE', certificate.dump()).decode()
+            cms_certificates.append(certificate_data)
     
-    def load_certificate(self, certificate_data):
-        self.store = crypto.X509Store()
-        certificate = crypto.load_certificate(crypto.FILETYPE_PEM, certificate_data)
-        self.store.add_cert(certificate)
+        return (cms_hash_verfication, cms_signature_verfication, cms_certificates) 
+    
