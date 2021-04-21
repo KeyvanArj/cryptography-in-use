@@ -16,8 +16,12 @@ class TestCryptoPdf(unittest.TestCase):
         with open(self.test_data_path + '/pdf/signed_document.pdf', 'rb') as file_handler:
             pdf_data = file_handler.read()
         
-        # Verify Signature and Hash of data embedded in cms
-        (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates) = self.crypto_pdf.verify_document(pdf_data)
+        # Verify Signature, hash of data and signing time embedded in cms
+        (cms_hash_verfication, 
+         cms_signature_verfication, 
+         signing_time_verification, 
+         cms_certificates) = self.crypto_pdf.verify_document(pdf_data)
+        
         self.assertTrue(cms_hash_verfication)
         self.assertTrue(cms_signature_verfication)
         self.assertTrue(signing_time_verification)

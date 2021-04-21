@@ -36,9 +36,9 @@ public class CryptoPdf extends CryptoFile implements SignatureInterface {
 
     }
       
-    public Boolean encrypt(PDDocument plainDocument, 
-                           String password, 
-                           PDDocument cipheredDocument) {
+    public Boolean encryptDocument(PDDocument plainDocument, 
+                                    String password, 
+                                    PDDocument cipheredDocument) {
         try
         {
             //Creating access permission object

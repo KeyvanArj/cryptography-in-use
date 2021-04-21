@@ -17,9 +17,15 @@ class CryptoPdf :
 
         # verify the hash of signed data by which is included in cms_data
         # and the signature emdedded in cms_data 
-        (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates)  = self.verify_cms(cms_data, signed_data)
+        (cms_hash_verfication, 
+         cms_signature_verfication, 
+         signing_time_verification, 
+         cms_certificates)  = self.verify_cms(cms_data, signed_data)
 
-        return (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates)
+        return (cms_hash_verfication, 
+                cms_signature_verfication, 
+                signing_time_verification, 
+                cms_certificates)
 
     def extract_signature_data(self, pdf_data):
         
@@ -118,9 +124,12 @@ class CryptoPdf :
         # verify signing time
         signing_time = cms_signing_time.strftime('%Y%m%d%H%M%SZ')
         signing_time_verification = (not_before <= signing_time <= not_after)
-        # print('Siging Time : ', signing_time)        
+        # print('Signing Time : ', signing_time)        
         # print('Not Before : ', not_before)
         # print('Not After : ', not_after)
 
-        return (cms_hash_verfication, cms_signature_verfication, signing_time_verification, cms_certificates) 
+        return (cms_hash_verfication, 
+                cms_signature_verfication, 
+                signing_time_verification, 
+                cms_certificates) 
     

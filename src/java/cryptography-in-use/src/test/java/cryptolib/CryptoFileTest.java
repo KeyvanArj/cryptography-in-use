@@ -48,10 +48,10 @@ public class CryptoFileTest {
         // According to the OpenSSL document (https://www.openssl.org/docs/man1.1.1/man1/enc.html) :
         //      All the block ciphers normally use PKCS#5 padding
         File cipheredFile = new File(_testDataPath + "/pdf/ciphered_file.pdf");
-        Boolean result = _cryptoFile.encrypt(_originalFile, 
-                                            keyBase64,
-                                            ivBase64, 
-                                            cipheredFile);
+        Boolean result = _cryptoFile.encrypt_aes_256_cbc_pkcs5(_originalFile, 
+                                                                keyBase64,
+                                                                ivBase64, 
+                                                                cipheredFile);
         Assertions.assertTrue(result);
 
         // To check the encryption result : 

@@ -13,6 +13,17 @@ import java.security.cert.CertificateParsingException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.InvalidKeyException;
+import java.security.InvalidAlgorithmParameterException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+
+import java.util.Base64;
 
 public class CryptoObject {
 
@@ -28,6 +39,30 @@ public class CryptoObject {
 
     public CryptoObject() {
 
+    }
+
+    public byte[] encrypt_aes_256_cbc_pkcs5(byte[] plainBytes,
+                                            String keyBase64,
+                                            String ivBase64) {
+        try
+        {
+            byte[] keyBytes = Base64.getDecoder().decode(keyBase64);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
+
+            byte[] ivBytes = Base64.getDecoder().decode(ivBase64);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBytes);
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+
+            byte[] cipheredBytes = cipher.doFinal(plainBytes);
+
+            return cipheredBytes;
+        } catch(NoSuchPaddingException | NoSuchAlgorithmException
+                | InvalidKeyException | BadPaddingException | InvalidAlgorithmParameterException
+                | IllegalBlockSizeException ex) {
+            return null;
+        }
     }
 
     public int loadPrivateKey(String pfxFilePath, String password) {

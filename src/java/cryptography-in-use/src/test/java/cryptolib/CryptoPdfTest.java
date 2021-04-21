@@ -41,9 +41,9 @@ public class CryptoPdfTest
     public void encryptDocumentTest() throws IOException
     {
         PDDocument cipheredDocument = new PDDocument(_originalDocument.getDocument());
-        Boolean result = _cryptoPdf.encrypt(_originalDocument, 
-                                            _password,
-                                            cipheredDocument);
+        Boolean result = _cryptoPdf.encryptDocument(_originalDocument, 
+                                                    _password,
+                                                    cipheredDocument);
         Assertions.assertTrue(result);
 
         cipheredDocument.save(_testDataPath + "/pdf/ciphered_document.pdf");
@@ -76,10 +76,10 @@ public class CryptoPdfTest
         String  keyBase64 = "QNV2GQxfFWXwmZTWmoJrSxYNLmqTUxv9g5NeQpabc7E=";
         String  ivBase64 = "0eQbwlW32F6wbv7ca2n8bg==";
         File cipheredFile = new File(_testDataPath + "/pdf/ciphered_signed_file.pdf");
-        Boolean cipherResult = _cryptoPdf.encrypt(signedFile, 
-                                            keyBase64,
-                                            ivBase64, 
-                                            cipheredFile);
+        Boolean cipherResult = _cryptoPdf.encrypt_aes_256_cbc_pkcs5(signedFile, 
+                                                                    keyBase64,
+                                                                    ivBase64, 
+                                                                    cipheredFile);
         Assertions.assertTrue(cipherResult);
     }
 }
