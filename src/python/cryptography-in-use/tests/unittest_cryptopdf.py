@@ -13,7 +13,7 @@ class TestCryptoPdf(unittest.TestCase):
 
     def test_verify_document(self):
         # Read binary stream of pdf file and certificate
-        with open(self.test_data_path + '/pdf/signed_document.pdf', 'rb') as file_handler:
+        with open(self.test_data_path + '/pdf/double_signed_document.pdf', 'rb') as file_handler:
             pdf_data = file_handler.read()
         
         # Verify Signature, hash of data and signing time embedded in cms
@@ -32,13 +32,14 @@ class TestCryptoPdf(unittest.TestCase):
         with open(self.test_data_path + '/certs/cacert.pem', 'rt') as file_handler:
             ca_certificate_data = file_handler.read()
 
+        certficate_number = 0
         for cms_certificate in cms_certificates : 
+            certficate_number += 1
             # save for debug if needed
-            with open(self.test_data_path + '/certs/cms_cert.crt', 'wt') as file_handler:
+            with open(self.test_data_path + '/certs/cms_cert_' + str(certficate_number) + '.crt', 'wt') as file_handler:
                 file_handler.write(cms_certificate)
             # You can see the content of cms certificate by the following command : 
             # $ openssl x509 -in certs/cms_cert.crt -text -noout 
-
         pass
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ public class CryptoPdfTest
         _originalFile = new File(_testDataPath + "/pdf/plain_document.pdf");
         _originalDocument = Loader.loadPDF(_originalFile);
         _password = "123456";
-        _pfxFilePath = "D:/workspace/cryptography-in-use/test-data/private/signer_bundle.pfx";
+        _pfxFilePath = _testDataPath + "/private/signer_bundle.pfx";
         _pfxFilePassword = "123456";
     }
 
@@ -59,6 +59,24 @@ public class CryptoPdfTest
         File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
         FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
         Boolean signResult = _cryptoPdf.signDocument(_originalDocument, signedFileOutputStream);
+        Assertions.assertTrue(signResult);
+    }
+
+    @Test
+    @DisplayName("Double Sign a PDF document")
+    public void doubleSignDocumentTest() throws FileNotFoundException, IOException {
+        File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
+        PDDocument signedDocument = Loader.loadPDF(signedFile);
+        String pfxFilePath = _testDataPath + "/private/second_signer_bundle.pfx";
+        String pfxFilePassword = "123456";
+
+        CryptoPdf cryptoPdf = new CryptoPdf();
+        int result = cryptoPdf.loadPrivateKey(pfxFilePath, pfxFilePassword);
+        Assertions.assertEquals(result, CryptoObject.NO_ERROR);
+
+        File doubleSignedFile = new File(_testDataPath + "/pdf/double_signed_document.pdf");
+        FileOutputStream doubleSignedFileOutputStream = new FileOutputStream(doubleSignedFile);
+        Boolean signResult = cryptoPdf.signDocument(signedDocument, doubleSignedFileOutputStream);
         Assertions.assertTrue(signResult);
     }
 
