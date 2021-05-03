@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import java.awt.geom.Rectangle2D;
+
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -29,7 +32,7 @@ public class CryptoPdfTest
     public void setUp() throws IOException {
         _cryptoPdf = new CryptoPdf();
         _testDataPath = "D:/workspace/cryptography-in-use/test-data";
-        _originalFile = new File(_testDataPath + "/pdf/plain_document.pdf");
+        _originalFile = new File(_testDataPath + "/pdf/original_document.pdf");
         _originalDocument = Loader.loadPDF(_originalFile);
         _password = "123456";
         _pfxFilePath = _testDataPath + "/private/signer_bundle.pfx";
@@ -59,6 +62,24 @@ public class CryptoPdfTest
         File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
         FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
         Boolean signResult = _cryptoPdf.signDocument(_originalDocument, signedFileOutputStream);
+        Assertions.assertTrue(signResult);
+    }
+
+    @Test
+    @DisplayName("Digitally and Visually Sign a PDF document")
+    public void signWithVisualDocumentTest() throws FileNotFoundException {
+        int result = _cryptoPdf.loadPrivateKey(_pfxFilePath, _pfxFilePassword);
+        Assertions.assertEquals(result, CryptoObject.NO_ERROR);
+
+        File visualSignatureFile = new File(_testDataPath + "/signature/first_client_visual_signature.jpg");
+        Rectangle2D visualRectangle = new Rectangle2D.Float(10, 20, 100, 100);
+
+        File signedFile = new File(_testDataPath + "/pdf/visual_signed_document.pdf");
+        FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
+        Boolean signResult = _cryptoPdf.signWithVisualDocument(_originalDocument, 
+                                                               signedFileOutputStream, 
+                                                               visualRectangle,
+                                                               visualSignatureFile);
         Assertions.assertTrue(signResult);
     }
 

@@ -18,7 +18,7 @@ public class CryptoFileTest {
     public void setUp() throws IOException {
         _cryptoFile = new CryptoFile();
         _testDataPath = "D:/workspace/cryptography-in-use/test-data";
-        _originalFile = new File(_testDataPath + "/pdf/plain_document.pdf");
+        _originalFile = new File(_testDataPath + "/pdf/original_document.pdf");
     }
 
     @Test

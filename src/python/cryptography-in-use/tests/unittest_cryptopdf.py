@@ -13,7 +13,7 @@ class TestCryptoPdf(unittest.TestCase):
 
     def test_verify_document(self):
         # Read binary stream of pdf file and certificate
-        with open(self.test_data_path + '/pdf/double_signed_document.pdf', 'rb') as file_handler:
+        with open(self.test_data_path + '/pdf/visual_signed_document.pdf', 'rb') as file_handler:
             pdf_data = file_handler.read()
         
         # Verify Signature, hash of data and signing time embedded in cms
