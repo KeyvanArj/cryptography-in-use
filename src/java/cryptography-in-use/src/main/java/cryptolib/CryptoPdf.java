@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.print.PrintException;
-
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
 import java.awt.Color;

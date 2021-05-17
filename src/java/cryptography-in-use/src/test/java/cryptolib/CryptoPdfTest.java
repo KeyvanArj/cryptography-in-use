@@ -74,7 +74,7 @@ public class CryptoPdfTest
         File visualSignatureFile = new File(_testDataPath + "/signature/first_client_visual_signature.jpg");
         Rectangle2D visualRectangle = new Rectangle2D.Float(10, 20, 100, 100);
 
-        File signedFile = new File(_testDataPath + "/pdf/visual_signed_document.pdf");
+        File signedFile = new File(_testDataPath + "/pdf/visual_single_signed_document.pdf");
         FileOutputStream signedFileOutputStream = new FileOutputStream(signedFile);
         Boolean signResult = _cryptoPdf.signWithVisualDocument(_originalDocument, 
                                                                signedFileOutputStream, 
@@ -86,7 +86,7 @@ public class CryptoPdfTest
     @Test
     @DisplayName("Double Sign a PDF document")
     public void doubleSignDocumentTest() throws FileNotFoundException, IOException {
-        File signedFile = new File(_testDataPath + "/pdf/signed_document.pdf");
+        File signedFile = new File(_testDataPath + "/pdf/visual_signed_document.pdf");
         PDDocument signedDocument = Loader.loadPDF(signedFile);
         String pfxFilePath = _testDataPath + "/private/second_signer_bundle.pfx";
         String pfxFilePassword = "123456";
@@ -95,9 +95,16 @@ public class CryptoPdfTest
         int result = cryptoPdf.loadPrivateKey(pfxFilePath, pfxFilePassword);
         Assertions.assertEquals(result, CryptoObject.NO_ERROR);
 
-        File doubleSignedFile = new File(_testDataPath + "/pdf/double_signed_document.pdf");
+        File visualSignatureFile = new File(_testDataPath + "/signature/second_client_visual_signature.jpg");
+        Rectangle2D visualRectangle = new Rectangle2D.Float(120, 20, 100, 100);
+
+        File doubleSignedFile = new File(_testDataPath + "/pdf/visual_double_signed_document.pdf");
         FileOutputStream doubleSignedFileOutputStream = new FileOutputStream(doubleSignedFile);
-        Boolean signResult = cryptoPdf.signDocument(signedDocument, doubleSignedFileOutputStream);
+        Boolean signResult = cryptoPdf.signWithVisualDocument(signedDocument, 
+                                                               doubleSignedFileOutputStream, 
+                                                               visualRectangle,
+                                                               visualSignatureFile);
+
         Assertions.assertTrue(signResult);
     }
 

@@ -32,8 +32,6 @@ class CryptoPdf :
                 signing_time_verification, 
                 cms_certificates )  = self.verify_cms(cms_data, signed_data)
             
-            print('signed data : ', signed_data)
-            
             cms_hash_verfication_result &= cms_hash_verfication
             cms_signature_verfication_result &= cms_signature_verfication
             signing_time_verification_result &= signing_time_verification
@@ -62,6 +60,7 @@ class CryptoPdf :
         
         data1 = pdf_data[br[0] : br[0] + br[1]]
         data2 = pdf_data[br[2] : br[2] + br[3]]
+
         signed_data = data1 + data2
 
         return (cms_bytes, signed_data, stop)

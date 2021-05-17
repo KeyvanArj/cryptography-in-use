@@ -1,0 +1,39 @@
+{
+    "name": "cryptography-in-use",
+    "version": "1.0.0",
+    "description": "cryptography library covers practical use cases",
+    "main": "./src/index.js",
+    "scripts": {
+        "test": "node ./test/unittest_cryptopdf.js",
+        "dev": "webpack --mode development",
+        "build": "webpack --mode production"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/KeyvanArj/cryptography-in-use.git"
+    },
+    "keywords": [
+        "openssl",
+        "pkcs7",
+        "cms",
+        "pkcs12",
+        "secrecy",
+        "integrity",
+        "authentication"
+    ],
+    "author": "keyvan arj",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/KeyvanArj/cryptography-in-use/issues"
+    },
+    "homepage": "https://github.com/KeyvanArj/cryptography-in-use#readme",
+    "devDependencies": {
+        "@babel/core": "^7.14.2",
+        "@babel/preset-env": "^7.14.2",
+        "babel-loader": "^8.2.2",
+        "javascript-obfuscator": "^2.12.0",
+        "webpack": "^5.37.0",
+        "webpack-cli": "^4.7.0",
+        "webpack-obfuscator": "^3.3.1"
+    }
+}
