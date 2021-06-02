@@ -16,3 +16,9 @@ $ openssl ca -in certs/signer_req.pem -out certs/signer_cert.pem
 ```
 $ openssl pkcs12 -inkey .\private\signer_key.pem -in .\certs\signer_cert.pem -export -out .\private\signer_bundle.pfx
 ```
+
+# Binary Data Generation
+
+```
+$ echo -n -e \\xff\\xe2 > .\bin\data_binary.bin
+```
