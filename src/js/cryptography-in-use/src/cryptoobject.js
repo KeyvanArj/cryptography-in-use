@@ -19,10 +19,10 @@ class CryptoObject {
 
     decrypt_aes_256_cbc_pkcs5(encryptedBytes, keyBase64) {
 
-        const keyString = Buffer.from(keyBase64, 'base64');
-        const ivString = encryptedBytes.slice(0, 16);
+        const keyBuffer = Buffer.from(keyBase64, 'base64');
+        const ivBuffer = encryptedBytes.slice(0, 16);
 
-        let decipher = Crypto.createDecipheriv('aes-256-cbc', keyString, ivString);
+        let decipher = Crypto.createDecipheriv('aes-256-cbc', keyBuffer, ivBuffer);
         let decrypted = decipher.update(encryptedBytes);
         decrypted = decipher.final();
         return decrypted;
