@@ -13,7 +13,7 @@ class CryptoObject {
 
         let cipher = Crypto.createCipheriv('aes-256-cbc', keyBuffer, ivBuffer);
         let encrypted = cipher.update(plainBytes);
-        encrypted = cipher.final();
+        encrypted = Buffer.concat([encrypted, cipher.final()]);
         return Buffer.concat([ivBuffer, encrypted]);
     }
 
@@ -23,8 +23,8 @@ class CryptoObject {
         const ivBuffer = encryptedBytes.slice(0, 16);
 
         let decipher = Crypto.createDecipheriv('aes-256-cbc', keyBuffer, ivBuffer);
-        let decrypted = decipher.update(encryptedBytes);
-        decrypted = decipher.final();
+        let decrypted = decipher.update(encryptedBytes.slice(16));
+        decrypted = Buffer.concat([decrypted, decipher.final()]);
         return decrypted;
     }
 
