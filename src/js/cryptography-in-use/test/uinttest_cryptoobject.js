@@ -23,8 +23,9 @@ describe("Data/Message Secrecy", function() {
         it("AES-256 CBC Mode by PKCS5 Padding", function() {
             let cryptoObject = new CryptoObject();
             let encryptedData = cryptoObject.encrypt_aes_256_cbc_pkcs5(plainBytes, keyBase64, ivBase64);
-            let encryptedBytes = FileStream.readFileSync(TestDataPath + '/bin/encrypted_data.bin');
-            Expect(encryptedData.toString('hex')).to.equal(encryptedBytes.toString('hex'))
+            let encryptedBytes = FileStream.readFileSync(TestDataPath + '/bin/openssl_encrypted_data.bin');
+            FileStream.writeFileSync(TestDataPath + '/bin/encrypted_data.bin', encryptedData)
+            Expect(encryptedData.slice(16).toString('base64')).to.equal(encryptedBytes.toString('base64'))
         });
     });
 
@@ -33,7 +34,7 @@ describe("Data/Message Secrecy", function() {
             let cryptoObject = new CryptoObject();
             let encryptedBytes = FileStream.readFileSync(TestDataPath + '/bin/encrypted_data.bin');
             let decryptedData = cryptoObject.decrypt_aes_256_cbc_pkcs5(encryptedBytes, keyBase64, ivBase64);
-            Expect(decryptedData.toString('hex')).to.equal(plainBytes.toString('hex'))
+            Expect(decryptedData.toString('base64')).to.equal(plainBytes.toString('base64'))
         });
     });
 });
