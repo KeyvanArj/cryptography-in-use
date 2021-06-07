@@ -33,7 +33,7 @@ describe("Data/Message Secrecy", function() {
         it("AES-256 CBC Mode by PKCS5 Padding", function() {
             let cryptoObject = new CryptoObject();
             let encryptedBytes = FileStream.readFileSync(TestDataPath + '/bin/encrypted_data.bin');
-            let decryptedData = cryptoObject.decrypt_aes_256_cbc_pkcs5(encryptedBytes, keyBase64, ivBase64);
+            let decryptedData = cryptoObject.decrypt_aes_256_cbc_pkcs5(encryptedBytes, keyBase64);
             Expect(decryptedData.toString('base64')).to.equal(plainBytes.toString('base64'))
         });
     });
