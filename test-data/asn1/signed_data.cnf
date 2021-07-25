@@ -1,0 +1,55 @@
+asn1=SEQUENCE:content_info
+
+ [content_info]
+
+ content_type=OID:1.2.840.113549.1.7.2
+ content=SEQUENCE:signed_data
+ 
+ [signed_data]
+ version=INTEGER:1
+ digestAlgorithms=SET:digestAlgorithmIdentifier
+ encapContentInfo=SEQUENCE:encapsulatedContentInfo
+ certificates=IMPLICIT:0,SET:certificateChoices
+ #signerInfos=SET:signerInfo
+ 
+ [digestAlgorithmIdentifier]
+ algorithm=OID:2.16.840.1.101.3.4.2.1
+ 
+ [encapsulatedContentInfo]
+ eContentType=OID:1.2.840.113549.1.7.1 
+ eContent=EXPLICIT:0,FORMAT:HEX,OCTETSTRING:FFE2
+ 
+ [certificateChoices]
+ certificateChoice=SEQUENCE:certificate
+ 
+ [certificate]
+ tbsCert=SEQUENCE:tbsCertificate
+ signatureAlgorithm=SEQUENCE:algorithmIdentifier
+ signatureValue=FORMAT:HEX,BITSTRING:9164d84570176527b7ba7727006728afca3ca3ee005c2f9be748f54c2be7628b125e1fa949ce0a53b0adaa638d94f310bb9cac465c190d64890cfae3ae68a2c48407be834dc8cd02aefe2be46cdd5ce0198331072a04b8b74a47552ecf9b1ebd20325409bf6d9b049d20316d8e20033081e78b2fae09edca012ea84486c6f38b37b8b9e3301def1587adc82d1b73b122c6b791085b3ab328bc582dedad4b3f1bef8470e71619aa4724c3805ad0186a78c90c7daa525406f75cfeaa9990880124c1bcb4307a8aa9520739f01e06cb1108f3b7f530f98e3ee83f432fa75cdfc74f97b19c38a257e86cf599f7a246bfbc7bb05584bb311f355e35b7d6b0b3a63326
+ 
+ [tbsCertificate]
+ version=EXPLICIT:0,INTEGER:2
+ serialNumber=INTEGER:2
+ signature=algorithmIdentifier
+ issuer=issuerName
+ validity=SEQUENCE:validityInterval
+ subject=subjectName
+ subjectPublicKeyInfo=SEQUENCE:subjectPublicKeyInfo
+ 
+ [algorithmIdentifier]
+ algorithm=OID:1.2.840.113549.1.1.11
+ parameters=NULL              
+ 
+ [issuerName]
+ 
+ [validityInterval]
+ notBefore=notBeforeUtcTime
+ notAfter=notAfterUtcTime
+ 
+ [subjectName]
+ 
+ [subjectPublicKeyInfo]
+ 
+ #[signerInfo]
+ 
+ 
