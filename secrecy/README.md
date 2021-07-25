@@ -1,6 +1,31 @@
 # Secrecy
 
 `Secrecy` is a means of preventing an unauthorized observer of a message from determining its contents.
+`Shared secret` is a value that is known to two parties. The secret can be as simple as a password, 
+                or it can be an encryption key both parties know.
+
+Encryption provides `secrecy` for a tranferred message. In most situations we decide to use a `shared secret key` in a `symmetric-key` encryption algorithm 
+to provide cipher messages. And sometimes, e.g. to transfer the `shared secret key` in `key exchange` process, 
+the best solution is to use an `asymmetric-key` encryption algorithm  .
+
+In all of these situations we need to generate secret keys (symmetric/asymmetric) and **store** them safely.
+One of the most secure approaches to generate secret keys is to use a `secret` which just client know it or just belongs to her uniquely, e.g. password or naional id. 
+This `secret` is called a seed, and the algorithm used to derive multiple secret keys from this seed is called a `Key Derivation Function` (KDF).
+
+## Key Derivation
+
+[PBKDF2](https://www.ietf.org/rfc/rfc2898.txt) applies a pseudorandom function, such as hash-based message authentication code (HMAC), to the input password or passphrase along with a salt value and repeats the process many times to produce a derived key, which can then be used as a cryptographic key in subsequent operations. The added computational work makes password cracking much more difficult, and is known as key stretching.
+
+Assume that the client's password is `123456`, and you would like to generate a 
+secret key for `AES` encryption algorithm in `CBC` mode. So, beside the secret key you need an `initial vector`.
+PBKDF2 also uses a `Salt` to generate a secret key from the passowrd. 
+The following OpenSSL command can be used to derivate a secret while have set the salt manually.:
+
+```
+$  openssl enc -aes-256-cbc -pbkdf2 -md sha1 -pass pass:123456 -P -S 05775a1c0bafcade -iter 1000
+```
+
+## Key Storage
 
 ## PDF Encryption
 
@@ -35,7 +60,7 @@ $ openssl enc -base64 -d <<< 0eQbwlW32F6wbv7ca2n8bg== | od -vt x1
   0000000 d1 e4 1b c2 55 b7 d8 5e b0 6e fe dc 6b 69 fc 6e
 ```
 
-Another way could be using pbkdf2 to derivate a Key and IV from a passkey.
+Another way could be using pbkdf2 to derivate a Key and IV from a passkey by [Key Derivation]() technique.
 
 To encrypt the file, you can use the following command : 
 
