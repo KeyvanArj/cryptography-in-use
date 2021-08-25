@@ -7,12 +7,17 @@
 
 import Foundation
 
-class ContentInfo : Asn1Sequence {
+class ContentInfo : AsnSequnce {
+        
+    var _contentType : ObjectIdentifier
+    var _content : ASN1EncodableType! 
     
-    var _contentType : Oid
-    var _content : AnyObject?
+    override func getData() -> [ASN1EncodableType] {
+            return [self._contentType, self._content]
+    }
     
     init(contentType: Oid) {
-        self._contentType = contentType
+        self._contentType = try! ObjectIdentifier.from(string: contentType.rawValue)
     }
 }
+
