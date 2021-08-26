@@ -13,7 +13,7 @@ class SignedData : Asn1Sequence {
     var _digestAlgorithms : DigestAlgorithmIdentifiers
     
     init(version: CmsVersion) {
-        super.init()
+        super.init(modifier: Asn1Modifier.IMPLICIT)
         self._version = version
     }
 }

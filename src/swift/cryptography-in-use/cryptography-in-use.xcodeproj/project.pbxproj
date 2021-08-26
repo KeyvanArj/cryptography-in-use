@@ -12,19 +12,14 @@
 		FB9A808A2687348300BDE632 /* cryptography_in_use.h in Headers */ = {isa = PBXBuildFile; fileRef = FB9A807C2687348300BDE632 /* cryptography_in_use.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FB9A80942687356F00BDE632 /* SignedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80932687356F00BDE632 /* SignedData.swift */; };
 		FB9A80972687385700BDE632 /* ContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80962687385700BDE632 /* ContentInfo.swift */; };
-		FB9A80982687385700BDE632 /* ContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80962687385700BDE632 /* ContentInfo.swift */; };
 		FB9A809A2687391100BDE632 /* Oid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80992687391100BDE632 /* Oid.swift */; };
-		FB9A809B2687391100BDE632 /* Oid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80992687391100BDE632 /* Oid.swift */; };
 		FB9A809D2687419200BDE632 /* Asn1Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A809C2687419200BDE632 /* Asn1Object.swift */; };
-		FB9A809E2687419200BDE632 /* Asn1Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A809C2687419200BDE632 /* Asn1Object.swift */; };
 		FB9A80A02687470A00BDE632 /* Asn1Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A809F2687470A00BDE632 /* Asn1Sequence.swift */; };
-		FB9A80A12687470A00BDE632 /* Asn1Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A809F2687470A00BDE632 /* Asn1Sequence.swift */; };
 		FB9A80A32687480F00BDE632 /* CmsVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A22687480F00BDE632 /* CmsVersion.swift */; };
-		FB9A80A42687480F00BDE632 /* CmsVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A22687480F00BDE632 /* CmsVersion.swift */; };
 		FB9A80A626874E6F00BDE632 /* Asn1Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A526874E6F00BDE632 /* Asn1Type.swift */; };
-		FB9A80A726874E6F00BDE632 /* Asn1Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A526874E6F00BDE632 /* Asn1Type.swift */; };
 		FB9A80A926874F1100BDE632 /* Asn1Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A826874F1100BDE632 /* Asn1Modifier.swift */; };
-		FB9A80AA26874F1100BDE632 /* Asn1Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A826874F1100BDE632 /* Asn1Modifier.swift */; };
+		FBC99D0426AD3CE70099B98A /* DigestAlgorithmIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC99D0326AD3CE70099B98A /* DigestAlgorithmIdentifier.swift */; };
+		FBC99D0626C7A3860099B98A /* IntegerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC99D0526C7A3860099B98A /* IntegerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +47,8 @@
 		FB9A80A22687480F00BDE632 /* CmsVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmsVersion.swift; sourceTree = "<group>"; };
 		FB9A80A526874E6F00BDE632 /* Asn1Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asn1Type.swift; sourceTree = "<group>"; };
 		FB9A80A826874F1100BDE632 /* Asn1Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asn1Modifier.swift; sourceTree = "<group>"; };
+		FBC99D0326AD3CE70099B98A /* DigestAlgorithmIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmIdentifier.swift; sourceTree = "<group>"; };
+		FBC99D0526C7A3860099B98A /* IntegerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +101,7 @@
 				FB9A80A22687480F00BDE632 /* CmsVersion.swift */,
 				FB9A80A526874E6F00BDE632 /* Asn1Type.swift */,
 				FB9A80A826874F1100BDE632 /* Asn1Modifier.swift */,
+				FBC99D0326AD3CE70099B98A /* DigestAlgorithmIdentifier.swift */,
 			);
 			path = "cryptography-in-use";
 			sourceTree = "<group>";
@@ -113,6 +111,7 @@
 			children = (
 				FB9A80872687348300BDE632 /* SignedDataTests.swift */,
 				FB9A80892687348300BDE632 /* Info.plist */,
+				FBC99D0526C7A3860099B98A /* IntegerTests.swift */,
 			);
 			path = "cryptography-in-useTests";
 			sourceTree = "<group>";
@@ -233,6 +232,7 @@
 				FB9A80972687385700BDE632 /* ContentInfo.swift in Sources */,
 				FB9A809A2687391100BDE632 /* Oid.swift in Sources */,
 				FB9A80A02687470A00BDE632 /* Asn1Sequence.swift in Sources */,
+				FBC99D0426AD3CE70099B98A /* DigestAlgorithmIdentifier.swift in Sources */,
 				FB9A80A926874F1100BDE632 /* Asn1Modifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,13 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB9A80882687348300BDE632 /* SignedDataTests.swift in Sources */,
-				FB9A809E2687419200BDE632 /* Asn1Object.swift in Sources */,
-				FB9A80A42687480F00BDE632 /* CmsVersion.swift in Sources */,
-				FB9A80A726874E6F00BDE632 /* Asn1Type.swift in Sources */,
-				FB9A80982687385700BDE632 /* ContentInfo.swift in Sources */,
-				FB9A809B2687391100BDE632 /* Oid.swift in Sources */,
-				FB9A80A12687470A00BDE632 /* Asn1Sequence.swift in Sources */,
-				FB9A80AA26874F1100BDE632 /* Asn1Modifier.swift in Sources */,
+				FBC99D0626C7A3860099B98A /* IntegerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

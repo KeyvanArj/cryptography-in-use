@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable cryptography_in_use
 
 class IntegerTests: XCTestCase {
 
@@ -17,9 +18,8 @@ class IntegerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testBytes2IntegerEncoding() throws {
+        
     }
 
     func testPerformanceExample() throws {

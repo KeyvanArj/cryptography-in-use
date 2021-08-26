@@ -74,16 +74,16 @@ class CryptoPdf :
         attributes = cms_content['signer_infos'][0]['signed_attrs']
         cms_signing_time = None
         digest_result = getattr(hashlib, digest_algorithm)(signed_data).digest()
-        if attributes is not None and not isinstance(attributes, core.Void):
+    if attributes is not Noneand not isinstance(attributes, core.Void):
             cms_hash = None
-            for attribute in attributes:
-                if attribute['type'].native == 'message_digest':
+        for attribute in attributes:
+            if attribute['type'].native == 'message_digest':
                     cms_hash = attribute['values'].native[0]
-                if attribute['type'].native == 'signing_time':
+            if attribute['type'].native == 'signing_time':
                     cms_signing_time = attribute['values'].native[0]     
             cms_signed_data = attributes.dump()
             cms_signed_data = b'\x31' + cms_signed_data[1:]
-        else:
+    else:
             cms_hash = digest_result
             cms_signed_data = signed_data
         

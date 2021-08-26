@@ -14,5 +14,6 @@ class ContentInfo : Asn1Sequence {
     
     init(contentType: Oid) {
         self._contentType = contentType
+        super.init(modifier: Asn1Modifier.IMPLICIT)
     }
 }
