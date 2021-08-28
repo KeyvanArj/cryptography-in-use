@@ -9,8 +9,8 @@ import Foundation
 
 class CMSAlgorithmProtectionValue: AsnSequnce {
     
-    var _digestAlgorithm: DigestAlgorithmIdentifier!
-    var _signatureAlgorithm: SignatureAlgorithmIdentifier!
+    private var _digestAlgorithm: DigestAlgorithmIdentifier!
+    private var _signatureAlgorithm: SignatureAlgorithmIdentifier!
     
     init(digestAlgorithm: DigestAlgorithmIdentifier, signatureAlgorithm: SignatureAlgorithmIdentifier) {
         self._digestAlgorithm = digestAlgorithm

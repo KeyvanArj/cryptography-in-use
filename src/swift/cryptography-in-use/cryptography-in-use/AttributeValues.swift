@@ -9,7 +9,11 @@ import Foundation
 
 class AttributeValues: AsnSet {
     
-    var _values: [AttributeValue]!
+    private var _values: [AttributeValue] = []
+    
+    func add(value : AttributeValue) {
+        self._values.append(value)
+    }
     
     override func getData() -> [ASN1EncodableType] {
         return self._values

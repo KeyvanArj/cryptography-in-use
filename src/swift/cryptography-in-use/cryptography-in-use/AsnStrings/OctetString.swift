@@ -9,16 +9,18 @@ import Foundation
 
 class OctetString : ASN1EncodableType {
     
-    var binaryData : Data
-    var _explicit : Bool
+    private var _binaryData : Data
+    private var _explicit : Bool
+    private var _tag : ASN1DecodedTag!
     
-    init(data : Data, explicit: Bool = false) {
+    init(data : Data, explicit: Bool = false, tag: ASN1DecodedTag?) {
         self._explicit = explicit
-        self.binaryData = data
+        self._binaryData = data
+        self._tag = tag
     }
     
     func asn1encode(tag: ASN1DecodedTag?) throws -> ASN1Object {
-        let asn1Object = ASN1Primitive(data: .primitive(self.binaryData), tag: .universal(.octetString))
+        let asn1Object = ASN1Primitive(data: .primitive(self._binaryData), tag: self._tag ?? .universal(.octetString))
         if (self._explicit == false) {
             return asn1Object
         } else {

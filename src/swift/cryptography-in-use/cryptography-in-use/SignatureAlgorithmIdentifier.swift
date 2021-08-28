@@ -9,8 +9,8 @@ import Foundation
 
 class SignatureAlgorithmIdentifier : AsnSequnce {
    
-    var _algorithm : ObjectIdentifier!
-    var _parameter : ObjectIdentifier!
+    private var _algorithm : ObjectIdentifier!
+    private var _parameter : ObjectIdentifier!
     
     init(algorithm : String, parameter: String = "", explicit: Bool = false, tag: UInt = UInt.max) {
         super.init(explicit: explicit, tag: tag)

@@ -9,8 +9,14 @@ import Foundation
 
 class ContentInfo : AsnSequnce {
         
-    var _contentType : ObjectIdentifier
-    var _content : ASN1EncodableType! 
+    private var _contentType : ObjectIdentifier
+    private var _content : ASN1EncodableType!
+    
+    var content : ASN1EncodableType? {
+        willSet {
+            self._content = newValue
+        }
+    }
     
     override func getData() -> [ASN1EncodableType] {
             return [self._contentType, self._content]

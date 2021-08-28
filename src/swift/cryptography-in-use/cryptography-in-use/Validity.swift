@@ -9,8 +9,8 @@ import Foundation
 
 class Validity: AsnSequnce {
     
-    var _notBefore : Date
-    var _notAfter : Date
+    private var _notBefore : Date
+    private var _notAfter : Date
     
     init(notBefore: Date, notAfter: Date) {
         self._notBefore = notBefore

@@ -9,7 +9,7 @@ import Foundation
 
 class SignerInfos : AsnSet {
     
-    var _signerInfos : [SignerInfo] = []
+    private var _signerInfos : [SignerInfo] = []
     
     func addSignerInfo(signerInfo: SignerInfo) {
         self._signerInfos.append(signerInfo)

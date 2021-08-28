@@ -9,9 +9,9 @@ import Foundation
 
 class TimeStampReq: AsnSequnce {
     
-    var _version: Int
-    var _messageImprint: MessageImprint
-    var _nonce: Int
+    private var _version: Int
+    private var _messageImprint: MessageImprint
+    private var _nonce: Int
     
     init(version: Int, messageImprint: MessageImprint, nonce: Int) {
         self._version = version

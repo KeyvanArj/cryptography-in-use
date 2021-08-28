@@ -9,12 +9,12 @@ import Foundation
 
 class AsnSet : ASN1EncodableType {
     
-    var _explicit : Bool
-    var _implicitTag : UInt
+    private  var _explicit : Bool
+    internal var _tag : UInt
     
-    init(explicit : Bool = false, implicitTag : UInt = UInt.max) {
+    init(explicit : Bool = false, tag : UInt = UInt.max) {
         self._explicit = explicit
-        self._implicitTag = implicitTag
+        self._tag = tag
     }
     
     func getData() -> [ASN1EncodableType]! {
@@ -25,9 +25,9 @@ class AsnSet : ASN1EncodableType {
         var asn1Object = try ASN1Primitive(data: .constructed(self.getData().map { try $0.asn1encode(tag: nil) }),
                                            tag: .universal(.set))
         if (self._explicit == false) {
-            if(self._implicitTag != UInt.max) {
+            if(self._tag != UInt.max) {
                 asn1Object = try ASN1Primitive(data: .constructed(self.getData().map { try $0.asn1encode(tag: nil) }),
-                                               tag: .taggedTag(self._implicitTag))
+                                               tag: .taggedTag(self._tag))
                 return asn1Object
             } else {
                 return asn1Object

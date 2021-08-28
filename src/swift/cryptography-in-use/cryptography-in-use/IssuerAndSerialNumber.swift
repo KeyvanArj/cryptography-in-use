@@ -9,8 +9,8 @@ import Foundation
 
 class IssuerAndSerialNumber : AsnSequnce {
     
-    var _issuer : RDNSequence
-    var _serial : Int
+    private var _issuer : RDNSequence
+    private var _serial : Int
     
     init(issuer : RDNSequence, serial: Int) {
         self._issuer = issuer

@@ -19,7 +19,7 @@ class SignedData : AsnSequnce {
         self._version = version
         self._digestAlgorithms = DigestAlgorithmIdentifiers()
         self._signerInfos = SignerInfos()
-        self._certificates = Certificates(implicitTag: 0)
+        self._certificates = Certificates(tag: 0)
         self._encapsulatedContentInfo = EncapsulatedContentInfo(oid: try! ObjectIdentifier.from(string: Oid.Data.rawValue))
         super.init(explicit: explicit)
     }
@@ -40,7 +40,7 @@ class SignedData : AsnSequnce {
     }
     
     func setEncapsulatedContentInfo(content: Data) {
-        let octetString = OctetString(data: content, explicit: true)
+        let octetString = OctetString(data: content, explicit: true, tag: nil)
         self._encapsulatedContentInfo.eContent = octetString
     }
     

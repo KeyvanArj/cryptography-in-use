@@ -12,7 +12,7 @@ class MessageDigestAttribute : Attribute {
     init(value: String) {
         let messageDigest = MessageDigest(hexString: value)
         let messageDigestAttrValues = AttributeValues()
-        messageDigestAttrValues._values = [messageDigest]
+        messageDigestAttrValues.add(value: messageDigest)
         super.init(attrType: try! ObjectIdentifier.from(string: OID.messageDigest.rawValue), attrValues: messageDigestAttrValues)
     }
 }

@@ -25,16 +25,16 @@ enum CertificateVersionMap : Int {
 
 class CertificateVersion : ASN1EncodableType {
     
-    var _explicit: Bool
-    var _value: CertificateVersionMap
+    private var _explicit: Bool
+    private var _value: Int
     
-    init(explicit: Bool = false, value: CertificateVersionMap) {
+    init(explicit: Bool = false, value: Int) {
         self._explicit = explicit
         self._value = value
     }
     
     func asn1encode(tag: ASN1DecodedTag?) throws -> ASN1Object {
-        let asn1Object = try self._value.rawValue.asn1encode(tag: tag)
+        let asn1Object = try self._value.asn1encode(tag: tag)
         if (self._explicit == false) {
             return asn1Object
         } else {

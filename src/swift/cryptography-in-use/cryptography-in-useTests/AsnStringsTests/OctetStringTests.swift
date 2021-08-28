@@ -21,7 +21,7 @@ class OctetStringTests: XCTestCase {
     }
 
     func testOctetStringEncoding() throws {
-        let octetString = OctetString(data: binaryData)
+        let octetString = OctetString(data: binaryData, tag: nil)
         let encodedData = try octetString.asn1encode(tag: nil).serialize().hexString()
         
         // https://kjur.github.io/jsrsasign/tool/tool_asn1encoder.html
@@ -33,7 +33,7 @@ class OctetStringTests: XCTestCase {
     }
 
     func testExplicitOctetStringEncoding() throws {
-        let octetString = OctetString(data: binaryData, explicit: true)
+        let octetString = OctetString(data: binaryData, explicit: true, tag: nil)
         let encodedData = try octetString.asn1encode(tag: nil).serialize().hexString()
         
         // https://kjur.github.io/jsrsasign/tool/tool_asn1encoder.html

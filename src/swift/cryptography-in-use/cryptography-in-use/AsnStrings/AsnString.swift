@@ -9,9 +9,9 @@ import Foundation
 
 class AsnString : ASN1EncodableType {
     
-    var _data : String
-    var _tag : ASN1DecodedTag
-    var _explicit : Bool
+    private var _data : String
+    private var _tag : ASN1DecodedTag
+    private var _explicit : Bool
     
     init(data : String, tag: ASN1DecodedTag, explicit: Bool = false) {
         self._data = data

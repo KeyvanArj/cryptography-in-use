@@ -9,15 +9,20 @@ import Foundation
 
 class SignedAttributes: AsnSet {
     
-    var _attributes : [Attribute]!
+    private var _attributes : [Attribute] = []
+    
+    func add(value: Attribute) {
+        self._attributes.append(value)
+    }
     
     func serialize() -> Data {
-        let implicitTag = self._implicitTag
-        self._implicitTag = UInt.max
+        let tag = self._tag
+        self._tag = UInt.max
         let data = try! self.asn1encode(tag: nil).serialize()
-        self._implicitTag = implicitTag
+        self._tag = tag
         return data
     }
+    
     override func getData() -> [ASN1EncodableType] {
         return self._attributes
     }

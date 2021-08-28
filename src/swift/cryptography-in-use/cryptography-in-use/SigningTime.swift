@@ -9,7 +9,7 @@ import Foundation
 
 class SigningTime : AttributeValue {
     
-    var _value : Date
+    private var _value : Date
     
     init(value: Date) {
         self._value = value

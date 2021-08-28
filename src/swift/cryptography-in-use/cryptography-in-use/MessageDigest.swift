@@ -9,7 +9,7 @@ import Foundation
 
 class MessageDigest : AttributeValue {
     
-    var _value : String
+    private var _value : String
     
     init(hexString: String) {
         self._value = hexString
@@ -17,7 +17,7 @@ class MessageDigest : AttributeValue {
         
     override func asn1encode(tag: ASN1DecodedTag?) throws -> ASN1Object {
         let data = self._value.hexaData
-        let digest = OctetString(data: data)
+        let digest = OctetString(data: data, tag: nil)
         return try digest.asn1encode(tag: tag)
     }
 }

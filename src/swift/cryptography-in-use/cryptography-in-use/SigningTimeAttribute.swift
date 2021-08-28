@@ -12,7 +12,7 @@ class SigningTimeAttribute : Attribute {
     init(value: Date) {
         let signingTimeValue = SigningTime(value: value)
         let signingTimeAttrValues = AttributeValues()
-        signingTimeAttrValues._values = [signingTimeValue]
+        signingTimeAttrValues.add(value: signingTimeValue)
         super.init(attrType: try! ObjectIdentifier.from(string: OID.signingTime.rawValue), attrValues: signingTimeAttrValues)
     }
 }

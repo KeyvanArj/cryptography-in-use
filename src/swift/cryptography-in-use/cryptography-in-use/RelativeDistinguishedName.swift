@@ -9,9 +9,13 @@ import Foundation
 
 class RelativeDistinguishedName : AsnSet {
     
-    var _attributeTypeAndValue : [AttributeTypeAndValue]!
-           
+    private var _values : [AttributeTypeAndValue] = []
+    
+    func add(value: AttributeTypeAndValue) {
+        self._values.append(value)
+    }
+    
     override func getData() -> [ASN1EncodableType] {
-        return self._attributeTypeAndValue
+        return self._values
     }
 }

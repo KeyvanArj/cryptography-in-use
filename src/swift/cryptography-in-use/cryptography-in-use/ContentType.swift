@@ -9,7 +9,7 @@ import Foundation
 
 class ContentType : AttributeValue {
     
-    var _value : ObjectIdentifier!
+    private var _value : ObjectIdentifier!
     
     init(value: String) {
         self._value = try! ObjectIdentifier.from(string: value)

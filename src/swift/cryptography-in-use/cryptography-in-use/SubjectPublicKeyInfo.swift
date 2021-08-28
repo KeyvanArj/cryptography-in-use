@@ -9,12 +9,15 @@ import Foundation
 
 class SubjectPublicKeyInfo : AsnSequnce {
     
-    var _algorithm : SignatureAlgorithmIdentifier
-    var _subjectPublicKey : BitString
+    private var _algorithm : SignatureAlgorithmIdentifier!
+    private var _subjectPublicKey : BitString!
     
-    init(algotithm: SignatureAlgorithmIdentifier, publicKey: BitString){
-        self._algorithm = algotithm
-        self._subjectPublicKey = publicKey
+    func load(publicKey: X509PublicKey) {
+        let publicKeyParameters : String = (publicKey.algParams)!
+        self._algorithm = SignatureAlgorithmIdentifier(algorithm: (publicKey.algOid)!,
+                                                       parameter: publicKeyParameters)
+        let publicKeyBytes = publicKey.key
+        self._subjectPublicKey = BitString(data: publicKeyBytes!)
     }
     
     override func getData() -> [ASN1EncodableType] {
