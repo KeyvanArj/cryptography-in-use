@@ -9,8 +9,8 @@ import Foundation
 
 class MessageImprint: AsnSequnce {
     
-    var _hashAlgorithm: SignatureAlgorithmIdentifier
-    var _hashedMessage: OctetString
+    private var _hashAlgorithm: SignatureAlgorithmIdentifier
+    private var _hashedMessage: OctetString
     
     init(hashAlgorithm: SignatureAlgorithmIdentifier, hashedMessage: OctetString) {
         self._hashAlgorithm = hashAlgorithm

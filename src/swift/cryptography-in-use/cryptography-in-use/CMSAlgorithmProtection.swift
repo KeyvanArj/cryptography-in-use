@@ -9,7 +9,7 @@ import Foundation
 
 class CMSAlgorithmProtection: AttributeValue {
     
-    var _value: CMSAlgorithmProtectionValue
+    private var _value: CMSAlgorithmProtectionValue
     
     init(cmsAlgorithmProtectionValue: CMSAlgorithmProtectionValue) {
         self._value = cmsAlgorithmProtectionValue

@@ -47,6 +47,11 @@
 		B574D87026D64DB900A6438E /* CertificateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D86F26D64DB900A6438E /* CertificateExtensions.swift */; };
 		B574D87426D6557200A6438E /* KeyUsageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D87326D6557200A6438E /* KeyUsageExtension.swift */; };
 		B574D87826D678FC00A6438E /* KeyUsageExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D87726D678FC00A6438E /* KeyUsageExtensionTest.swift */; };
+		B574D87C26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D87B26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift */; };
+		B574D88026DA433900A6438E /* ExtendedKeyUsageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D87F26DA433900A6438E /* ExtendedKeyUsageExtension.swift */; };
+		B574D88326DA441800A6438E /* ExtendedKeyUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D88226DA441800A6438E /* ExtendedKeyUsage.swift */; };
+		B574D88726DA490400A6438E /* AuthorityKeyIdentifierExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */; };
+		B574D88B26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */; };
 		B590C74226C91A7300A11C39 /* Certificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B590C74126C91A7300A11C39 /* Certificates.swift */; };
 		B5F3B11E26AFFFFB00783AF8 /* AsnSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */; };
 		B5F3B12126B002CF00783AF8 /* AsnSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F3B12026B002CF00783AF8 /* AsnSet.swift */; };
@@ -177,6 +182,11 @@
 		B574D86F26D64DB900A6438E /* CertificateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateExtensions.swift; sourceTree = "<group>"; };
 		B574D87326D6557200A6438E /* KeyUsageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUsageExtension.swift; sourceTree = "<group>"; };
 		B574D87726D678FC00A6438E /* KeyUsageExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUsageExtensionTest.swift; sourceTree = "<group>"; };
+		B574D87B26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectKeyIdentifierExtension.swift; sourceTree = "<group>"; };
+		B574D87F26DA433900A6438E /* ExtendedKeyUsageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedKeyUsageExtension.swift; sourceTree = "<group>"; };
+		B574D88226DA441800A6438E /* ExtendedKeyUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedKeyUsage.swift; sourceTree = "<group>"; };
+		B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityKeyIdentifierExtension.swift; sourceTree = "<group>"; };
+		B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityKeyIdentifier.swift; sourceTree = "<group>"; };
 		B590C74126C91A7300A11C39 /* Certificates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Certificates.swift; sourceTree = "<group>"; };
 		B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsnSequence.swift; sourceTree = "<group>"; };
 		B5F3B12026B002CF00783AF8 /* AsnSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsnSet.swift; sourceTree = "<group>"; };
@@ -402,6 +412,8 @@
 				B5F3B13D26B0333A00783AF8 /* AttributeTypeAndValue.swift */,
 				B574D82E26D2538200A6438E /* AttributeValue.swift */,
 				B574D83526D2593500A6438E /* AttributeValues.swift */,
+				B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */,
+				B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */,
 				B5F3B15426B11FE800783AF8 /* Certificate.swift */,
 				B574D86F26D64DB900A6438E /* CertificateExtensions.swift */,
 				B590C74126C91A7300A11C39 /* Certificates.swift */,
@@ -415,9 +427,11 @@
 				B5F4D55B26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift */,
 				B5F4D55E26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift */,
 				B5F3B12326B0065100783AF8 /* EncapsulatedContentInfo.swift */,
+				B574D88226DA441800A6438E /* ExtendedKeyUsage.swift */,
+				B574D87F26DA433900A6438E /* ExtendedKeyUsageExtension.swift */,
 				B574D70A26CD251B00A6438E /* Extensions.swift */,
-				B574D87326D6557200A6438E /* KeyUsageExtension.swift */,
 				B5F3B13326B01D9300783AF8 /* IssuerAndSerialNumber.swift */,
+				B574D87326D6557200A6438E /* KeyUsageExtension.swift */,
 				B574D84126D2669300A6438E /* MessageDigest.swift */,
 				B574D86126D63DFC00A6438E /* MessageDigestAttribute.swift */,
 				B574D71426D0FD0400A6438E /* MessageImprint.swift */,
@@ -431,6 +445,7 @@
 				B5F3B12A26B0150A00783AF8 /* SignerInfos.swift */,
 				B574D83E26D2659900A6438E /* SigningTime.swift */,
 				B574D85D26D63CBC00A6438E /* SigningTimeAttribute.swift */,
+				B574D87B26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift */,
 				B5F3B15D26B12E3600783AF8 /* SubjectPublicKeyInfo.swift */,
 				B5F3B15A26B1276D00783AF8 /* TBSCertificate.swift */,
 				B574D71126D0FBB500A6438E /* TimeStampReq.swift */,
@@ -588,6 +603,7 @@
 				B5F4D59126AEB43B00FD2C85 /* OutputStream+UInt8.swift in Sources */,
 				B5F4D59F26AEB43B00FD2C85 /* Bool+ASN1Encoding.swift in Sources */,
 				B5F4D5A526AEB43B00FD2C85 /* ObjectIdentifier.swift in Sources */,
+				B574D88026DA433900A6438E /* ExtendedKeyUsageExtension.swift in Sources */,
 				B5F4D59D26AEB43B00FD2C85 /* Int+ASN1Encoding.swift in Sources */,
 				B5F4D59726AEB43B00FD2C85 /* ASN1Error.swift in Sources */,
 				B574D86226D63DFC00A6438E /* MessageDigestAttribute.swift in Sources */,
@@ -601,6 +617,7 @@
 				B5F4D58F26AEB43B00FD2C85 /* Data+ASN1Int.swift in Sources */,
 				B574D83C26D263EC00A6438E /* ContentType.swift in Sources */,
 				B574D86626D63F2600A6438E /* CMSAlgorithmProtectionAttribute.swift in Sources */,
+				B574D88B26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift in Sources */,
 				B542BDF226BE531A00958C39 /* X509ExtensionAltName.swift in Sources */,
 				B5F3B13126B016A900783AF8 /* SignatureAlgorithmIdentifier.swift in Sources */,
 				B5F4D55F26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift in Sources */,
@@ -621,15 +638,18 @@
 				B574D82F26D2538200A6438E /* AttributeValue.swift in Sources */,
 				B5F4D5A626AEB43B00FD2C85 /* DataScanner.swift in Sources */,
 				B574D84226D2669300A6438E /* MessageDigest.swift in Sources */,
+				B574D88326DA441800A6438E /* ExtendedKeyUsage.swift in Sources */,
 				FB9A809A2687391100BDE632 /* Oid.swift in Sources */,
 				B574D71226D0FBB500A6438E /* TimeStampReq.swift in Sources */,
 				B5F4D58D26AEB43B00FD2C85 /* ASN1Object+Subscript.swift in Sources */,
 				B5F3B12126B002CF00783AF8 /* AsnSet.swift in Sources */,
+				B574D88726DA490400A6438E /* AuthorityKeyIdentifierExtension.swift in Sources */,
 				B5F4D55C26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift in Sources */,
 				B5F4D59B26AEB43B00FD2C85 /* GeneralizedTimeDateFormatter.swift in Sources */,
 				B5F3B16126B12E5600783AF8 /* Validity.swift in Sources */,
 				B5F4D59E26AEB43B00FD2C85 /* String+ASN1Encoding.swift in Sources */,
 				B542BDF126BE531A00958C39 /* CertASN1Decoder.swift in Sources */,
+				B574D87C26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift in Sources */,
 				B5F4D59026AEB43B00FD2C85 /* String+Subscript.swift in Sources */,
 				B5F4D59926AEB43B00FD2C85 /* Date+ASN1Encoding.swift in Sources */,
 				B5F4D5A426AEB43B00FD2C85 /* ASN1Data.swift in Sources */,

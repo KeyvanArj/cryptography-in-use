@@ -9,8 +9,8 @@ import Foundation
 
 class AsnSequnce : ASN1EncodableType {
     
-    var _explicit : Bool
-    var _tag : UInt
+    private var _explicit : Bool
+    private var _tag : UInt
     
     init(explicit : Bool = false, tag : UInt = UInt.max) {
         self._explicit = explicit

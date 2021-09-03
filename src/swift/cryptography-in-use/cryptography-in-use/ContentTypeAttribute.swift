@@ -12,7 +12,7 @@ class ContentTypeAttribute : Attribute {
     init(value: String) {
         let contentType = ContentType(value: value)
         let contentTypeAttrValues = AttributeValues()
-        contentTypeAttrValues._values = [contentType]
+        contentTypeAttrValues.add(value: contentType)
         super.init(attrType: try! ObjectIdentifier.from(string: OID.contentType.rawValue), attrValues: contentTypeAttrValues)
     }
 }

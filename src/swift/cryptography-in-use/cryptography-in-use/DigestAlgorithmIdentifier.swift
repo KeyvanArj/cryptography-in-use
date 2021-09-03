@@ -9,7 +9,7 @@ import Foundation
 
 class DigestAlgorithmIdentifier : AsnSequnce {
    
-    var _algorithm : ObjectIdentifier!
+    private var _algorithm : ObjectIdentifier!
     
     init(algorithm : DigestAlgorithmId) {
         self._algorithm = try! ObjectIdentifier.from(string: algorithm.rawValue)

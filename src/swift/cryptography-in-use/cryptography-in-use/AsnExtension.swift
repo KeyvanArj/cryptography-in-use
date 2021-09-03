@@ -16,10 +16,15 @@ class AsnExtension : AsnSequnce {
     init(extensionId: String, isCritical: Bool, extensionValue: Data) {
         self._extnId = try! ObjectIdentifier.from(string: extensionId)
         self._critical = isCritical
-        self._extnValue = OctetString(data: extensionValue)
+        self._extnValue = OctetString(data: extensionValue, tag: nil)
     }
     
     override func getData() -> [ASN1EncodableType]! {
-        return [self._extnId, self._critical, self._extnValue]
+        if(self._critical) {
+            return [self._extnId, self._critical, self._extnValue]
+        }
+        else {
+            return [self._extnId, self._extnValue]
+        }
     }
 }

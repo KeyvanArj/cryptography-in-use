@@ -9,8 +9,8 @@ import Foundation
 
 class AttributeTypeAndValue : AsnSequnce {
 
-    var _attributeType : ObjectIdentifier
-    var _attributeValue : AsnString
+    private var _attributeType : ObjectIdentifier
+    private var _attributeValue : AsnString
     
     init(type: ObjectIdentifier, value: AsnString) {
         self._attributeType = type

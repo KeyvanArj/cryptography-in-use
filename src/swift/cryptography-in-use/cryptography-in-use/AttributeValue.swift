@@ -9,7 +9,7 @@ import Foundation
 
 class AttributeValue: ASN1EncodableType {
 
-    var _explicit: Bool!
+    private var _explicit: Bool!
     
     init(explicit: Bool = false) {
         self._explicit = explicit

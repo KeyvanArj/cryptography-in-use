@@ -28,7 +28,7 @@ class TimeStampReqTests: XCTestCase {
         let data = sampleDocument.data(using: .utf8)!
         let hash = SHA256.hash(data: data).compactMap{ String(format: "%02x", $0) }.joined()
         let hashData = hash.hexaData
-        let hashMessage = OctetString(data: hashData)
+        let hashMessage = OctetString(data: hashData, tag: nil)
         let messageImprint = MessageImprint(hashAlgorithm: hashAlgorithm, hashedMessage: hashMessage)
         let nonce = Int.random(in: 1..<Int.max)
         let timeStampReq = TimeStampReq(version: CmsVersion.v1.rawValue, messageImprint: messageImprint, nonce: nonce)

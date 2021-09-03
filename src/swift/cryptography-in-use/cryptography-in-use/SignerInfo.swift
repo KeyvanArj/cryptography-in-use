@@ -45,50 +45,65 @@ class SignerInfo : AsnSequnce {
             return try! self._signature.asn1encode(tag: nil).serialize()
         }
         set {
-            self._signature = OctetString(data: newValue)
+            self._signature = OctetString(data: newValue, tag: nil)
         }
     }
     
     func initSid(x509Certificate: X509Certificate) {
-        let issuerDistinguishedName    = x509Certificate.issuerDistinguishedName!
-        let issuerDistinguishedNameArr = issuerDistinguishedName.components(separatedBy: ", ")
-        let subjectDistinguishedName = x509Certificate.subjectDistinguishedName!
-        let subjectDistinguishedNameArr = subjectDistinguishedName.components(separatedBy: ", ")
-        let certificateSerialData : Data = x509Certificate.serialNumber!
-        let certificateSerialNumber = Int(bigEndian: certificateSerialData.withUnsafeBytes {$0.load(as: Int.self)})
+        
+        let issuer = x509Certificate.issuerDistinguishedName!
+        let issuerDistinguishedNames = issuer.components(separatedBy: ", ")
+       
+        let subject = x509Certificate.subjectDistinguishedName!
+        let subjectDistinguishedNames = subject.components(separatedBy: ", ")
+        
+        let countryNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.CountryName.rawValue),
+                                                value: PrintableString(data: issuerDistinguishedNames[0].components(separatedBy: "=").last!))
+        let stateOrProvinceNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.StateOrProvinceName.rawValue),
+                                                        value: Utf8String(data: issuerDistinguishedNames[1].components(separatedBy: "=").last!))
+        let localityNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.LocalityName.rawValue),
+                                                 value: Utf8String(data: issuerDistinguishedNames[1].components(separatedBy: "=").last!))
+        let organizationNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.OrganizationName.rawValue),
+                                                     value: Utf8String(data: issuerDistinguishedNames[3].components(separatedBy: "=").last!))
+        let organizationalUnitNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.OrganizationalUnitName.rawValue),
+                                                           value: Utf8String(data: issuerDistinguishedNames[4].components(separatedBy: "=").last!))
+        let commonNameAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.CommonName.rawValue),
+                                               value: Utf8String(data: issuerDistinguishedNames[5].components(separatedBy: "=").last!))
+        let emailAddressAttribute = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.EmailAddress.rawValue),
+                                                 value: Ia5String(data: subjectDistinguishedNames[6].components(separatedBy: "=").last!))
+        
+        let countryName = RelativeDistinguishedName()
+        countryName.add(value: countryNameAttribute)
+        
+        let stateOrProvinceName = RelativeDistinguishedName()
+        stateOrProvinceName.add(value: stateOrProvinceNameAttribute)
+        
+        let localityName = RelativeDistinguishedName()
+        localityName.add(value: localityNameAttribute)
+        
+        let organizationName = RelativeDistinguishedName()
+        organizationName.add(value: organizationNameAttribute)
+        
+        let organizationalUnitName = RelativeDistinguishedName()
+        organizationalUnitName.add(value: organizationalUnitNameAttribute)
+        
+        let commonName = RelativeDistinguishedName()
+        commonName.add(value: commonNameAttribute)
+        
+        let emailAddress = RelativeDistinguishedName()
+        emailAddress.add(value: emailAddressAttribute)
         
         let certificateIssuer = RDNSequence()
+        certificateIssuer.add(value: countryName)
+        certificateIssuer.add(value: stateOrProvinceName)
+        certificateIssuer.add(value: localityName)
+        certificateIssuer.add(value: organizationName)
+        certificateIssuer.add(value: organizationalUnitName)
+        certificateIssuer.add(value: commonName)
+        certificateIssuer.add(value: emailAddress)
         
-        let countryName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.CountryName.rawValue), value: PrintableString(data: issuerDistinguishedNameArr[0].components(separatedBy: "=").last!))
-        let stateOrProvinceName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.StateOrProvinceName.rawValue), value: Utf8String(data: issuerDistinguishedNameArr[1].components(separatedBy: "=").last!))
-        let localityName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.LocalityName.rawValue), value: Utf8String(data: issuerDistinguishedNameArr[1].components(separatedBy: "=").last!))
-        let organizationName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.OrganizationName.rawValue), value: Utf8String(data: issuerDistinguishedNameArr[3].components(separatedBy: "=").last!))
-        let organizationalUnitName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.OrganizationalUnitName.rawValue), value: Utf8String(data: issuerDistinguishedNameArr[4].components(separatedBy: "=").last!))
-        let commonName = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.CommonName.rawValue), value: Utf8String(data: issuerDistinguishedNameArr[5].components(separatedBy: "=").last!))
-        let emailAddress = AttributeTypeAndValue(type: try! ObjectIdentifier.from(string: Oid.EmailAddress.rawValue), value: Ia5String(data: subjectDistinguishedNameArr[6].components(separatedBy: "=").last!))
-        
-        let rdnCountryName = RelativeDistinguishedName()
-        rdnCountryName._attributeTypeAndValue = [countryName]
-        
-        let rdnStateOrProvinceName = RelativeDistinguishedName()
-        rdnStateOrProvinceName._attributeTypeAndValue = [stateOrProvinceName]
-        
-        let rdnLocalityName = RelativeDistinguishedName()
-        rdnLocalityName._attributeTypeAndValue = [localityName]
-        
-        let rdnOrganizationName = RelativeDistinguishedName()
-        rdnOrganizationName._attributeTypeAndValue = [organizationName]
-        
-        let rdnOrganizationalUnitName = RelativeDistinguishedName()
-        rdnOrganizationalUnitName._attributeTypeAndValue = [organizationalUnitName]
-        
-        let rdnCommonName = RelativeDistinguishedName()
-        rdnCommonName._attributeTypeAndValue = [commonName]
-        
-        let rdnEmailAddress = RelativeDistinguishedName()
-        rdnEmailAddress._attributeTypeAndValue = [emailAddress]
-        
-        certificateIssuer._relativeDistinguishedName = [rdnCountryName, rdnStateOrProvinceName, rdnLocalityName, rdnOrganizationName, rdnOrganizationalUnitName, rdnCommonName, rdnEmailAddress]
+        let certificateSerialData : Data = x509Certificate.serialNumber!
+        let certificateSerialNumber = Int(bigEndian: certificateSerialData.withUnsafeBytes {$0.load(as: Int.self)})
         
         self._sid = IssuerAndSerialNumber(issuer: certificateIssuer, serial: certificateSerialNumber)
         
@@ -111,11 +126,11 @@ class SignerInfo : AsnSequnce {
         //MessageDigest
         let messageDigestAttribute = MessageDigestAttribute(value: digestedData)
         
-        self._signedAttributes = SignedAttributes(implicitTag: 0x00)
-        self._signedAttributes._attributes = [contentTypeAttribute,
-                                              signingTimeAttribute,
-                                              cmsAlgorithmProtectionAttribute,
-                                              messageDigestAttribute]
+        self._signedAttributes = SignedAttributes(tag: 0x00)
+        self._signedAttributes.add(value: contentTypeAttribute)
+        self._signedAttributes.add(value: signingTimeAttribute)
+        self._signedAttributes.add(value: cmsAlgorithmProtectionAttribute)
+        self._signedAttributes.add(value: messageDigestAttribute)
     }
     
     override func getData() -> [ASN1EncodableType] {

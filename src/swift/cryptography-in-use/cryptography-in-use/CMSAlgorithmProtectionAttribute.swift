@@ -16,7 +16,7 @@ class CMSAlgorithmProtectionAttribute : Attribute {
         let cmsAlgorithmProtectionValue = CMSAlgorithmProtectionValue(digestAlgorithm: digestAlgorithm, signatureAlgorithm: signatureAlgorithm)
         let cmsAlgorithmProtection = CMSAlgorithmProtection(cmsAlgorithmProtectionValue: cmsAlgorithmProtectionValue)
         let cmsAlgorithmProtectionAttrValues = AttributeValues()
-        cmsAlgorithmProtectionAttrValues._values = [cmsAlgorithmProtection]
+        cmsAlgorithmProtectionAttrValues.add(value: cmsAlgorithmProtection)
         super.init(attrType: try! ObjectIdentifier.from(string: OID.cmsAlgorithmProtection.rawValue), attrValues: cmsAlgorithmProtectionAttrValues)
     }
 }

@@ -9,8 +9,8 @@ import Foundation
 
 class BitString : ASN1EncodableType {
         
-    var binaryData : Data
-    var _explicit : Bool
+    private var binaryData : Data
+    private var _explicit : Bool
     
     init(data : Data, explicit: Bool = false) {
         self._explicit = explicit

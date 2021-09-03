@@ -14,10 +14,8 @@ class SignedDataTests: XCTestCase {
     
     let _sampleDocument = "09128894558:C463213C-3332-4F31-BE5B-86EB51961A93"
     let _sampleSignature = "MEYCIQDtHcEWSlAgJVgCy0D73Ay7tS4DyHV8jVxQ5bzXE38rQgIhAIjTNDbbiI+mwebsSyeWcTf7j62WOANeYLy9p7bDHzdR"
-    //"MEYCIQCY6ijeXKa7Ti3od9Nr6WlKKpfXfRn12sW6LnEYpjDAKgIhAIvZN78aZZ4exY9HzpII+sVHHGTVaNru0FtPXR46hPhG"
-    var _signedData : SignedData!
-    var _cms : ContentInfo!
-    var _timeStampReq : TimeStampReq!
+    var _sampleData : Data!
+    var _x509Certificate : X509Certificate!
     
     let samplePEMcertificate = """
     -----BEGIN CERTIFICATE-----
@@ -54,59 +52,63 @@ class SignedDataTests: XCTestCase {
     """
     
     override func setUpWithError() throws {
-        // Plain Data which should be signed
-        let sampleData = self._sampleDocument.data(using:.utf8)!
+        
+        // Convert the sample text data to array of bytes
+        self._sampleData = self._sampleDocument.data(using:.utf8)!
         
         // Load Certificate
-        let x509Certificate = try loadPemCertificate()
-        
-        // Define a Signed data
-        self._signedData = SignedData(version: CmsVersion.v3, explicit: true)
-        
-        // Define the Digest Algorithms included in Signed Data
-        self._signedData.addDigestAlgorithm(digestAlgorithmId:DigestAlgorithmId.sha256)
-        
-        // Define Encapsulated Content Info of Signed Data
-        self._signedData.setEncapsulatedContentInfo(content: sampleData)
-        
-        // Set certificate
-        self._signedData.addCertificate(x509Certificate: x509Certificate)
-        
-        // Define Signer Infos included in Signed Data
-        let signerInfo = SignerInfo(version: CmsVersion.v1, x509Certificate: x509Certificate)
-        signerInfo.digestAlgorithm = DigestAlgorithmId.sha256
-        signerInfo.signatureAlgorithm = SignatureAlgorithmId.sha256_ecdsa
-        let hash = SHA256.hash(data: sampleData).compactMap{ String(format: "%02x", $0) }.joined()
-        signerInfo.initSignedAttributes(signingTime: Date(timeIntervalSince1970: 1631942076),
-                                        digestAlgorithmId: DigestAlgorithmId.sha256,
-                                        signatureAlgorithmId: SignatureAlgorithmId.sha256_ecdsa,
-                                        digestedData: hash)
-        
-        print("Signed Attributes : ", signerInfo.signedAttributes.serialize().hexString())
-        
-        // Signature of plain data
-        let signatureData = Data(base64Encoded: self._sampleSignature)
-        signerInfo.signature = signatureData!
-      
-        self._signedData.addSignerInfo(signerInfo: signerInfo)
-        
-        self._cms = ContentInfo(contentType: Oid.SignedData)
-        self._cms._content = (_signedData!)
+        self._x509Certificate = try loadPemCertificate()
     }
         
     func loadPemCertificate() throws -> X509Certificate {
         let certificateData = samplePEMcertificate.data(using: .utf8)!
         return try X509Certificate(data: certificateData)
     }
+    
+    func testSignedDataEncoding() throws {
         
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // Define a Signed data
+        let signedData = SignedData(version: CmsVersion.v3, explicit: true)
+        
+        // Define the Digest Algorithms included in Signed Data
+        signedData.addDigestAlgorithm(digestAlgorithmId:DigestAlgorithmId.sha256)
+        
+        // Define Encapsulated Content Info of Signed Data
+        signedData.setEncapsulatedContentInfo(content: self._sampleData)
+        
+        // Set certificate
+        signedData.addCertificate(x509Certificate: self._x509Certificate)
+        
+        // Define Signer Infos included in Signed Data
+        let signerInfo = SignerInfo(version: CmsVersion.v1, x509Certificate: self._x509Certificate)
+        signerInfo.digestAlgorithm = DigestAlgorithmId.sha256
+        signerInfo.signatureAlgorithm = SignatureAlgorithmId.sha256_ecdsa
+        let hash = SHA256.hash(data: self._sampleData).compactMap{ String(format: "%02x", $0) }.joined()
+        signerInfo.initSignedAttributes(signingTime: Date(timeIntervalSince1970: 1631942076),
+                                        digestAlgorithmId: DigestAlgorithmId.sha256,
+                                        signatureAlgorithmId: SignatureAlgorithmId.sha256_ecdsa,
+                                        digestedData: hash)
+        
+        // Signed Attributes should be set as the input of Digital Signature process
+        print("Signed Attributes : ", signerInfo.signedAttributes.serialize().hexString())
+        
+        // Signature of plain data
+        let signatureData = Data(base64Encoded: self._sampleSignature)
+        signerInfo.signature = signatureData!
+      
+        signedData.addSignerInfo(signerInfo: signerInfo)
+        
+        let cms = ContentInfo(contentType: Oid.SignedData)
+        cms.content = (signedData)
+        let encodedData = try! cms.asn1encode(tag: nil).serialize()
+        print("CMS Data Base64 : ", encodedData.base64EncodedString())
+        XCTAssertTrue(encodedData.base64EncodedString() == "MIIFngYJKoZIhvcNAQcCoIIFjzCCBYsCAQMxDTALBglghkgBZQMEAgEwPwYJKoZIhvcNAQcBoDIEMDA5MTI4ODk0NTU4OkM0NjMyMTNDLTMzMzItNEYzMS1CRTVCLTg2RUI1MTk2MUE5M6CCA2kwggNlMIICT6ADAgEDAggT4n0/xKX71TALBgkqhkiG9w0BAQswgakxCzAJBgNVBAYTAklSMQ8wDQYDVQQIDAZUZWhyYW4xGTAXBgNVBAoMEE5vbi1Hb3Zlcm5tZW50YWwxEDAOBgNVBAsMB1RlY3Zlc3QxJDAiBgNVBAsMG1NtYXJ0IFRydXN0IEludGVybWVkaWF0ZSBDQTE2MDQGA1UEAwwtU21hcnQgdHJ1c3QgcHJpdmF0ZSBpbnRlcm1lZGlhdGUgYnJvbnplIENBLUczMB4XDTIxMDgwMzE0MTAxN1oXDTIzMDgwMzE0MTAxN1owgaAxCzAJBgNVBAYTAklSMRUwEwYDVQQKDAxVbmFmZmlsaWF0ZWQxFzAVBgNVBAQMDtmF2YrYsdiy2KfYr9mHMRkwFwYDVQQqDBDYs9mK2K/Zhdis2KrYqNmKMRMwEQYDVQQFDAowMDEyMzAwMzA2MRkwFwYDVQQDDBBtb2ppIG1pZXIgW3NpZ25dMRYwFAYJKoZIhvcNAQkBDAdtQG0uY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElMTNv/EwpspWMZFMVSjRu+P4cpJ+gBoVb841B5+JfQl889wyTmCPHE3dBXDiDvQbhOSRItFHF7ZFV40cBZH2tqNnMGUwDgYDVR0PAQH/BAQDAgbAMBMGA1UdJQQMMAoGCCsGAQUFBwMCMB0GA1UdDgQWBBT1XSnkQGIEPPxtTWukVH+Q4iStjzAfBgNVHSMEGDAWgBRDwd9C6fm8XNACZe/h7uaPes/CezALBgkqhkiG9w0BAQsDggEBACzOluIfHObcXtFGhczii/RQOTPOiuw0OagLpC/tAjficJNlcMFSfH0kg0DLTdPPGNde1502Yw1GnNT3TBimV6vTPhej7/pBaWSKh3SIKR38diTdY+ymiphIOJUYNzw3W0ythRLJ5n3EbaDTyL7CAYWyBWDwiY+IkSVFwTHdnXPnDw/KnCyBrrn/r+7/CVJdKcE1czYKNPSu0MM1YqOvpciTvFIzhoW4tpRN95I+8LV7PLeHNr5HDns9N0OnB2WgACTMf83y6Kxh6wuONMdFVJGReJLcm2HQ7vuPUv25FLV5TLyPZ0Sp2jSMZ2kmmBHU4YURBgsJwtihaimpBvs3XXYxggHHMIIBwwIBATCBxDCBtzELMAkGA1UEBhMCSVIxDzANBgNVBAgMBlRlaHJhbjEPMA0GA1UEBwwGVGVocmFuMRAwDgYDVQQKDAdUZWN2ZXN0MSQwIgYDVQQLDBtTbWFydCBUcnVzdCBJbnRlcm1lZGlhdGUgQ0ExNjA0BgNVBAMMLVNtYXJ0IHRydXN0IHByaXZhdGUgaW50ZXJtZWRpYXRlIGJyb256ZSBDQS1HMzEWMBQGCSqGSIb3DQEJARYHbUBtLmNvbQIIE+J9P8Sl+9UwCwYJYIZIAWUDBAIBoIGTMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIxMDkxODA1MTQzNlowKAYJKoZIhvcNAQk0MRswGTALBglghkgBZQMEAgGhCgYIKoZIzj0EAwIwLwYJKoZIhvcNAQkEMSIEIGZQAODXID5K7xOyGVDacydRLT8lVrVpGAKkEHrgUFk8MAoGCCqGSM49BAMCBEgwRgIhAO0dwRZKUCAlWALLQPvcDLu1LgPIdXyNXFDlvNcTfytCAiEAiNM0NtuIj6bB5uxLJ5ZxN/uPrZY4A15gvL2ntsMfN1E=")
     }
     
-    func testContentType() throws {
-        let encodedData = try! self._cms.asn1encode(tag: nil).serialize()
-        print("CMS Data Base64 : ", encodedData.base64EncodedString())
-        XCTAssertTrue(encodedData.base64EncodedString() == "MIIFSQYJKoZIhvcNAQcCoIIFOjCCBTYCAQMxDTALBglghkgBZQMEAgEwPwYJKoZIhvcNAQcBoDIEMDA5MTI4ODk0NTU4OkM0NjMyMTNDLTMzMzItNEYzMS1CRTVCLTg2RUI1MTk2MUE5M6CCAxQwggMQMIIB+qADAgECAggT4n0/xKX71TALBgkqhkiG9w0BAQswgakxCzAJBgNVBAYTAklSMQ8wDQYDVQQIDAZUZWhyYW4xGTAXBgNVBAoMEE5vbi1Hb3Zlcm5tZW50YWwxEDAOBgNVBAsMB1RlY3Zlc3QxJDAiBgNVBAsMG1NtYXJ0IFRydXN0IEludGVybWVkaWF0ZSBDQTE2MDQGA1UEAwwtU21hcnQgdHJ1c3QgcHJpdmF0ZSBpbnRlcm1lZGlhdGUgYnJvbnplIENBLUczMB4XDTIxMDgwMzE0MTAxN1oXDTIzMDgwMzE0MTAxN1owgaAxCzAJBgNVBAYTAklSMRUwEwYDVQQKDAxVbmFmZmlsaWF0ZWQxFzAVBgNVBAQMDtmF2YrYsdiy2KfYr9mHMRkwFwYDVQQqDBDYs9mK2K/Zhdis2KrYqNmKMRMwEQYDVQQFDAowMDEyMzAwMzA2MRkwFwYDVQQDDBBtb2ppIG1pZXIgW3NpZ25dMRYwFAYJKoZIhvcNAQkBDAdtQG0uY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElMTNv/EwpspWMZFMVSjRu+P4cpJ+gBoVb841B5+JfQl889wyTmCPHE3dBXDiDvQbhOSRItFHF7ZFV40cBZH2tqMSMBAwDgYDVR0PAQH/BAQDAgbAMAsGCSqGSIb3DQEBCwOCAQEALM6W4h8c5txe0UaFzOKL9FA5M86K7DQ5qAukL+0CN+Jwk2VwwVJ8fSSDQMtN088Y117XnTZjDUac1PdMGKZXq9M+F6Pv+kFpZIqHdIgpHfx2JN1j7KaKmEg4lRg3PDdbTK2FEsnmfcRtoNPIvsIBhbIFYPCJj4iRJUXBMd2dc+cPD8qcLIGuuf+v7v8JUl0pwTVzNgo09K7QwzVio6+lyJO8UjOGhbi2lE33kj7wtXs8t4c2vkcOez03Q6cHZaAAJMx/zfLorGHrC440x0VUkZF4ktybYdDu+49S/bkUtXlMvI9nRKnaNIxnaSaYEdThhREGCwnC2KFqKakG+zdddjGCAccwggHDAgEBMIHEMIG3MQswCQYDVQQGEwJJUjEPMA0GA1UECAwGVGVocmFuMQ8wDQYDVQQHDAZUZWhyYW4xEDAOBgNVBAoMB1RlY3Zlc3QxJDAiBgNVBAsMG1NtYXJ0IFRydXN0IEludGVybWVkaWF0ZSBDQTE2MDQGA1UEAwwtU21hcnQgdHJ1c3QgcHJpdmF0ZSBpbnRlcm1lZGlhdGUgYnJvbnplIENBLUczMRYwFAYJKoZIhvcNAQkBFgdtQG0uY29tAggT4n0/xKX71TALBglghkgBZQMEAgGggZMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEwOTE4MDUxNDM2WjAoBgkqhkiG9w0BCTQxGzAZMAsGCWCGSAFlAwQCAaEKBggqhkjOPQQDAjAvBgkqhkiG9w0BCQQxIgQgZlAA4NcgPkrvE7IZUNpzJ1EtPyVWtWkYAqQQeuBQWTwwCgYIKoZIzj0EAwIESDBGAiEA7R3BFkpQICVYAstA+9wMu7UuA8h1fI1cUOW81xN/K0ICIQCI0zQ224iPpsHm7EsnlnE3+4+tljgDXmC8vae2wx83UQ==")
+    override func tearDownWithError() throws {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        // Plain Data which should be signed
+       
     }
     
     func testPerformanceExample() throws {
@@ -117,23 +119,3 @@ class SignedDataTests: XCTestCase {
     }
     
 }
-
-extension Data {
-    struct HexEncodingOptions: OptionSet {
-        let rawValue: Int
-        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
-    }
-    
-    func hexEncodedString(options: HexEncodingOptions = []) -> String {
-        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
-        return self.map { String(format: format, $0) }.joined()
-    }
-}
-
-//extension String {
-//  func sliceFrom(start: String, to: String) -> String? {
-//    guard let s = rangeOfString(start)?.endIndex else { return nil }
-//    guard let e = rangeOfString(to, range: s..<endIndex)?.startIndex else { return nil }
-//    return self[s..<e]
-//  }
-//}

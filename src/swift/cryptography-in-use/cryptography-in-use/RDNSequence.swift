@@ -9,7 +9,11 @@ import Foundation
 
 class RDNSequence : AsnSequnce {
     
-    var _relativeDistinguishedName : [RelativeDistinguishedName]!
+    private var _relativeDistinguishedName : [RelativeDistinguishedName] = []
+    
+    func add(value : RelativeDistinguishedName) {
+        self._relativeDistinguishedName.append(value)
+    }
     
     override func getData() -> [ASN1EncodableType] {
         return self._relativeDistinguishedName
