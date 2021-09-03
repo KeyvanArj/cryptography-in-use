@@ -12,6 +12,27 @@ class SubjectPublicKeyInfo : AsnSequnce {
     private var _algorithm : SignatureAlgorithmIdentifier!
     private var _subjectPublicKey : BitString!
     
+    init() {
+        
+    }
+    
+    public var algorithmIdentifier : SignatureAlgorithmIdentifier? {
+        get {
+            return self._algorithm
+        }
+    }
+    
+    public var subjectPublicKey : BitString? {
+        get {
+            return self._subjectPublicKey
+        }
+    }
+    
+    init(algorithm: SignatureAlgorithmIdentifier, subjectPublicKey: BitString) {
+        self._algorithm = algorithm
+        self._subjectPublicKey = subjectPublicKey
+    }
+    
     func load(publicKey: X509PublicKey) {
         let publicKeyParameters : String = (publicKey.algParams)!
         self._algorithm = SignatureAlgorithmIdentifier(algorithm: (publicKey.algOid)!,
@@ -43,6 +64,6 @@ class SubjectPublicKeyInfo : AsnSequnce {
             return nil
         }
         
-        return SubjectPublicKeyInfo(algotithm: algorithm!, publicKey: subjectPublicKey!)
+        return SubjectPublicKeyInfo(algorithm: algorithm!, subjectPublicKey: subjectPublicKey!)
     }
 }

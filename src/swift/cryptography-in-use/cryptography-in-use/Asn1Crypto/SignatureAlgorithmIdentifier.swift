@@ -20,6 +20,18 @@ class SignatureAlgorithmIdentifier : AsnSequnce {
         }
     }
     
+    public var algorithm : ObjectIdentifier? {
+        get {
+            return self._algorithm
+        }
+    }
+    
+    public var parameter : ObjectIdentifier? {
+        get {
+            return self._parameter
+        }
+    }
+    
     override func getData() -> [ASN1EncodableType] {
         if(self._parameter != nil){
             return [self._algorithm, self._parameter]

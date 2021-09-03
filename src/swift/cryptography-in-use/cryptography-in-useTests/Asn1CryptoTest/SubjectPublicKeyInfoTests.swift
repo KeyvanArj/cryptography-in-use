@@ -29,9 +29,9 @@ class SubjectPublicKeyInfoTests: XCTestCase {
         let subjectPublicKeyInfoDer = Data(base64Encoded: subjectPublicKeyInfoBase64)!
         let asn1 = try! ASN1Decoder.decode(asn1: subjectPublicKeyInfoDer)
         let subjectPublicKeyInfo = SubjectPublicKeyInfo.asn1decode(asn1: asn1)!
-        print("algorithm : ", OID.init(rawValue: subjectPublicKeyInfo._algorithm._algorithm.rawValue)!)
-        print("parameter : ", OID.init(rawValue: subjectPublicKeyInfo._algorithm._parameter.rawValue)!)
-        print("public key : " , subjectPublicKeyInfo._subjectPublicKey.binaryData.hexString())
+        print("algorithm : ", OID.init(rawValue: (subjectPublicKeyInfo.algorithmIdentifier?.algorithm)!.rawValue)!)
+        print("parameter : ", OID.init(rawValue: (subjectPublicKeyInfo.algorithmIdentifier?.parameter)!.rawValue)!)
+        print("public key : " , subjectPublicKeyInfo.subjectPublicKey!.binaryData.hexString())
     }
 
     func testPerformanceExample() throws {
