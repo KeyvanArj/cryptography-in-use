@@ -41,6 +41,5 @@ class AsnSequnce : ASN1EncodableType {
             }
             
         }
-        
     }
 }

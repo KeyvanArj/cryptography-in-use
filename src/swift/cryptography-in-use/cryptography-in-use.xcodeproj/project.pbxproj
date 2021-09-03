@@ -108,6 +108,7 @@
 		FB9A80972687385700BDE632 /* ContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80962687385700BDE632 /* ContentInfo.swift */; };
 		FB9A809A2687391100BDE632 /* Oid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80992687391100BDE632 /* Oid.swift */; };
 		FB9A80A32687480F00BDE632 /* CmsVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A22687480F00BDE632 /* CmsVersion.swift */; };
+		FBC99D0826E104E70099B98A /* SubjectPublicKeyInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,8 +202,8 @@
 		B5F3B17626BA9AB600783AF8 /* Certificate.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Certificate.pem; sourceTree = "<group>"; };
 		B5F4D55B26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmIdentifier.swift; sourceTree = "<group>"; };
 		B5F4D55E26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmIdentifiers.swift; sourceTree = "<group>"; };
-		B5F4D56A26AEB40300FD2C85 /* DataKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = DataKit.xcframework; sourceTree = "<group>"; };
-		B5F4D56B26AEB40300FD2C85 /* GemCommonsKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GemCommonsKit.xcframework; sourceTree = "<group>"; };
+		B5F4D56A26AEB40300FD2C85 /* DataKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DataKit.xcframework; path = Carthage/Build/DataKit.xcframework; sourceTree = "<group>"; };
+		B5F4D56B26AEB40300FD2C85 /* GemCommonsKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GemCommonsKit.xcframework; path = Carthage/Build/GemCommonsKit.xcframework; sourceTree = "<group>"; };
 		B5F4D57126AEB43B00FD2C85 /* ASN1Object+Subscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ASN1Object+Subscript.swift"; sourceTree = "<group>"; };
 		B5F4D57226AEB43B00FD2C85 /* Data+UInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+UInt.swift"; sourceTree = "<group>"; };
 		B5F4D57326AEB43B00FD2C85 /* Data+ASN1Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+ASN1Int.swift"; sourceTree = "<group>"; };
@@ -240,6 +241,7 @@
 		FB9A80962687385700BDE632 /* ContentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentInfo.swift; sourceTree = "<group>"; };
 		FB9A80992687391100BDE632 /* Oid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oid.swift; sourceTree = "<group>"; };
 		FB9A80A22687480F00BDE632 /* CmsVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmsVersion.swift; sourceTree = "<group>"; };
+		FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectPublicKeyInfoTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -452,6 +454,7 @@
 				B574D87726D678FC00A6438E /* KeyUsageExtensionTest.swift */,
 				B574D83226D257CD00A6438E /* SignedAttrsTest.swift */,
 				FB9A80872687348300BDE632 /* SignedDataTests.swift */,
+				FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */,
 				B574D71926D1021500A6438E /* TimeStampReqTests.swift */,
 				B56B641F26C50F2E002833E9 /* ValidityTests.swift */,
 				B5F3B16C26B9556600783AF8 /* AsnStringsTests */,
@@ -663,6 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B574D71A26D1021500A6438E /* TimeStampReqTests.swift in Sources */,
+				FBC99D0826E104E70099B98A /* SubjectPublicKeyInfoTests.swift in Sources */,
 				B56B642E26C7A545002833E9 /* IntegerTests.swift in Sources */,
 				B5F3B17026B955D000783AF8 /* OctetStringTests.swift in Sources */,
 				B56B642026C50F2E002833E9 /* ValidityTests.swift in Sources */,
