@@ -405,6 +405,25 @@
 			children = (
 				FB9A807C2687348300BDE632 /* cryptography_in_use.h */,
 				FB9A807D2687348300BDE632 /* Info.plist */,
+				FBC99D0926E225C00099B98A /* Asn1Crypto */,
+				B542BDDE26BE52E200958C39 /* CertificateDecoder */,
+				B5F3B17526BA9AA100783AF8 /* CertificateFile */,
+			);
+			path = "cryptography-in-use";
+			sourceTree = "<group>";
+		};
+		FB9A80862687348300BDE632 /* cryptography-in-useTests */ = {
+			isa = PBXGroup;
+			children = (
+				FBC99D0A26E225F80099B98A /* Asn1CryptoTest */,
+				FB9A80892687348300BDE632 /* Info.plist */,
+			);
+			path = "cryptography-in-useTests";
+			sourceTree = "<group>";
+		};
+		FBC99D0926E225C00099B98A /* Asn1Crypto */ = {
+			isa = PBXGroup;
+			children = (
 				B574D86A26D6480900A6438E /* AsnExtension.swift */,
 				B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */,
 				B5F3B12026B002CF00783AF8 /* AsnSet.swift */,
@@ -452,16 +471,13 @@
 				B5F3B16026B12E5600783AF8 /* Validity.swift */,
 				B5F4D56F26AEB43B00FD2C85 /* ASN1Kit */,
 				B5F3B15226B1169E00783AF8 /* AsnStrings */,
-				B542BDDE26BE52E200958C39 /* CertificateDecoder */,
-				B5F3B17526BA9AA100783AF8 /* CertificateFile */,
 			);
-			path = "cryptography-in-use";
+			path = Asn1Crypto;
 			sourceTree = "<group>";
 		};
-		FB9A80862687348300BDE632 /* cryptography-in-useTests */ = {
+		FBC99D0A26E225F80099B98A /* Asn1CryptoTest */ = {
 			isa = PBXGroup;
 			children = (
-				FB9A80892687348300BDE632 /* Info.plist */,
 				B56B642626C51936002833E9 /* CertificateTest.swift */,
 				B56B641B26C50051002833E9 /* DateTests.swift */,
 				B574D70026CA814700A6438E /* HashDataTest.swift */,
@@ -474,7 +490,7 @@
 				B56B641F26C50F2E002833E9 /* ValidityTests.swift */,
 				B5F3B16C26B9556600783AF8 /* AsnStringsTests */,
 			);
-			path = "cryptography-in-useTests";
+			path = Asn1CryptoTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
