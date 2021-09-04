@@ -60,5 +60,3 @@ class CryptoPdf(CryptoObject) :
         signed_data = data1 + data2
 
         return (cms_bytes, signed_data, stop)
-
-    
