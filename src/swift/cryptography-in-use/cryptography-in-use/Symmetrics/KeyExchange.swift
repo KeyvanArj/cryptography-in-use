@@ -12,8 +12,15 @@ class KeyExchange {
     private var _serverPublicKey : SecKey
     private var _clientPrivateKey : SecKey
     
-    init(serverPublicKey: SecKey, clientPrivateKey: SecKey) {
-        self._serverPublicKey = serverPublicKey
+    init(serverPublicKeyData: Data, clientPrivateKey: SecKey) {
+        
+        let options: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeEC,
+                                      kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
+                                      kSecAttrKeySizeInBits as String: 256]
+        
+        self._serverPublicKey = SecKeyCreateWithData(serverPublicKeyData as CFData,
+                                                     options as CFDictionary,
+                                                     nil)!
         self._clientPrivateKey = clientPrivateKey
     }
     
@@ -23,7 +30,7 @@ class KeyExchange {
         
         let keyExchangeParameter : [String : Any] = [SecKeyKeyExchangeParameter.requestedSize.rawValue as String: 32]
         
-        let algorithm:SecKeyAlgorithm = SecKeyAlgorithm.ecdhKeyExchangeStandardX963SHA256
+        let algorithm:SecKeyAlgorithm = SecKeyAlgorithm.ecdhKeyExchangeCofactor
         
         let shared : CFData? = SecKeyCopyKeyExchangeResult(self._clientPrivateKey,
                                                            algorithm,

@@ -26,6 +26,7 @@
 		B56B642E26C7A545002833E9 /* IntegerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56B642D26C7A545002833E9 /* IntegerTests.swift */; };
 		B56D7A3326E0B6E600925AEA /* KeyExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D7A3226E0B6E600925AEA /* KeyExchange.swift */; };
 		B56D7A3826E0BBB800925AEA /* KeyExchangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D7A3726E0BBB800925AEA /* KeyExchangeTests.swift */; };
+		B56D7A3F26E3473500925AEA /* CryptoPdfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D7A3E26E3473500925AEA /* CryptoPdfTests.swift */; };
 		B574D70126CA814700A6438E /* HashDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D70026CA814700A6438E /* HashDataTest.swift */; };
 		B574D70B26CD251B00A6438E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D70A26CD251B00A6438E /* Extensions.swift */; };
 		B574D71226D0FBB500A6438E /* TimeStampReq.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D71126D0FBB500A6438E /* TimeStampReq.swift */; };
@@ -55,7 +56,6 @@
 		B574D88726DA490400A6438E /* AuthorityKeyIdentifierExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */; };
 		B574D88B26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */; };
 		B574D89226DB6E1100A6438E /* CryptoPdf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D89126DB6E1000A6438E /* CryptoPdf.swift */; };
-		B574D89726DB6E8A00A6438E /* CryptoPdfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B574D89626DB6E8A00A6438E /* CryptoPdfTests.swift */; };
 		B590C74226C91A7300A11C39 /* Certificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B590C74126C91A7300A11C39 /* Certificates.swift */; };
 		B5F3B11E26AFFFFB00783AF8 /* AsnSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */; };
 		B5F3B12126B002CF00783AF8 /* AsnSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F3B12026B002CF00783AF8 /* AsnSet.swift */; };
@@ -165,6 +165,7 @@
 		B56B642D26C7A545002833E9 /* IntegerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerTests.swift; sourceTree = "<group>"; };
 		B56D7A3226E0B6E600925AEA /* KeyExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyExchange.swift; sourceTree = "<group>"; };
 		B56D7A3726E0BBB800925AEA /* KeyExchangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyExchangeTests.swift; sourceTree = "<group>"; };
+		B56D7A3E26E3473500925AEA /* CryptoPdfTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoPdfTests.swift; sourceTree = "<group>"; };
 		B574D70026CA814700A6438E /* HashDataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashDataTest.swift; sourceTree = "<group>"; };
 		B574D70A26CD251B00A6438E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B574D71126D0FBB500A6438E /* TimeStampReq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStampReq.swift; sourceTree = "<group>"; };
@@ -194,7 +195,6 @@
 		B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityKeyIdentifierExtension.swift; sourceTree = "<group>"; };
 		B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorityKeyIdentifier.swift; sourceTree = "<group>"; };
 		B574D89126DB6E1000A6438E /* CryptoPdf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoPdf.swift; sourceTree = "<group>"; };
-		B574D89626DB6E8A00A6438E /* CryptoPdfTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoPdfTests.swift; sourceTree = "<group>"; };
 		B590C74126C91A7300A11C39 /* Certificates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Certificates.swift; sourceTree = "<group>"; };
 		B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsnSequence.swift; sourceTree = "<group>"; };
 		B5F3B12026B002CF00783AF8 /* AsnSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsnSet.swift; sourceTree = "<group>"; };
@@ -376,7 +376,8 @@
 			children = (
 				B56D7A3726E0BBB800925AEA /* KeyExchangeTests.swift */,
 			);
-			path = Symmetrics;
+			name = Symmetrics;
+			path = ../Symmetrics;
 			sourceTree = "<group>";
 		};
 		B574D89026DB6DF100A6438E /* Pdf */ = {
@@ -390,9 +391,10 @@
 		B574D89526DB6E7000A6438E /* PdfTests */ = {
 			isa = PBXGroup;
 			children = (
-				B574D89626DB6E8A00A6438E /* CryptoPdfTests.swift */,
+				B56D7A3E26E3473500925AEA /* CryptoPdfTests.swift */,
 			);
-			path = PdfTests;
+			name = PdfTests;
+			path = ../PdfTests;
 			sourceTree = "<group>";
 		};
 		B5F3B15226B1169E00783AF8 /* AsnStrings */ = {
@@ -515,60 +517,6 @@
 				FB9A80892687348300BDE632 /* Info.plist */,
 			);
 			path = "cryptography-in-useTests";
-			sourceTree = "<group>";
-		};
-		FBC99D0926E225C00099B98A /* Asn1Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				B574D86A26D6480900A6438E /* AsnExtension.swift */,
-				B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */,
-				B5F3B12026B002CF00783AF8 /* AsnSet.swift */,
-				B574D82A26D2525D00A6438E /* Attribute.swift */,
-				B5F3B13D26B0333A00783AF8 /* AttributeTypeAndValue.swift */,
-				B574D82E26D2538200A6438E /* AttributeValue.swift */,
-				B574D83526D2593500A6438E /* AttributeValues.swift */,
-				B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */,
-				B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */,
-				B5F3B15426B11FE800783AF8 /* Certificate.swift */,
-				B574D86F26D64DB900A6438E /* CertificateExtensions.swift */,
-				B590C74126C91A7300A11C39 /* Certificates.swift */,
-				B574D84A26D4B45000A6438E /* CMSAlgorithmProtection.swift */,
-				B574D86526D63F2600A6438E /* CMSAlgorithmProtectionAttribute.swift */,
-				B574D85526D4DFE800A6438E /* CMSAlgorithmProtectionValue.swift */,
-				FB9A80A22687480F00BDE632 /* CmsVersion.swift */,
-				FB9A80962687385700BDE632 /* ContentInfo.swift */,
-				B574D83B26D263EC00A6438E /* ContentType.swift */,
-				B574D85926D63A4D00A6438E /* ContentTypeAttribute.swift */,
-				B5F4D55B26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift */,
-				B5F4D55E26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift */,
-				B5F3B12326B0065100783AF8 /* EncapsulatedContentInfo.swift */,
-				B574D88226DA441800A6438E /* ExtendedKeyUsage.swift */,
-				B574D87F26DA433900A6438E /* ExtendedKeyUsageExtension.swift */,
-				B574D70A26CD251B00A6438E /* Extensions.swift */,
-				B5F3B13326B01D9300783AF8 /* IssuerAndSerialNumber.swift */,
-				B574D87326D6557200A6438E /* KeyUsageExtension.swift */,
-				B574D84126D2669300A6438E /* MessageDigest.swift */,
-				B574D86126D63DFC00A6438E /* MessageDigestAttribute.swift */,
-				B574D71426D0FD0400A6438E /* MessageImprint.swift */,
-				FB9A80992687391100BDE632 /* Oid.swift */,
-				B5F3B13726B031DC00783AF8 /* RDNSequence.swift */,
-				B5F3B13A26B032C700783AF8 /* RelativeDistinguishedName.swift */,
-				B5F3B13026B016A900783AF8 /* SignatureAlgorithmIdentifier.swift */,
-				B574D82626D251B400A6438E /* SignedAttributes.swift */,
-				FB9A80932687356F00BDE632 /* SignedData.swift */,
-				B5F3B12D26B0156900783AF8 /* SignerInfo.swift */,
-				B5F3B12A26B0150A00783AF8 /* SignerInfos.swift */,
-				B574D83E26D2659900A6438E /* SigningTime.swift */,
-				B574D85D26D63CBC00A6438E /* SigningTimeAttribute.swift */,
-				B574D87B26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift */,
-				B5F3B15D26B12E3600783AF8 /* SubjectPublicKeyInfo.swift */,
-				B5F3B15A26B1276D00783AF8 /* TBSCertificate.swift */,
-				B574D71126D0FBB500A6438E /* TimeStampReq.swift */,
-				B5F3B16026B12E5600783AF8 /* Validity.swift */,
-				B5F4D56F26AEB43B00FD2C85 /* ASN1Kit */,
-				B5F3B15226B1169E00783AF8 /* AsnStrings */,
-			);
-			path = Asn1Crypto;
 			sourceTree = "<group>";
 		};
 		FBC99D0A26E225F80099B98A /* Asn1CryptoTest */ = {
@@ -807,11 +755,11 @@
 				B5F3B17026B955D000783AF8 /* OctetStringTests.swift in Sources */,
 				B56B642026C50F2E002833E9 /* ValidityTests.swift in Sources */,
 				B574D83326D257CD00A6438E /* SignedAttrsTest.swift in Sources */,
-				B574D89726DB6E8A00A6438E /* CryptoPdfTests.swift in Sources */,
 				B574D70126CA814700A6438E /* HashDataTest.swift in Sources */,
 				B542BDA526BBD39A00958C39 /* BitStringTests.swift in Sources */,
 				FB9A80882687348300BDE632 /* SignedDataTests.swift in Sources */,
 				B574D87826D678FC00A6438E /* KeyUsageExtensionTest.swift in Sources */,
+				B56D7A3F26E3473500925AEA /* CryptoPdfTests.swift in Sources */,
 				B56B641C26C50051002833E9 /* DateTests.swift in Sources */,
 				B56D7A3826E0BBB800925AEA /* KeyExchangeTests.swift in Sources */,
 				B56B642726C51936002833E9 /* CertificateTest.swift in Sources */,

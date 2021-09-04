@@ -24,24 +24,18 @@ class KeyExchangeTests: XCTestCase {
             throw error!.takeRetainedValue() as Error
         }
   
-//        let clientPublicKey = SecKeyCopyPublicKey(clientPrivateKey)
-//        let publicKeyData = SecKeyCopyExternalRepresentation(clientPublicKey!, nil)! as Data
-//        print("Client Public Key : ", publicKeyData.hexString())
+        let clientPublicKey = SecKeyCopyPublicKey(clientPrivateKey)
+        let publicKeyData = SecKeyCopyExternalRepresentation(clientPublicKey!, nil)! as Data
+        let algorithmIdentifier = SignatureAlgorithmIdentifier(algorithm : OID.ecPublicKey.rawValue, parameter: OID.prime256v1.rawValue)
+        let subjectPublicKey = BitString(data: publicKeyData)
+        let clientPublicKeyInfo = SubjectPublicKeyInfo(algorithm: algorithmIdentifier, subjectPublicKey: subjectPublicKey)
+        print("Client Public Key : ", clientPublicKeyInfo.pem())
         
         // Load the server public key
-        let serverPem = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk1qnJZfju7Cs3mcFHkaNv30Y14EXwLpQUpi1k2W+KWVSb1dnBTkavBRZ8bp0Ip1NR59PwuN/9Nf1pKu77a3PaQ=="
-        let serverPemData = "04935AA72597E3BBB0ACDE67051E468DBF7D18D78117C0BA505298B59365BE2965526F576705391ABC1459F1BA74229D4D479F4FC2E37FF4D7F5A4ABBBEDADCF69".hexaData
-        print("Server Public Key : ", serverPemData.hexString())
-        
-        let options: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeEC,
-                                      kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
-                                      kSecAttrKeySizeInBits as String: 256]
-        guard let serverPublicKey = SecKeyCreateWithData(serverPemData as CFData,
-                                                         options as CFDictionary,
-                                                         &error) else {
-            throw error!.takeRetainedValue() as Error
-        }
-        _keyExchange = KeyExchange(serverPublicKey: serverPublicKey, clientPrivateKey: clientPrivateKey)
+        let serverPublicKeyPem = "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzDz8I0Spl1E7o68NS2FAAfP+/A5M\nABunlrWNejIo1PaIb8o0a5iENmDdz0ioWkd2I4jUXmuIbkFo7DsYwzddEg==\n-----END PUBLIC KEY-----\n"
+        let serverPublicKeyInfo = SubjectPublicKeyInfo.from(pem: serverPublicKeyPem)!
+        let serverPublicKeyData = serverPublicKeyInfo.subjectPublicKey!.binaryData
+        _keyExchange = KeyExchange(serverPublicKeyData: serverPublicKeyData, clientPrivateKey: clientPrivateKey)
     }
 
     override func tearDownWithError() throws {
@@ -49,7 +43,6 @@ class KeyExchangeTests: XCTestCase {
     }
 
     func testAes256KeyExchange() throws {
-        
         let sharedSecretKey : Data = self._keyExchange.deriveAes256SharedSecretKey()
         print("shared secret key: ", sharedSecretKey.hexString())
         print("shared secret key length (Bits): ", sharedSecretKey.count * 8)
