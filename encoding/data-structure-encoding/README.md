@@ -26,7 +26,7 @@ modify using common text editors; for example, a user may concatenate
 several certificates to form a certificate chain with copy-and-paste
 operations.
 The content of a PEM file begins with a header such as `-----BEGIN CERTIFICATE-----` in a stand-alone line and ends with a 
-footer like `-----END CERTIFICATE-----` in the same way. The contents between header and footer tags are base64 encoded string of the related object in DER-encoded format. Except the header, the last line of content and footer lines, each line has the length of 64 characters. So, to parse a PEM file, you need to know the exact definition of the encoded object in ASN.1 syntax. you can use this online tool to check the content of a PEM file [PEM Parser](https://8gwifi.org/PemParserFunctions.jsp). 
+footer like `-----END CERTIFICATE-----` in the same way. The contents between header and footer tags are base64 encoded string of the related object in DER-encoded format. Except the header, the last line of content and footer lines, each line has the length of 64 characters. So, to parse a PEM file, you need to know the exact definition of the encoded object in ASN.1 syntax. you can use this online tool to check the content of a PEM file [PEM Parser](https://8gwifi.org/PemParserFunctions.jsp) or [Decode PEM data](https://report-uri.com/home/pem_decoder). 
 
 For example, a PEM file which contains a public key begins with the line `-----BEGIN PUBLIC KEY-----` and ends with the line `-----END PUBLIC KEY-----`. Between these two tags is the base64 encoded string of `SubjectPublicKeyInfo` object in DER-encoded format:
 
@@ -121,7 +121,7 @@ The classification bits refer to :
 
 Class	         Bit 8	Bit 7
 ------------------------------
-universal	       0	0
+universal	         0	0
 application	       0	1
 context-specific   1	0
 private	           1	1
