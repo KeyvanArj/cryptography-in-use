@@ -9,19 +9,24 @@ import Foundation
 
 class BitString : ASN1EncodableType {
         
-    private var binaryData : Data
+    private var _binaryData : Data
     private var _explicit : Bool
     
     init(data : Data, explicit: Bool = false) {
         self._explicit = explicit
-        
-        self.binaryData = data
-        let zeroPaddedBitsNum : UInt8 = 0x00
-        self.binaryData.insert(zeroPaddedBitsNum, at: 0)
+        self._binaryData = data
     }
     
+    public var binaryData : Data {
+        get {
+            return self._binaryData
+        }
+    }
     func asn1encode(tag: ASN1DecodedTag?) throws -> ASN1Object {
-        let asn1Object = ASN1Primitive(data: .primitive(self.binaryData), tag: .universal(.bitString))
+        let zeroPaddedBitsNum : UInt8 = 0x00
+        var data = self._binaryData
+        data.insert(zeroPaddedBitsNum, at: 0)
+        let asn1Object = ASN1Primitive(data: .primitive(data), tag: .universal(.bitString))
         if (self._explicit == false) {
             return asn1Object
         } else {
@@ -29,4 +34,11 @@ class BitString : ASN1EncodableType {
         }
     }
     
+    static func asn1decode(asn1: ASN1Object) -> BitString? {
+        if(asn1.tag != .universal(.bitString)) {
+            return nil
+        }
+        let publicKeyData = asn1.data.primitive!.suffix(from: 1)
+        return BitString(data: publicKeyData)
+    }
 }

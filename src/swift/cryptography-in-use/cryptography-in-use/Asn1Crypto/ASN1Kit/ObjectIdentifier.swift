@@ -52,6 +52,17 @@ public struct ObjectIdentifier: Equatable, Hashable {
         }
         return ObjectIdentifier(value: transformedOID)
     }
+    
+    static func from(asn1: ASN1Primitive) throws -> ObjectIdentifier {
+        let decsription = asn1.description.replacingOccurrences(of: "{\n\t", with: "").replacingOccurrences(of: "\n}", with: "")
+        let components = decsription.components(separatedBy: ",\n\t")
+        var dictionary: [String : String] = [:]
+        for component in components {
+            let pair = component.components(separatedBy: ": ")
+            dictionary[pair[0]] = pair[1]
+        }
+        return try! ObjectIdentifier.from(string: dictionary["value"]!)
+    }
 }
 
 extension ObjectIdentifier: ASN1CodableType {

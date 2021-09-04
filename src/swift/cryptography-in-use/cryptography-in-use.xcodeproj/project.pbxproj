@@ -117,6 +117,7 @@
 		FB9A80972687385700BDE632 /* ContentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80962687385700BDE632 /* ContentInfo.swift */; };
 		FB9A809A2687391100BDE632 /* Oid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80992687391100BDE632 /* Oid.swift */; };
 		FB9A80A32687480F00BDE632 /* CmsVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9A80A22687480F00BDE632 /* CmsVersion.swift */; };
+		FBC99D0826E104E70099B98A /* SubjectPublicKeyInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,8 +220,8 @@
 		B5F3B17626BA9AB600783AF8 /* Certificate.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Certificate.pem; sourceTree = "<group>"; };
 		B5F4D55B26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmIdentifier.swift; sourceTree = "<group>"; };
 		B5F4D55E26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmIdentifiers.swift; sourceTree = "<group>"; };
-		B5F4D56A26AEB40300FD2C85 /* DataKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = DataKit.xcframework; sourceTree = "<group>"; };
-		B5F4D56B26AEB40300FD2C85 /* GemCommonsKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GemCommonsKit.xcframework; sourceTree = "<group>"; };
+		B5F4D56A26AEB40300FD2C85 /* DataKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DataKit.xcframework; path = Carthage/Build/DataKit.xcframework; sourceTree = "<group>"; };
+		B5F4D56B26AEB40300FD2C85 /* GemCommonsKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = GemCommonsKit.xcframework; path = Carthage/Build/GemCommonsKit.xcframework; sourceTree = "<group>"; };
 		B5F4D57126AEB43B00FD2C85 /* ASN1Object+Subscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ASN1Object+Subscript.swift"; sourceTree = "<group>"; };
 		B5F4D57226AEB43B00FD2C85 /* Data+UInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+UInt.swift"; sourceTree = "<group>"; };
 		B5F4D57326AEB43B00FD2C85 /* Data+ASN1Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+ASN1Int.swift"; sourceTree = "<group>"; };
@@ -258,6 +259,7 @@
 		FB9A80962687385700BDE632 /* ContentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentInfo.swift; sourceTree = "<group>"; };
 		FB9A80992687391100BDE632 /* Oid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oid.swift; sourceTree = "<group>"; };
 		FB9A80A22687480F00BDE632 /* CmsVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmsVersion.swift; sourceTree = "<group>"; };
+		FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectPublicKeyInfoTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,7 +511,69 @@
 		FB9A80862687348300BDE632 /* cryptography-in-useTests */ = {
 			isa = PBXGroup;
 			children = (
+				FBC99D0A26E225F80099B98A /* Asn1CryptoTest */,
 				FB9A80892687348300BDE632 /* Info.plist */,
+			);
+			path = "cryptography-in-useTests";
+			sourceTree = "<group>";
+		};
+		FBC99D0926E225C00099B98A /* Asn1Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				B574D86A26D6480900A6438E /* AsnExtension.swift */,
+				B5F3B11D26AFFFFB00783AF8 /* AsnSequence.swift */,
+				B5F3B12026B002CF00783AF8 /* AsnSet.swift */,
+				B574D82A26D2525D00A6438E /* Attribute.swift */,
+				B5F3B13D26B0333A00783AF8 /* AttributeTypeAndValue.swift */,
+				B574D82E26D2538200A6438E /* AttributeValue.swift */,
+				B574D83526D2593500A6438E /* AttributeValues.swift */,
+				B574D88A26DA4AEC00A6438E /* AuthorityKeyIdentifier.swift */,
+				B574D88626DA490400A6438E /* AuthorityKeyIdentifierExtension.swift */,
+				B5F3B15426B11FE800783AF8 /* Certificate.swift */,
+				B574D86F26D64DB900A6438E /* CertificateExtensions.swift */,
+				B590C74126C91A7300A11C39 /* Certificates.swift */,
+				B574D84A26D4B45000A6438E /* CMSAlgorithmProtection.swift */,
+				B574D86526D63F2600A6438E /* CMSAlgorithmProtectionAttribute.swift */,
+				B574D85526D4DFE800A6438E /* CMSAlgorithmProtectionValue.swift */,
+				FB9A80A22687480F00BDE632 /* CmsVersion.swift */,
+				FB9A80962687385700BDE632 /* ContentInfo.swift */,
+				B574D83B26D263EC00A6438E /* ContentType.swift */,
+				B574D85926D63A4D00A6438E /* ContentTypeAttribute.swift */,
+				B5F4D55B26AD70A100FD2C85 /* DigestAlgorithmIdentifier.swift */,
+				B5F4D55E26AD7A0800FD2C85 /* DigestAlgorithmIdentifiers.swift */,
+				B5F3B12326B0065100783AF8 /* EncapsulatedContentInfo.swift */,
+				B574D88226DA441800A6438E /* ExtendedKeyUsage.swift */,
+				B574D87F26DA433900A6438E /* ExtendedKeyUsageExtension.swift */,
+				B574D70A26CD251B00A6438E /* Extensions.swift */,
+				B5F3B13326B01D9300783AF8 /* IssuerAndSerialNumber.swift */,
+				B574D87326D6557200A6438E /* KeyUsageExtension.swift */,
+				B574D84126D2669300A6438E /* MessageDigest.swift */,
+				B574D86126D63DFC00A6438E /* MessageDigestAttribute.swift */,
+				B574D71426D0FD0400A6438E /* MessageImprint.swift */,
+				FB9A80992687391100BDE632 /* Oid.swift */,
+				B5F3B13726B031DC00783AF8 /* RDNSequence.swift */,
+				B5F3B13A26B032C700783AF8 /* RelativeDistinguishedName.swift */,
+				B5F3B13026B016A900783AF8 /* SignatureAlgorithmIdentifier.swift */,
+				B574D82626D251B400A6438E /* SignedAttributes.swift */,
+				FB9A80932687356F00BDE632 /* SignedData.swift */,
+				B5F3B12D26B0156900783AF8 /* SignerInfo.swift */,
+				B5F3B12A26B0150A00783AF8 /* SignerInfos.swift */,
+				B574D83E26D2659900A6438E /* SigningTime.swift */,
+				B574D85D26D63CBC00A6438E /* SigningTimeAttribute.swift */,
+				B574D87B26DA3F9D00A6438E /* SubjectKeyIdentifierExtension.swift */,
+				B5F3B15D26B12E3600783AF8 /* SubjectPublicKeyInfo.swift */,
+				B5F3B15A26B1276D00783AF8 /* TBSCertificate.swift */,
+				B574D71126D0FBB500A6438E /* TimeStampReq.swift */,
+				B5F3B16026B12E5600783AF8 /* Validity.swift */,
+				B5F4D56F26AEB43B00FD2C85 /* ASN1Kit */,
+				B5F3B15226B1169E00783AF8 /* AsnStrings */,
+			);
+			path = Asn1Crypto;
+			sourceTree = "<group>";
+		};
+		FBC99D0A26E225F80099B98A /* Asn1CryptoTest */ = {
+			isa = PBXGroup;
+			children = (
 				B56B642626C51936002833E9 /* CertificateTest.swift */,
 				B56B641B26C50051002833E9 /* DateTests.swift */,
 				B574D70026CA814700A6438E /* HashDataTest.swift */,
@@ -517,13 +581,14 @@
 				B574D87726D678FC00A6438E /* KeyUsageExtensionTest.swift */,
 				B574D83226D257CD00A6438E /* SignedAttrsTest.swift */,
 				FB9A80872687348300BDE632 /* SignedDataTests.swift */,
+				FBC99D0726E104E70099B98A /* SubjectPublicKeyInfoTests.swift */,
 				B574D71926D1021500A6438E /* TimeStampReqTests.swift */,
 				B56B641F26C50F2E002833E9 /* ValidityTests.swift */,
 				B5F3B16C26B9556600783AF8 /* AsnStringsTests */,
 				B574D89526DB6E7000A6438E /* PdfTests */,
 				B56D7A3626E0BB7200925AEA /* Symmetrics */,
 			);
-			path = "cryptography-in-useTests";
+			path = Asn1CryptoTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -737,6 +802,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B574D71A26D1021500A6438E /* TimeStampReqTests.swift in Sources */,
+				FBC99D0826E104E70099B98A /* SubjectPublicKeyInfoTests.swift in Sources */,
 				B56B642E26C7A545002833E9 /* IntegerTests.swift in Sources */,
 				B5F3B17026B955D000783AF8 /* OctetStringTests.swift in Sources */,
 				B56B642026C50F2E002833E9 /* ValidityTests.swift in Sources */,

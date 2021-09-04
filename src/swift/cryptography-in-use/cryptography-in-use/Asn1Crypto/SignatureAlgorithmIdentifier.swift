@@ -20,11 +20,51 @@ class SignatureAlgorithmIdentifier : AsnSequnce {
         }
     }
     
+    public var algorithm : ObjectIdentifier? {
+        get {
+            return self._algorithm
+        }
+    }
+    
+    public var parameter : ObjectIdentifier? {
+        get {
+            return self._parameter
+        }
+    }
+    
     override func getData() -> [ASN1EncodableType] {
         if(self._parameter != nil){
             return [self._algorithm, self._parameter]
         } else {
             return [self._algorithm]
+        }
+    }
+    
+    static func asn1decode(asn1: ASN1Object) -> SignatureAlgorithmIdentifier? {
+        if(asn1.tag != .universal(.sequence)) {
+            return nil
+        }
+        let data = asn1.data.items!
+        if(data.count < 1) {
+            return nil
+        }
+        
+        let algorithmAsn : ASN1Primitive = data[0] as! ASN1Primitive
+        if(algorithmAsn.tag != .universal(.objectIdentifier)) {
+            return nil
+        }
+        
+        let algorithm = try! ObjectIdentifier.from(asn1: algorithmAsn)
+        if (data.count > 1) {
+            let parameterAsn : ASN1Primitive = data[1] as! ASN1Primitive
+            if(parameterAsn.tag != .universal(.objectIdentifier)) {
+                return nil
+            }
+            let parameter = try! ObjectIdentifier.from(asn1: parameterAsn)
+            return SignatureAlgorithmIdentifier(algorithm: algorithm.rawValue, parameter: parameter.rawValue)
+        }
+        else {
+            return SignatureAlgorithmIdentifier(algorithm: algorithm.rawValue)
         }
     }
 }
