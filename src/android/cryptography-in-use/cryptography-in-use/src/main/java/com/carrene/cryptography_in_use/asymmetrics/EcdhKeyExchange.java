@@ -7,6 +7,4 @@ public class EcdhKeyExchange {
 
     EcdhKeyExchange() {
     }
-
-    int derive
 }
