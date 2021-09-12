@@ -1,5 +1,5 @@
 from asn1crypto import core
-from cryptolib.cryptoobject import CryptoObject 
+from cryptolib.crypto_object import CryptoObject 
 
 class CryptoPdf(CryptoObject) : 
 

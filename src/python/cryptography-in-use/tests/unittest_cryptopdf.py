@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append("..")
 
-from cryptolib.cryptopdf import CryptoPdf
+from cryptolib.crypto_pdf import CryptoPdf
 
 class TestCryptoPdf(unittest.TestCase):
 
