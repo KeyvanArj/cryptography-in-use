@@ -78,6 +78,8 @@ Abstract Syntax Notation One (ASN.1) is a standard interface description languag
 
 Protocol developers define data structures in ASN.1 modules, which are generally a section of a broader standards document written in the ASN.1 language. The advantage is that the ASN.1 description of the data encoding is independent of a particular computer or programming language. Because ASN.1 is both human-readable and machine-readable, an ASN.1 compiler can compile modules into libraries of code, codecs, that decode or encode the data structures. Some ASN.1 compilers can produce code to encode or decode several encodings.
 
+Remember that the goal of ASN.1 encoding is to represent a data structure as an array of bytes, which can be stored, transmitted or converted to text-based encodings such as Base64, e.g. in PEM format.
+
 [X.690](https://en.wikipedia.org/wiki/X.690) is an ITU-T standard specifying several ASN.1 encoding formats:
 
 - Basic Encoding Rules (BER)
@@ -121,9 +123,38 @@ The classification bits refer to :
 
 Class	         Bit 8	Bit 7
 ------------------------------
-universal	         0	0
+universal	       0	0
 application	       0	1
 context-specific   1	0
 private	           1	1
+
+#### Cryptography structures in ASN.1 syntax
+Here, we try to collect some of the most important cryptography structures which are represented by DER encoding in different applications. 
+
+##### [SubjectPublicKeyInfo](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.7)
+
+This field is used to carry the public key and identify the algorithm with which the key is used (e.g., RSA, DSA, or Diffie-Hellman). The algorithm is identified using the AlgorithmIdentifier structure. The object identifiers for the supported algorithms and the methods for encoding the public key materials (public key and parameters) are specified in []().
+
+``
+SubjectPublicKeyInfo  ::=  SEQUENCE  {
+        algorithm          AlgorithmIdentifier,
+        subjectPublicKey   BIT STRING  }
+
+where
+
+AlgorithmIdentifier  ::=  SEQUENCE  {
+        algorithm         OBJECT IDENTIFIER,
+        parameters        ANY DEFINED BY algorithm OPTIONAL  }
+```
+
+##### [Certificate]
+
+
+```
+Certificate  ::=  SEQUENCE  {
+        tbsCertificate       TBSCertificate,
+        signatureAlgorithm   AlgorithmIdentifier,
+        signatureValue       BIT STRING  }
+```
 
 ### Protocol Buffers
