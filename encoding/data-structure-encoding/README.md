@@ -119,11 +119,11 @@ For example a `SEQUENCE` will be shown by `0x30` tag, because it's a constructed
 
 The classification bits refer to :
 
-Class	         Bit 8	Bit 7
-------------------------------
-universal	         0	0
-application	       0	1
-context-specific   1	0
-private	           1	1
+| Class	          | Bit 8	| Bit 7 |
+|-----------------|-------|-------|
+|universal	      |   0	  |   0   |
+|application	    |   0	  |   1   |
+|context-specific |   1	  |   0   |
+|private	        |   1	  |   1   |
 
 ### Protocol Buffers
