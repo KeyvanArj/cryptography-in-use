@@ -10,7 +10,7 @@ class RsaKeyPair(KeyPair):
 
     def load(self, pfx_file_path, pfx_file_password):
    
-        # open it, using password. Supply/read your own from stdin.
+        # open it, using password
         with open(pfx_file_path, "rb") as key_file:
             (self._private_key,
              certificate,
