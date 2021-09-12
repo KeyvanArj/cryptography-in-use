@@ -1,1 +1,7 @@
+Cartfile.resolved
+/Carthage
+cryptography-in-use.xcodeproj/xcshareddata/
+DataKit.xcframework/
+GemCommonsKit.xcframework/
+cryptography-in-use.xcodeproj/xcuserdata/
 cryptography-in-use.xcodeproj/project.xcworkspace/xcuserdata/
