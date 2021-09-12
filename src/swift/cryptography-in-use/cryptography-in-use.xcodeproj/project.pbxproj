@@ -376,8 +376,7 @@
 			children = (
 				B56D7A3726E0BBB800925AEA /* KeyExchangeTests.swift */,
 			);
-			name = Symmetrics;
-			path = ../Symmetrics;
+			path = Symmetrics;
 			sourceTree = "<group>";
 		};
 		B574D89026DB6DF100A6438E /* Pdf */ = {
@@ -393,8 +392,7 @@
 			children = (
 				B56D7A3E26E3473500925AEA /* CryptoPdfTests.swift */,
 			);
-			name = PdfTests;
-			path = ../PdfTests;
+			path = PdfTests;
 			sourceTree = "<group>";
 		};
 		B5F3B15226B1169E00783AF8 /* AsnStrings */ = {
@@ -513,6 +511,8 @@
 		FB9A80862687348300BDE632 /* cryptography-in-useTests */ = {
 			isa = PBXGroup;
 			children = (
+				B574D89526DB6E7000A6438E /* PdfTests */,
+				B56D7A3626E0BB7200925AEA /* Symmetrics */,
 				FBC99D0A26E225F80099B98A /* Asn1CryptoTest */,
 				FB9A80892687348300BDE632 /* Info.plist */,
 			);
@@ -533,8 +533,6 @@
 				B574D71926D1021500A6438E /* TimeStampReqTests.swift */,
 				B56B641F26C50F2E002833E9 /* ValidityTests.swift */,
 				B5F3B16C26B9556600783AF8 /* AsnStringsTests */,
-				B574D89526DB6E7000A6438E /* PdfTests */,
-				B56D7A3626E0BB7200925AEA /* Symmetrics */,
 			);
 			path = Asn1CryptoTest;
 			sourceTree = "<group>";
