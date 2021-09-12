@@ -111,19 +111,19 @@ Some of the more applicable data types are:
 
 The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
 
-bits 8,7 : Classification
-bit  6 : constructed
-bits 5..1 : Primitive Type
+- bits 8,7 : Classification
+- bit  6 : Constructed
+- bits 5..1 : Primitive Type
 
 For example a `SEQUENCE` will be shown by `0x30` tag, because it's a constructed type so the `6`th bit will be `1` and makes the `0x10` tag to `0x30`. The same approach cause that a `SET` will be started by `0x31`.
 
 The classification bits refer to :
 
 | Class	          | Bit 8	| Bit 7 |
-|-----------------|-------|-------|
-|universal	      |   0	  |   0   |
-|application	    |   0	  |   1   |
-|context-specific |   1	  |   0   |
-|private	        |   1	  |   1   |
+| :---------------| :-----| :-----|
+|universal	      | 0	    | 0     |
+|application	    | 0	    | 1     |
+|context-specific | 1	    | 0     |
+|private	        | 1	    | 1     |
 
 ### Protocol Buffers
