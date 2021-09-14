@@ -130,4 +130,20 @@ $ openssl enc -base64 -e -in data_binary.bin
 $ openssl enc -base64 -d <<< /+I= | od -vt x1
 ```
 
+# Text-to-binary decoding
 
+In many situations, we have some text values which should be decoded to an equivalent byte arrays. Because we need to put them as the input of a cryptographic process. For example, assume that we have message for an authorized party in text and we need to encrypt it before transmission. The encryption process accepts a byte array as the input so we need to convert the message to a byte array :
+
+```
+$ echo -n 'Hello, World' | od -t x1
+0000000    48  65  6c  6c  6f  20  57  6f  72  6c  64 
+```
+ or in other representation way :
+
+ ```
+ $ echo -n 'Hello, World' | xxd -ps
+ 48656c6c6f2c20576f726c64 
+ ```
+But what does it mean really? It's very important for you to understand what happens exactly in this conversion.
+Take a look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e` character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? 
+Yes,   

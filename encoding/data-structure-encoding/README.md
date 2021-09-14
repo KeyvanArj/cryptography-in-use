@@ -9,10 +9,6 @@ This process of serializing an object is also called marshalling an object in so
 
 ## Text-based encoding formats
 
-### JSON
-
-### YAML
-
 ### PEM [RFC 7468](https://tools.ietf.org/html/rfc7468)
 
 Several security-related standards used on the Internet define ASN.1
@@ -125,5 +121,3 @@ The classification bits refer to :
 |application	    | 0	    | 1     |
 |context-specific | 1	    | 0     |
 |private	        | 1	    | 1     |
-
-### Protocol Buffers
