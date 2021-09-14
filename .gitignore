@@ -2,3 +2,5 @@
 src/.DS_Store
 .DS_Store
 .vscode/
+src/android/cryptography-in-use/app/.classpath
+src/android/cryptography-in-use/cryptolib/.classpath
