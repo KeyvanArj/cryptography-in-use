@@ -40,5 +40,9 @@ just follow the instructions on [Installing Apache Maven](https://maven.apache.o
 
 ## Chapter 3 : [Secrecy](https://github.com/KeyvanArj/cryptography-in-use/tree/main/secrecy)
 
-## Chapter 4 : Integrity & Authetication
+## Chapter 4 : [Integrity](https://github.com/KeyvanArj/cryptography-in-use/tree/main/integrity)
+
+## Chapter 5 : [Authentication](https://github.com/KeyvanArj/cryptography-in-use/tree/main/authentication)
+
+## Chapter 6 : [Time Stamp Authority](https://github.com/KeyvanArj/cryptography-in-use/tree/main/time-stamp) 
 
