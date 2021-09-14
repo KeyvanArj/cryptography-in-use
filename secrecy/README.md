@@ -15,12 +15,16 @@ This `secret` is called a seed, and the algorithm used to derive multiple secret
 ## Block Ciphers vs Stream Ciphers
 
 ## Block size vs Key size
- 
+
 ## Block Cipher Modes
 
 ## Padding
 
 ## Initial Vector
+
+## Nonce
+
+## Salt
 
 ## Key Derivation
 
