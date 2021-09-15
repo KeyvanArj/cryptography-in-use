@@ -9,10 +9,6 @@ This process of serializing an object is also called marshalling an object in so
 
 ## Text-based encoding formats
 
-### JSON
-
-### YAML
-
 ### PEM [RFC 7468](https://tools.ietf.org/html/rfc7468)
 
 Several security-related standards used on the Internet define ASN.1
@@ -119,6 +115,8 @@ Protocol developers define data structures in ASN.1 modules, which are generally
 Any ASN.1 encoding begins with two common bytes (or octets, groupings of eight bits) that are universally applied regardless of the type. The first byte is the type indicator, which also includes some modification bits we shall briefly touch upon. The second byte is the length header. 
 Some of the more applicable data types are:
 
+- Implicit : tag = 0x00
+
 - Boolean : Primitive, tag = 0x1
 
 - OCTET String : Primitive, tag = 0x04
@@ -158,5 +156,56 @@ The classification bits refer to :
 |context-specific | 1	    | 0     |
 |private	        | 1	    | 1     |
 
+#### Sample Encodings
 
-### Protocol Buffers
+We will use the [asn1parse](https://www.openssl.org/docs/manmaster/man1/openssl-asn1parse.html) command of `OpenSSL` with [ASN1_generate_nconf](https://www.openssl.org/docs/manmaster/man3/ASN1_generate_nconf.html) formatted file.
+
+- Integer
+
+Simple Integer : put this lines as the content of `int.cnf` file:
+
+```
+asn1=INTEGER:4
+```
+
+and run the following command :
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  02 01 04
+```
+
+As we expected, `0x02` refers to the `INTEGER` tag, `0x01` is the length of it and `0x04` is its value.
+Now, change the value in `int.cnf` file to `65889` and run it again:
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  02 03 01 01 61
+```
+
+Great, the length of value is changed to `3` bytes which is `0x010161` equals to hexadecimal representation of `65889`.
+
+Keep going and put an `IMPLICIT` tag on it :
+
+```
+asn1=IMPLICIT:1, INTEGER:4
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  000000  81 01 04
+```
+
+Now, change it to an `EXPLICIT` tag :
+
+```
+asn1=EXPLICIT:1, INTEGER:4
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  a1 03 02 01 04
+```
+
+
+

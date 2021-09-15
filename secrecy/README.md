@@ -4,13 +4,27 @@
 `Shared secret` is a value that is known to two parties. The secret can be as simple as a password, 
                 or it can be an encryption key both parties know.
 
-Encryption provides `secrecy` for a tranferred message. In most situations we decide to use a `shared secret key` in a `symmetric-key` encryption algorithm 
+Encryption provides `secrecy` for a transferred message. In most situations we decide to use a `shared secret key` in a `symmetric-key` encryption algorithm 
 to provide cipher messages. And sometimes, e.g. to transfer the `shared secret key` in `key exchange` process, 
 the best solution is to use an `asymmetric-key` encryption algorithm  .
 
 In all of these situations we need to generate secret keys (symmetric/asymmetric) and **store** them safely.
-One of the most secure approaches to generate secret keys is to use a `secret` which just client know it or just belongs to her uniquely, e.g. password or naional id. 
+One of the most secure approaches to generate secret keys is to use a `secret` which just client know it or just belongs to her uniquely, e.g. password or national id. 
 This `secret` is called a seed, and the algorithm used to derive multiple secret keys from this seed is called a `Key Derivation Function` (KDF).
+
+## Block Ciphers vs Stream Ciphers
+
+## Block size vs Key size
+
+## Block Cipher Modes
+
+## Padding
+
+## Initial Vector
+
+## Nonce
+
+## Salt
 
 ## Key Derivation
 
