@@ -28,7 +28,10 @@ operations.
 The content of a PEM file begins with a header such as `-----BEGIN CERTIFICATE-----` in a stand-alone line and ends with a 
 footer like `-----END CERTIFICATE-----` in the same way. The contents between header and footer tags are base64 encoded string of the related object in DER-encoded format. Except the header, the last line of content and footer lines, each line has the length of 64 characters. So, to parse a PEM file, you need to know the exact definition of the encoded object in ASN.1 syntax. you can use this online tool to check the content of a PEM file [PEM Parser](https://8gwifi.org/PemParserFunctions.jsp) or [Decode PEM data](https://report-uri.com/home/pem_decoder). 
 
-For example, a PEM file which contains a public key begins with the line `-----BEGIN PUBLIC KEY-----` and ends with the line `-----END PUBLIC KEY-----`. Between these two tags is the base64 encoded string of `SubjectPublicKeyInfo` object in DER-encoded format:
+ 
+#### Public Key
+
+a PEM file which contains a public key begins with the line `-----BEGIN PUBLIC KEY-----` and ends with the line `-----END PUBLIC KEY-----`. Between these two tags is the base64 encoded string of `SubjectPublicKeyInfo` object in DER-encoded format:
 
 ```
 -----BEGIN PUBLIC KEY-----
@@ -44,7 +47,13 @@ To  parse the `SubjectPublicKeyInfo` object, you need to follow these steps :
 base64decode('MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk1qnJZfju7Cs3mcFHkaNv30Y14EXwLpQUpi1k2W+KWVSb1dnBTkavBRZ8bp0Ip1NR59PwuN/9Nf1pKu77a3PaQ==') = [30 59 30 13 06 07 2a 86 48 ce 3d 02 01 06 08 2a 86 48 ce 3d 03 01 07 03 42 00 04 93 5a a7 25 97 e3 bb b0 ac de 67 05 1e 46 8d bf 7d 18 d7 81 17 c0 ba 50 52 98 b5 93 65 be 29 65 52 6f 57 67 05 39 1a bc 14 59 f1 ba 74 22 9d 4d 47 9f 4f c2 e3 7f f4 d7 f5 a4 ab bb ed ad cf 69]
 ```
 
-- parse the resulting byte array according to the ASN.1 syntax of `SubjectPublicKeyInfo` [RFC5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.1.2):
+or you can use the following `OpenSSL` command :
+
+```
+$ openssl ec -pubin -inform DER -in certificate.cer -outform PEM -out certificate.pem
+```
+
+- parse the resulting byte array(`DER` formatted) according to the ASN.1 syntax of `SubjectPublicKeyInfo` [RFC5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.1.2):
 
 ```
 SubjectPublicKeyInfo  ::=  SEQUENCE  {
@@ -69,6 +78,29 @@ SEQUENCE (2 elem)
 ```
 
 We know that the `SEQUENCE` tag is `0x30` so the byte array is started with this value. Here, `0x59` equals to the length of the `SEQUENCE` object in bytes. The next `0x30` means that there is another `SEQUENCE` as we expect from the `AlgorithmIdentifier` definition syntax. The `SubjectPublicKey` contains the public key bytes and included as a `BIT STRING` in the object. `BIT STRING` tag is `0x03` which you can find it in the byte array easily followed by `0x42`(it's length in bytes).
+
+Sometimes, the cryptographic objects such as `Certificate`s, `Public Key`s, ... may be stored or transmitted in `DER` format (`.der`).
+For example the following command will export the former public key (an EC Public Key) from `PEM` format to its equivalent `DER` one:
+
+```
+$ openssl ec -pubin -inform PEM -in public-key.pem -outform DER -out public-key.der
+```
+
+The resulting `.der` file contains the base64 decoded of `.pem` file. Please note that the `OpenSSL` command for a `RSA Public Key` is as the following one:
+
+For `RSA Public Key`
+```
+$ openssl rsa -pubin -inform PEM -in public-key.pem -outform DER -out public-key.der
+```
+
+#### Certificate
+
+For `Certificate`
+```
+$ openssl x509 -inform PEM -in certificate.pem -outform DER -out certificate.der
+```
+
+Note: `Certificate` in `DER` format may be stored in `.der`, `.cer` or `.crt` file extensions.
 
 ## Binary encoding formats
 
@@ -125,5 +157,6 @@ The classification bits refer to :
 |application	    | 0	    | 1     |
 |context-specific | 1	    | 0     |
 |private	        | 1	    | 1     |
+
 
 ### Protocol Buffers
