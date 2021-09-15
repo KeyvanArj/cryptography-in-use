@@ -185,6 +185,18 @@ openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 
 Great, the length of value is changed to `3` bytes which is `0x010161` equals to hexadecimal representation of `65889`.
 
+Let check the `NULL` value out :
+
+```
+asn1=NULL
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000 05 00
+```
+`0x05` is the corresponding tag to `NULL`.
+
 Keep going and put an `IMPLICIT` tag on it :
 
 ```
@@ -193,7 +205,7 @@ asn1=IMPLICIT:1, INTEGER:4
 
 ```
 openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
-000000  000000  81 01 04
+000000  81 01 04
 ```
 
 Now, change it to an `EXPLICIT` tag :
