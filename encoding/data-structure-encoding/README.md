@@ -113,6 +113,9 @@ Protocol developers define data structures in ASN.1 modules, which are generally
 - Distinguished Encoding Rules (DER)
 
 Any ASN.1 encoding begins with two common bytes (or octets, groupings of eight bits) that are universally applied regardless of the type. The first byte is the type indicator, which also includes some modification bits we shall briefly touch upon. The second byte is the length header. 
+
+We will use the [asn1parse](https://www.openssl.org/docs/manmaster/man1/openssl-asn1parse.html) command of `OpenSSL` with [ASN1_generate_nconf](https://www.openssl.org/docs/manmaster/man3/ASN1_generate_nconf.html) formatted file.
+
 Some of the more applicable data types are:
 
 - Implicit : tag = 0x00
@@ -140,43 +143,6 @@ Some of the more applicable data types are:
 - SET, SET OF : Constructed, tag = 0x11
 
 `Primitive` method applies to simple types and types derived from simple types by implicit tagging. It requires that the length of the value be known in advance.
-`Constructed, definite-length` method applies to simple string types, structured types, types derived simple string types and structured types by implicit tagging, and types derived from anything by explicit tagging. It requires that the length of the value be known in advance.
-
-
-The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
-
-- bits 8,7 : Classification
-- bit  6 : Constructed
-- bits 5..1 : Primitive Type
-
-For example a `SEQUENCE` will be shown by `0x30` tag, because it's a constructed type so the `6`th bit will be `1` and makes the `0x10` tag to `0x30`. The same approach cause that a `SET` will be started by `0x31`.
-
-The classification bits refer to :
-
-| Class	          | Bit 8	| Bit 7 |
-| :---------------| :-----| :-----|
-|universal	      | 0	    | 0     |
-|application	    | 0	    | 1     |
-|context-specific | 1	    | 0     |
-|private	        | 1	    | 1     |
-
-Explicit tagging denotes a type derived from another type by adding an outer tag to the underlying type.
-
-[[`class`] `number`] EXPLICIT `Type`
-
-`class` = UNIVERSAL | APPLICATION | PRIVATE
-
-where `Type` is a type, `class` is an optional class name, and `number` is the tag number within the class, a nonnegative integer.
-
-If the `class` name is absent, then the tag is `context-specific`.
-
-In `DER` encoding, each the explicit field will be `constructed`.
-
-#### Sample Encodings
-
-We will use the [asn1parse](https://www.openssl.org/docs/manmaster/man1/openssl-asn1parse.html) command of `OpenSSL` with [ASN1_generate_nconf](https://www.openssl.org/docs/manmaster/man3/ASN1_generate_nconf.html) formatted file.
-
-- Integer
 
 Simple Integer : put this lines as the content of `int.cnf` file:
 
@@ -223,6 +189,39 @@ asn1=IMPLICIT:1, INTEGER:4
 openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 000000  81 01 04
 ```
+
+`Constructed, definite-length` method applies to simple string types, structured types, types derived simple string types and structured types by implicit tagging, and types derived from anything by explicit tagging. It requires that the length of the value be known in advance.
+
+
+The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
+
+- bits 8,7 : Classification
+- bit  6 : Constructed
+- bits 5..1 : Primitive Type
+
+For example a `SEQUENCE` will be shown by `0x30` tag, because it's a constructed type so the `6`th bit will be `1` and makes the `0x10` tag to `0x30`. The same approach cause that a `SET` will be started by `0x31`.
+
+The classification bits refer to :
+
+| Class	          | Bit 8	| Bit 7 |
+| :---------------| :-----| :-----|
+|universal	      | 0	    | 0     |
+|application	    | 0	    | 1     |
+|context-specific | 1	    | 0     |
+|private	        | 1	    | 1     |
+
+Explicit tagging denotes a type derived from another type by adding an outer tag to the underlying type.
+
+[[`class`] `number`] EXPLICIT `Type`
+
+`class` = UNIVERSAL | APPLICATION | PRIVATE
+
+where `Type` is a type, `class` is an optional class name, and `number` is the tag number within the class, a nonnegative integer.
+
+If the `class` name is absent, then the tag is `context-specific`.
+
+In `DER` encoding, each the explicit field will be `constructed`.
+
 
 Now, change it to an `EXPLICIT` tag :
 
