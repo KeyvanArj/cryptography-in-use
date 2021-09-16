@@ -218,6 +218,3 @@ asn1=EXPLICIT:1, INTEGER:4
 openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 000000  a1 03 02 01 04
 ```
-
-
-
