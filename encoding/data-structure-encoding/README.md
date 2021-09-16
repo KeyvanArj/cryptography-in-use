@@ -139,6 +139,10 @@ Some of the more applicable data types are:
 
 - SET, SET OF : Constructed, tag = 0x11
 
+`Primitive` method applies to simple types and types derived from simple types by implicit tagging. It requires that the length of the value be known in advance.
+`Constructed, definite-length` method applies to simple string types, structured types, types derived simple string types and structured types by implicit tagging, and types derived from anything by explicit tagging. It requires that the length of the value be known in advance.
+
+
 The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
 
 - bits 8,7 : Classification
@@ -155,6 +159,18 @@ The classification bits refer to :
 |application	    | 0	    | 1     |
 |context-specific | 1	    | 0     |
 |private	        | 1	    | 1     |
+
+Explicit tagging denotes a type derived from another type by adding an outer tag to the underlying type.
+
+[[`class`] `number`] EXPLICIT `Type`
+
+`class` = UNIVERSAL | APPLICATION | PRIVATE
+
+where `Type` is a type, `class` is an optional class name, and `number` is the tag number within the class, a nonnegative integer.
+
+If the `class` name is absent, then the tag is `context-specific`.
+
+In `DER` encoding, each the explicit field will be `constructed`.
 
 #### Sample Encodings
 
@@ -218,3 +234,33 @@ asn1=EXPLICIT:1, INTEGER:4
 openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 000000  a1 03 02 01 04
 ```
+
+We do not specified the class in `int.cnf` file, so its class is `context-specific` as the default : `1 0` in bits 8,7 and `constructed` `1` in bit 6.
+The Tag number is also appeared in second octet of byte `1`.
+
+No try to determine the class of object an set it to `Application` : 
+
+```
+asn1=EXPLICIT:1A, INTEGER:4
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  61 03 02 01 04
+```
+
+Please note that the bits 8,7 are `0 1` and bit 6 is still `1` because this is an `constructed` object.
+
+or `Private` :
+
+```
+asn1=EXPLICIT:1P, INTEGER:4
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+000000  e1 03 02 01 04
+```
+
+Please note that the bits 8,7 are `1 1` and bit 6 is still `1` because this is an `constructed` object.
+
