@@ -5,3 +5,5 @@
 `Non-Repudiation` is a means of preventing the sender of a message from claiming that they did not send the message.
 
 An asymmetric key used as a signing key offers non-repudiation.
+
+## JWT, JWE, JWS, JWK and JWA

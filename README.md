@@ -12,7 +12,13 @@
 
 ## Chapter 6 : [Time Stamp Authority](https://github.com/KeyvanArj/cryptography-in-use/tree/main/time-stamp) 
 
-## Chapter 7 : Smart Cards
+## Chapter 7 : Android Security
 
-## Chapter 8 : HSM vs SSM
+## Chapter 8 : iOS Security
+
+## Chapter 9 : Web Security
+
+## Chapter 10 : Smart Cards
+
+## Chapter 11 : HSM vs SSM
 
