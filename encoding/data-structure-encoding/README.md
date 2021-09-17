@@ -168,7 +168,7 @@ asn1=INTEGER:4
 and run the following command :
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  02 01 04
 ```
 
@@ -176,7 +176,7 @@ As we expected, `0x02` refers to the `INTEGER` tag, `0x01` is the length of it a
 Now, change the value in `int.cnf` file to `65889` and run it again:
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  02 03 01 01 61
 ```
 
@@ -189,7 +189,7 @@ asn1=NULL
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000 05 00
 ```
 `0x05` is the corresponding tag to `NULL`.
@@ -213,7 +213,7 @@ asn1=IMPLICIT:1, INTEGER:4
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  81 01 04
 ```
 
@@ -226,7 +226,7 @@ asn1=IMPLICIT:A1, INTEGER:4
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 0000000 41 01 04 
 ```
 
@@ -265,7 +265,7 @@ asn1=EXPLICIT:1, INTEGER:4
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  a1 03 02 01 04
 ```
 
@@ -279,7 +279,7 @@ asn1=EXPLICIT:1A, INTEGER:4
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  61 03 02 01 04
 ```
 
@@ -292,7 +292,7 @@ asn1=EXPLICIT:1P, INTEGER:4
 ```
 
 ```
-openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+openssl asn1parse -genconf int.cnf -noout -out int.der && hexdump int.der
 000000  e1 03 02 01 04
 ```
 
