@@ -142,6 +142,21 @@ Some of the more applicable data types are:
 
 - SET, SET OF : Constructed, tag = 0x11
 
+The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
+
+- bits 8,7 : Classification
+- bit  6 : Constructed
+- bits 5..1 : Primitive Type
+
+The classification bits refer to :
+
+| Class	          | Bit 8	| Bit 7 |
+| :---------------| :-----| :-----|
+|universal	      | 0	    | 0     |
+|application	    | 0	    | 1     |
+|context-specific | 1	    | 0     |
+|private	        | 1	    | 1     |
+
 `Primitive` method applies to simple types and types derived from simple types by implicit tagging. It requires that the length of the value be known in advance.
 
 Simple Integer : put this lines as the content of `int.cnf` file:
@@ -179,6 +194,18 @@ openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 ```
 `0x05` is the corresponding tag to `NULL`.
 
+Tagging is useful to distinguish types within an application; it is also commonly used to distinguish component types within a structured type. For instance, optional components of a SET or SEQUENCE type are typically given distinct context-specific tags to avoid ambiguity.
+There are two ways to tag a type: implicitly and explicitly.
+
+Implicitly tagged types are derived from other types by changing the tag of the underlying type. 
+
+[[class] number] IMPLICIT Type
+
+class = UNIVERSAL | APPLICATION | PRIVATE
+
+where Type is a type, class is an optional class name, and number is the tag number within the class, a nonnegative integer.
+If the class name is absent, then the tag is context-specific.
+
 Keep going and put an `IMPLICIT` tag on it :
 
 ```
@@ -190,25 +217,34 @@ openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
 000000  81 01 04
 ```
 
+`8` octet shows that it has context-specific class and is a `primitive` not a `constructed`. and `1` is the tag number of it.
+
+Now, let try this one :
+
+```
+asn1=IMPLICIT:A1, INTEGER:4
+```
+
+```
+openssl asn1parse -genconf int.cnf -noout -out int.der | hexdump int.der
+0000000 41 01 04 
+```
+
+`4` octet shows that it has application class.
+
+A real example : KCS #8's `PrivateKeyInfo` type has an optional attributes component with an implicit, context-specific tag:
+
+PrivateKeyInfo ::= SEQUENCE {
+  version Version,
+  privateKeyAlgorithm PrivateKeyAlgorithmIdentifier,
+  privateKey PrivateKey,
+  attributes [0] IMPLICIT Attributes OPTIONAL }
+
+Here the underlying type is Attributes, the class is absent (i.e., context-specific), and the tag number within the class is 0.
+
 `Constructed, definite-length` method applies to simple string types, structured types, types derived simple string types and structured types by implicit tagging, and types derived from anything by explicit tagging. It requires that the length of the value be known in advance.
 
-
-The header byte is always placed at the start of any ASN.1 encoding and is divides into three parts: the classification, the constructed bit, and the primitive type. The header byte is broken as shown here : 
-
-- bits 8,7 : Classification
-- bit  6 : Constructed
-- bits 5..1 : Primitive Type
-
 For example a `SEQUENCE` will be shown by `0x30` tag, because it's a constructed type so the `6`th bit will be `1` and makes the `0x10` tag to `0x30`. The same approach cause that a `SET` will be started by `0x31`.
-
-The classification bits refer to :
-
-| Class	          | Bit 8	| Bit 7 |
-| :---------------| :-----| :-----|
-|universal	      | 0	    | 0     |
-|application	    | 0	    | 1     |
-|context-specific | 1	    | 0     |
-|private	        | 1	    | 1     |
 
 Explicit tagging denotes a type derived from another type by adding an outer tag to the underlying type.
 
@@ -221,7 +257,6 @@ where `Type` is a type, `class` is an optional class name, and `number` is the t
 If the `class` name is absent, then the tag is `context-specific`.
 
 In `DER` encoding, each the explicit field will be `constructed`.
-
 
 Now, change it to an `EXPLICIT` tag :
 
