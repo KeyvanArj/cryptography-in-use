@@ -1,10 +1,43 @@
+import hashlib
+import io
 from asn1crypto import core
 from cryptolib.crypto_object import CryptoObject 
+from PyPDF2 import pdf, generic
 
 class CryptoPdf(CryptoObject) : 
 
     def __init__(self):
         pass
+
+    def sign_document(self, pdf_data, signature_dictionary, keypair):
+        
+        digest_algoirthm = "sha256"
+
+        start_data = len(pdf_data)
+
+        fileStream = io.BytesIO(pdf_data)
+
+        # construct original pdf structure 
+        original_pdf = pdf.PdfFileReader(fileStream)
+
+        # digest method must remain unchanged from prevoius signatures
+        trailer = original_pdf.trailer
+        for k in ("/Root", "/Perms", "/DocMDP", "/Reference"):
+            if k in trailer:
+                trailer = trailer[k]
+                if isinstance(trailer, generic.ArrayObject):
+                    trailer = trailer[0]
+                trailer = trailer.getObject()
+            else:
+                trailer = None
+                break
+        if trailer is not None:
+            digest_algoirthm = trailer["/DigestMethod"][1:].lower()
+
+        message_digest = getattr(hashlib, digest_algoirthm)().digest()
+        contents = self.sign(keypair, message_digest)
+        zeros = contents.hex().encode("utf-8")
+    pass
 
     def verify_document(self, pdf_data):
 
@@ -17,6 +50,7 @@ class CryptoPdf(CryptoObject) :
         while (start_index != -1):
             # Extract the content and signed data of pdf
             (cms_data, signed_data, stop_index) = self.extract_signature_data(pdf_data, start_index)
+
             if(stop_index == -1):
                 break
             start_index = stop_index
@@ -39,6 +73,10 @@ class CryptoPdf(CryptoObject) :
                 cms_signature_verfication_result, 
                 signing_time_verification_result, 
                 cms_certificates_list)
+
+    def extract_pdf_content(self, pdf_data):
+        
+        pass
 
     def extract_signature_data(self, pdf_data, start_index):
         

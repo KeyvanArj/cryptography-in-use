@@ -1,21 +1,49 @@
+import datetime
 import unittest
 import sys
 sys.path.append("..")
 
 from cryptolib.crypto_pdf import CryptoPdf
+from cryptolib.rsa_keypair import RsaKeyPair
 
 class TestCryptoPdf(unittest.TestCase):
 
     def setUp(self):
         self.crypto_pdf = CryptoPdf()
         self.test_data_path = 'D:/workspace/cryptography-in-use/test-data'
+        self.rsa_keypair = RsaKeyPair()
+        self.pfx_file_path = self.test_data_path + '/private/signer_bundle.pfx'
+        self.pfx_file_password = b'123456'
+        self.rsa_keypair.load(self.pfx_file_path, self.pfx_file_password)
         pass
 
+    def test_sign_document(self):
+        date = datetime.datetime.utcnow() - datetime.timedelta(hours=12)
+        date = date.strftime("D:%Y%m%d%H%M%S+00'00'")
+        signature_dictionary = {
+        "aligned":0,
+        "sigbutton": True,
+        "sigfield": "Signature1",
+        "auto_sigfield": True,
+        "sigandcertify": True,
+        "signingdate": date,
+        "reason": "sign document",
+        }
+        # Read binary stream of pdf file and certificate
+        with open(self.test_data_path + '/pdf/original_document.pdf', 'rb') as file_handler:
+            pdf_data = file_handler.read()
+    
+        signed_pdf = self.crypto_pdf.sign_document(pdf_data, signature_dictionary, self.rsa_keypair)
+        self.assertIsNotNone(signed_pdf)
+
+        with open(self.test_data_path + '/pdf/signed_document.pdf', 'wb') as file_handler:
+            file_handler.write(signed_pdf)
+    
     def test_verify_document(self):
         # Read binary stream of pdf file and certificate
-        with open(self.test_data_path + '/pdf/visual_signed_document.pdf', 'rb') as file_handler:
+        with open(self.test_data_path + '/pdf/signed_document.pdf', 'rb') as file_handler:
             pdf_data = file_handler.read()
-        
+
         # Verify Signature, hash of data and signing time embedded in cms
         (cms_hash_verfication, 
          cms_signature_verfication, 

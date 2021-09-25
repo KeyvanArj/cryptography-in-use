@@ -2,10 +2,13 @@ package cryptolib;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
 import java.security.cert.X509Certificate;
 import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -21,6 +24,7 @@ import javax.crypto.NoSuchPaddingException;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+
 import javax.crypto.spec.IvParameterSpec;
 
 import java.util.Base64;
@@ -33,6 +37,9 @@ public class CryptoObject {
     public static final int ERROR_CERTIFICATE_IS_NOT_X509 = 102;
     public static final int ERROR_CERTIFICATE_USAGE = 103;
     public static final int ERROR_CERTIFICATE_EXTENDED_USAGE = 104;
+    public static final int ERROR_HASH_ALGORITHM = 105;
+    public static final int ERROR_PRIVATE_KEY = 106;
+    public static final int ERROR_SIGNATURE = 107;
 
     protected PrivateKey _privateKey;
     protected Certificate[] _certificateChain;
@@ -111,5 +118,25 @@ public class CryptoObject {
         }
         
         return NO_ERROR;
+    }
+
+    public String cmsSignText(String signedData) throws SignatureException, 
+                                                        InvalidKeyException, 
+                                                        NoSuchAlgorithmException {
+        byte[] signature = cmsSign(signedData.getBytes(StandardCharsets.UTF_8));
+        
+        return Base64.getEncoder().encodeToString(signature);
+    }
+
+    public byte[] cmsSign(byte[] signedData) throws SignatureException, 
+                                                    InvalidKeyException, 
+                                                    NoSuchAlgorithmException {
+        Signature privateSignature = Signature.getInstance("SHA256withRSA");
+        privateSignature.initSign(_privateKey);
+        privateSignature.update(signedData);
+
+        byte[] signature = privateSignature.sign();
+
+        return signature;
     }
 }

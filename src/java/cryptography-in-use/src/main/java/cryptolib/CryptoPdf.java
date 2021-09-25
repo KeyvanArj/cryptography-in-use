@@ -140,10 +140,6 @@ public class CryptoPdf extends CryptoFile implements SignatureInterface {
                 throw new IllegalStateException("No changes to the document are permitted due to DocMDP transform parameters dictionary");
             }     
             
-            // create visual signature rectangle
-            PDRectangle visualSignaturRectangle = null;
-            visualSignaturRectangle = createSignatureRectangle(originalDocuemnt, visualRectangle);
-
             // 
             PDAcroForm acroForm = originalDocuemnt.getDocumentCatalog().getAcroForm();
             if (acroForm != null && acroForm.getNeedAppearances())
@@ -181,9 +177,8 @@ public class CryptoPdf extends CryptoFile implements SignatureInterface {
             signatureOptions.setPreferredSignatureSize(SignatureOptions.DEFAULT_SIGNATURE_SIZE * 2);
 
             // add visual signature to the document
-            signatureOptions.setVisualSignature(createVisualSignatureTemplate(originalDocuemnt, 
-                                                                              0, 
-                                                                              visualSignaturRectangle, 
+            signatureOptions.setVisualSignature(createVisualSignatureTemplate(originalDocuemnt,
+                                                                              visualRectangle, 
                                                                               visualSignatureFile));
             signatureOptions.setPage(0);
             
@@ -307,13 +302,13 @@ public class CryptoPdf extends CryptoFile implements SignatureInterface {
         permsDict.setNeedToBeUpdated(true);
     }
 
-    private PDRectangle createSignatureRectangle(PDDocument document, Rectangle2D visualRectangle)
+    private PDRectangle createSignatureRectangle(PDDocument document, Rectangle2D visualRectangle, int pageNum)
     {
         float x = (float) visualRectangle.getX();
         float y = (float) visualRectangle.getY();
         float width = (float) visualRectangle.getWidth();
         float height = (float) visualRectangle.getHeight();
-        PDPage page = document.getPage(0);
+        PDPage page = document.getPage(pageNum);
         PDRectangle pdRectangle = new PDRectangle();
         // signing should be at the same position regardless of page rotation.
         switch (page.getRotation())
@@ -348,99 +343,105 @@ public class CryptoPdf extends CryptoFile implements SignatureInterface {
     }
 
     // create a template PDF document with empty signature and return it as a stream.
-    private InputStream createVisualSignatureTemplate(PDDocument srcDoc, 
-                                                      int pageNum, 
-                                                      PDRectangle rect,
+    private InputStream createVisualSignatureTemplate(PDDocument srcDoc,
+                                                      Rectangle2D visualRectangle, 
                                                       File visualSignatureFile) throws IOException
     {
         try (PDDocument doc = new PDDocument())
         {
-            PDPage page = new PDPage(srcDoc.getPage(pageNum).getMediaBox());
-            doc.addPage(page);
-            PDAcroForm acroForm = new PDAcroForm(doc);
-            doc.getDocumentCatalog().setAcroForm(acroForm);
-            PDSignatureField signatureField = new PDSignatureField(acroForm);
-            PDAnnotationWidget widget = signatureField.getWidgets().get(0);
-            List<PDField> acroFormFields = acroForm.getFields();
-            acroForm.setSignaturesExist(true);
-            acroForm.setAppendOnly(true);
-            acroForm.getCOSObject().setDirect(true);
-            acroFormFields.add(signatureField);
+            for(int pageNum = 0; pageNum<srcDoc.getNumberOfPages(); pageNum++) {
 
-            widget.setRectangle(rect);
+                // create visual signature rectangle
+                PDRectangle visualSignaturRectangle = null;
+                visualSignaturRectangle = createSignatureRectangle(srcDoc, visualRectangle, pageNum);
+                
+                PDPage page = new PDPage(srcDoc.getPage(pageNum).getMediaBox());
+                doc.addPage(page);
+                PDAcroForm acroForm = new PDAcroForm(doc);
+                doc.getDocumentCatalog().setAcroForm(acroForm);
+                PDSignatureField signatureField = new PDSignatureField(acroForm);
+                PDAnnotationWidget widget = signatureField.getWidgets().get(0);
+                List<PDField> acroFormFields = acroForm.getFields();
+                acroForm.setSignaturesExist(true);
+                acroForm.setAppendOnly(true);
+                acroForm.getCOSObject().setDirect(true);
+                acroFormFields.add(signatureField);
 
-            // from PDVisualSigBuilder.createHolderForm()
-            PDStream stream = new PDStream(doc);
-            PDFormXObject form = new PDFormXObject(stream);
-            PDResources res = new PDResources();
-            form.setResources(res);
-            form.setFormType(1);
-            PDRectangle bbox = new PDRectangle(rect.getWidth(), rect.getHeight());
-            float height = bbox.getHeight();
-            Matrix initialScale = null;
-            switch (srcDoc.getPage(pageNum).getRotation())
-            {
-                case 90:
-                    form.setMatrix(AffineTransform.getQuadrantRotateInstance(1));
-                    initialScale = Matrix.getScaleInstance(bbox.getWidth() / bbox.getHeight(), bbox.getHeight() / bbox.getWidth());
-                    height = bbox.getWidth();
-                    break;
-                case 180:
-                    form.setMatrix(AffineTransform.getQuadrantRotateInstance(2)); 
-                    break;
-                case 270:
-                    form.setMatrix(AffineTransform.getQuadrantRotateInstance(3));
-                    initialScale = Matrix.getScaleInstance(bbox.getWidth() / bbox.getHeight(), bbox.getHeight() / bbox.getWidth());
-                    height = bbox.getWidth();
-                    break;
-                case 0:
-                default:
-                    break;
-            }
-            form.setBBox(bbox);
-            PDFont font = PDType1Font.HELVETICA_BOLD;
+                widget.setRectangle(visualSignaturRectangle);
 
-            // from PDVisualSigBuilder.createAppearanceDictionary()
-            PDAppearanceDictionary appearance = new PDAppearanceDictionary();
-            appearance.getCOSObject().setDirect(true);
-            PDAppearanceStream appearanceStream = new PDAppearanceStream(form.getCOSObject());
-            appearance.setNormalAppearance(appearanceStream);
-            widget.setAppearance(appearance);
-
-            try (PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream))
-            {
-                // for 90Â° and 270Â° scale ratio of width / height
-                // not really sure about this
-                // why does scale have no effect when done in the form matrix???
-                if (initialScale != null)
+                // from PDVisualSigBuilder.createHolderForm()
+                PDStream stream = new PDStream(doc);
+                PDFormXObject form = new PDFormXObject(stream);
+                PDResources res = new PDResources();
+                form.setResources(res);
+                form.setFormType(1);
+                PDRectangle bbox = new PDRectangle(visualSignaturRectangle.getWidth(), visualSignaturRectangle.getHeight());
+                float height = bbox.getHeight();
+                Matrix initialScale = null;
+                switch (srcDoc.getPage(pageNum).getRotation())
                 {
-                    cs.transform(initialScale);
+                    case 90:
+                        form.setMatrix(AffineTransform.getQuadrantRotateInstance(1));
+                        initialScale = Matrix.getScaleInstance(bbox.getWidth() / bbox.getHeight(), bbox.getHeight() / bbox.getWidth());
+                        height = bbox.getWidth();
+                        break;
+                    case 180:
+                        form.setMatrix(AffineTransform.getQuadrantRotateInstance(2)); 
+                        break;
+                    case 270:
+                        form.setMatrix(AffineTransform.getQuadrantRotateInstance(3));
+                        initialScale = Matrix.getScaleInstance(bbox.getWidth() / bbox.getHeight(), bbox.getHeight() / bbox.getWidth());
+                        height = bbox.getWidth();
+                        break;
+                    case 0:
+                    default:
+                        break;
                 }
+                form.setBBox(bbox);
+                PDFont font = PDType1Font.HELVETICA_BOLD;
 
-                // show background image
-                // save and restore graphics if the image is too large and needs to be scaled
-                cs.saveGraphicsState();
-                cs.transform(Matrix.getScaleInstance(0.1f, 0.1f));
-                PDImageXObject img = PDImageXObject.createFromFileByExtension(visualSignatureFile, doc);
-                cs.drawImage(img, 0, 0);
-                cs.restoreGraphicsState();
+                // from PDVisualSigBuilder.createAppearanceDictionary()
+                PDAppearanceDictionary appearance = new PDAppearanceDictionary();
+                appearance.getCOSObject().setDirect(true);
+                PDAppearanceStream appearanceStream = new PDAppearanceStream(form.getCOSObject());
+                appearance.setNormalAppearance(appearanceStream);
+                widget.setAppearance(appearance);
 
-                // show text
-                float fontSize = 4;
-                float leading = fontSize * 1.5f;
-                cs.beginText();
-                cs.setFont(font, fontSize);
-                cs.setNonStrokingColor(Color.black);
-                cs.newLineAtOffset(fontSize, height - leading);
-                cs.setLeading(leading);
-                cs.showText("Signed by : ");
-                cs.newLine();
-                cs.showText("National code : ");
-                cs.newLine();
-                cs.showText("Certificate serial : ");
-                cs.newLine();
-                cs.showText("Signing time : ");
-                cs.endText();
+                try (PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream))
+                {
+                    // for 90Â° and 270Â° scale ratio of width / height
+                    // not really sure about this
+                    // why does scale have no effect when done in the form matrix???
+                    if (initialScale != null)
+                    {
+                        cs.transform(initialScale);
+                    }
+
+                    // show background image
+                    // save and restore graphics if the image is too large and needs to be scaled
+                    cs.saveGraphicsState();
+                    cs.transform(Matrix.getScaleInstance(0.1f, 0.1f));
+                    PDImageXObject img = PDImageXObject.createFromFileByExtension(visualSignatureFile, doc);
+                    cs.drawImage(img, 0, 0);
+                    cs.restoreGraphicsState();
+
+                    // show text
+                    float fontSize = 4;
+                    float leading = fontSize * 1.5f;
+                    cs.beginText();
+                    cs.setFont(font, fontSize);
+                    cs.setNonStrokingColor(Color.black);
+                    cs.newLineAtOffset(fontSize, height - leading);
+                    cs.setLeading(leading);
+                    cs.showText("Signed by : ");
+                    cs.newLine();
+                    cs.showText("National code : ");
+                    cs.newLine();
+                    cs.showText("Certificate serial : ");
+                    cs.newLine();
+                    cs.showText("Signing time : ");
+                    cs.endText();
+                }
             }
 
             // no need to set annotations and /P entry
