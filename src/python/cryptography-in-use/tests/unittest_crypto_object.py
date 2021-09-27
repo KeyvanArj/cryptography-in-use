@@ -18,17 +18,15 @@ class TestCryptoObject(unittest.TestCase):
         self.pfx_file_path = self.test_data_path + '/private/signer_bundle.pfx'
         self.pfx_file_password = b'123456'
         self.rsa_keypair.load(self.pfx_file_path, self.pfx_file_password)
-    pass
 
     def test_encrypt_aes256_cbc_pkcs5(self):
-        keyBase64 = "rEScADQNDtMhG/O2fNFX77p2Ld6SfrcSZIyiKNrlOEc="
-        ivBase64 = "0eQbwlW32F6wbv7ca2n8bg=="
-        plainData = "Hi, Mojtaba".encode('utf-8')
-        ciphered_data = self.crypto_object.encrypt_aes256_cbc_pkcs5(plainData, 
-                                                                    keyBase64,
-                                                                    ivBase64)
-        print("cipheredData : ", base64.b64encode(ciphered_data));
-        pass
+        key_base64 = "rEScADQNDtMhG/O2fNFX77p2Ld6SfrcSZIyiKNrlOEc="
+        iv_base64 = "0eQbwlW32F6wbv7ca2n8bg=="
+        plain_data = "Hi, Mojtaba".encode('utf-8')
+        ciphered_data = self.crypto_object.encrypt_aes256_cbc_pkcs5(plain_data, 
+                                                                    key_base64,
+                                                                    iv_base64)
+        print("cipheredData : ", base64.b64encode(ciphered_data))
 
     def test_sign_data(self):
         # Read binary stream of pdf file and certificate
@@ -43,8 +41,6 @@ class TestCryptoObject(unittest.TestCase):
             file_handler.write(cms_data)
 
         call(["openssl", "cms", "-verify", "-in", self.test_data_path + "/bin/signed_data.der", "-inform", "DER", "-noverify"])
-
-        pass    
 
 if __name__ == '__main__':
     unittest.main()
