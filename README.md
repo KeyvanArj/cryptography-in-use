@@ -10,15 +10,17 @@
 
 ## Chapter 5 : [Authentication](https://github.com/KeyvanArj/cryptography-in-use/tree/main/authentication)
 
-## Chapter 6 : [Time Stamp Authority](https://github.com/KeyvanArj/cryptography-in-use/tree/main/time-stamp) 
+## Chapter 6 : [Non-Repudiation](https://github.com/KeyvanArj/cryptography-in-use/tree/main/non-repudiation)
 
-## Chapter 7 : Android Security
+## Chapter 7 : [Time Stamp Authority](https://github.com/KeyvanArj/cryptography-in-use/tree/main/time-stamp) 
 
-## Chapter 8 : iOS Security
+## Chapter 8 : Android Security
 
-## Chapter 9 : Web Security
+## Chapter 9 : iOS Security
 
-## Chapter 10 : Smart Cards
+## Chapter 10 : Web Security
 
-## Chapter 11 : HSM vs SSM
+## Chapter 11 : Smart Cards
+
+## Chapter 12 : HSM vs SSM
 
