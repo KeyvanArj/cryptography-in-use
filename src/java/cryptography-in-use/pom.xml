@@ -51,6 +51,12 @@
           <version>3.0.0-RC1</version>
         </dependency>
     
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+        
     </dependencies>
     <build>
         <finalName>maven-unit-test</finalName>

@@ -20,6 +20,16 @@ class TestCryptoObject(unittest.TestCase):
         self.rsa_keypair.load(self.pfx_file_path, self.pfx_file_password)
     pass
 
+    def test_encrypt_aes256_cbc_pkcs5(self):
+        keyBase64 = "rEScADQNDtMhG/O2fNFX77p2Ld6SfrcSZIyiKNrlOEc="
+        ivBase64 = "0eQbwlW32F6wbv7ca2n8bg=="
+        plainData = "Hi, Mojtaba".encode('utf-8')
+        ciphered_data = self.crypto_object.encrypt_aes256_cbc_pkcs5(plainData, 
+                                                                    keyBase64,
+                                                                    ivBase64)
+        print("cipheredData : ", base64.b64encode(ciphered_data));
+        pass
+
     def test_sign_data(self):
         # Read binary stream of pdf file and certificate
         with open(self.test_data_path + '/bin/data_binary.bin', 'rb') as file_handler:

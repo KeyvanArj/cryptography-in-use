@@ -1,10 +1,13 @@
 import hashlib
+import base64
 
 from asn1crypto import cms, util, core, x509, pem
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.padding import PKCS7
 from cryptography.hazmat.primitives import hashes
 from OpenSSL import crypto
 from asn1crypto import x509, core, pem, cms
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 #from bitstring import BitArray;
 
@@ -12,6 +15,18 @@ class CryptoObject:
 
     def __init__(self) :
         pass
+
+    def encrypt_aes256_cbc_pkcs5(self, plainBytes, keyBase64, ivBase64) :
+        key = base64.b64decode(keyBase64)
+        iv = base64.b64decode(ivBase64)
+        padder = PKCS7(128).padder()
+        padded_data = padder.update(plainBytes)
+        padded_data += padder.finalize()
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+        encryptor = cipher.encryptor()
+        ciphered_data = encryptor.update(padded_data) + encryptor.finalize()
+        return iv + ciphered_data    
+        
 
     def sign(self, keypair, byte_array_data) :
         
