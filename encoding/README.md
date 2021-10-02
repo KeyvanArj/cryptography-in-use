@@ -42,7 +42,7 @@ echo -n 'Hello, World' | od -vt x1
 Each represented byte in output is equal to the `Hello, World` correspondent character in ASCII Table. e.g. `H` is equal
 to `0x48` and so on. So every letter in the string is converted into a character of ASCII table. The `String` is a basic
 data type. The main question is what we should do if we'd like to represent complex data structures in an array of bytes
-and vice versa. It seems easy at first glance, it's not though. It's highly recommended to persuade the next sections.
+and vice versa. It seems easy at first glance, it's not though. For that, it's highly recommended to persuade the next sections.
 
 - [Binary to Text Encoding](https://github.com/KeyvanArj/cryptography-in-use/tree/main/encoding/binary-to-text): This
   method will be used as the primitive tool in binary and text data manipulation.
