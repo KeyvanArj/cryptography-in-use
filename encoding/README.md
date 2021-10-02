@@ -20,7 +20,7 @@ An algorithm and a key are needed things to encode data. The encoded data could 
 data which will be sent over an API response or special characters on a debug console or unit test functions. On the
 other hand, to decode the encoded data you need the algorithm that was used to encode data plus the key of encryption.
 
-But what does happen under the hood? In cryptography, every object will be converted to an array of bytes. This array
+But what is happening under the hood? In cryptography, every object will be converted to an array of bytes. This array
 will be used as the input of a process and the result of the process will be another array of bytes. The last array of bytes
 is our encoded data.
 
