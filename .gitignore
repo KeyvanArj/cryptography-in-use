@@ -5,3 +5,4 @@ src/.DS_Store
 src/android/cryptography-in-use/app/.classpath
 src/android/cryptography-in-use/cryptolib/.classpath
 test-data/asn1/int.der
+tools/Mobile-Security-Framework-MobSF/

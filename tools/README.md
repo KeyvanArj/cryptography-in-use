@@ -35,3 +35,11 @@ just follow the instructions on [Installing Apache Maven](https://maven.apache.o
 ## XCode
 
 ## Android Studio
+
+## [Mobile SEcurity Framework](https://github.com/MobSF/Mobile-Security-Framework-MobSF)
+
+Just clone it from the `Github` repository :
+
+```
+$ git clone git@github.com:MobSF/Mobile-Security-Framework-MobSF.git
+```
