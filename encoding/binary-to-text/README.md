@@ -104,7 +104,7 @@ If we try to do same one for `base64url` :
 
 `_` `-` `I` `=`
 
-#### create a binary file
+##### create a binary file
 
 You can use `echo` in command line interface : 
 
@@ -118,17 +118,22 @@ To check the content of the binary file :
 $  hexdump data_binary.bin
 ```
 
-#### encode to standard Base64
+##### encode to standard Base64
 
 ``` 
 $ openssl enc -base64 -e -in data_binary.bin
 ```
 
-#### decode from standard Base64
+##### decode from standard Base64
 
 ```
 $ openssl enc -base64 -d <<< /+I= | od -vt x1
 ```
+
+#### Source Codes
+
+##### Python
+In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
 
 # Text-to-binary decoding
 
@@ -144,6 +149,8 @@ $ echo -n 'Hello, World' | od -t x1
  $ echo -n 'Hello, World' | xxd -ps
  48656c6c6f2c20576f726c64 
  ```
+
 But what does it mean really? It's very important for you to understand what happens exactly in this conversion.
 Take a look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e` character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? 
-Yes,   
+Yes, There many different standard text to binary standards such as `UTF-8`, `UTF-16`, `ISO 8859-13`, `Windows-1257` and etc.
+It's very important to exactly know that what encoding is used by the `String` encode and decode methods in different programming languages while most of the developers do not consider this point.    
