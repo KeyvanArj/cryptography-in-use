@@ -26,3 +26,11 @@ class BinaryEncoder:
     def from_urlsafe_base64(cls, base64_string: str) -> bytearray:
         return base64.urlsafe_b64decode(base64_string)
 
+    @classmethod
+    def to_byte_array(cls, string: str) -> bytearray:
+        return string.encode('utf-8')
+
+    @classmethod
+    def to_string(cls, data: bytearray) -> str:
+        return data.decode('utf-8')
+

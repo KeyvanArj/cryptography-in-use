@@ -154,3 +154,17 @@ But what does it mean really? It's very important for you to understand what hap
 Take a look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e` character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? 
 Yes, There many different standard text to binary standards such as `UTF-8`, `UTF-16`, `ISO 8859-13`, `Windows-1257` and etc.
 It's very important to exactly know that what encoding is used by the `String` encode and decode methods in different programming languages while most of the developers do not consider this point.    
+Let see to the output of the following command :
+
+```
+$ echo -n 'پاسارگاد' | od -t x
+0000000    d9  be  d8  a7  d8  b3  d8  a7  d8  b1  da  af  d8  a7  d8  af  
+```
+
+The `پاسارگاد` string contains the persian characters, so it can be encoded by `UTF-8` standard. In this standard, each character will be shown by using one to four one-byte (8-bit) code units. For example, character `پ` be mapped to `0xD9 0xBE` two-bytes code unit.
+
+## Source Codes
+
+### Python
+
+In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
