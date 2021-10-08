@@ -32,7 +32,11 @@ Now, assume that you have received/reached to a binary data such as `[0xFF 0xE2]
 
 ### Python
 
-In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
+In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `string` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
+
+### Java
+
+In [src/java/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/src/main/java/cryptolib) folder, you can find the `BinaryEncoder.java` source code contains the `string` encoder/decoders implementations. Their unit-tests also are available in [src/java/cryptography-in-use/test](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/test/java/cryptolib) folder as the `BinaryEncoderTest.java` source code. 
 
 # Binary-to-text Encoding
 
@@ -171,3 +175,5 @@ $ openssl enc -base64 -d <<< /+I= | od -vt x1
 ##### Python
 In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
 
+##### Java
+In [src/java/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/src/main/java/cryptolib) folder, you can find the `BinaryEncoder.java` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/java/cryptography-in-use/test](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/test/java/cryptolib) folder as the `BinaryEncoderTest.java` source code. 
