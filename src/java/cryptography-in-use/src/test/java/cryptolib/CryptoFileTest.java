@@ -10,15 +10,13 @@ import java.io.IOException;
 
 public class CryptoFileTest {
 
-    private File _originalFile;
-    private CryptoFile _cryptoFile;
-    private String _testDataPath;
- 
+    private File originalFile;
+    private CryptoFile cryptoFile;
+    
     @BeforeEach                                         
-    public void setUp() throws IOException {
-        _cryptoFile = new CryptoFile();
-        _testDataPath = "D:/workspace/cryptography-in-use/test-data";
-        _originalFile = new File(_testDataPath + "/pdf/original_document.pdf");
+    public void setUp() {
+        cryptoFile = new CryptoFile();
+        originalFile = new File(TestConfig.CRYPTOGRAPHY_IN_USE_TEST_DATA_PATH + "/pdf/original_document.pdf");
     }
 
     @Test
@@ -47,8 +45,8 @@ public class CryptoFileTest {
         // $ openssl enc -aes-256-cbc -K 40d576190c5f1565f09994d69a826b4b160d2e6a93531bfd83935e42969b73b1 -iv d1e41bc255b7d85eb06efedc6b69fc6e -in test-data/pdf/plain_document.pdf -out test-data/pdf/openssl_ciphered_file.pdf
         // According to the OpenSSL document (https://www.openssl.org/docs/man1.1.1/man1/enc.html) :
         //      All the block ciphers normally use PKCS#5 padding
-        File cipheredFile = new File(_testDataPath + "/pdf/ciphered_file.pdf");
-        Boolean result = _cryptoFile.encrypt_aes_256_cbc_pkcs5(_originalFile, 
+        File cipheredFile = new File(TestConfig.CRYPTOGRAPHY_IN_USE_TEST_DATA_PATH + "/pdf/ciphered_file.pdf");
+        Boolean result = cryptoFile.encrypt_aes_256_cbc_pkcs5(originalFile, 
                                                                 keyBase64,
                                                                 ivBase64, 
                                                                 cipheredFile);

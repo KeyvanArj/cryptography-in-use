@@ -1,3 +1,39 @@
+# Text-to-binary decoding
+
+In many situations, we have some text values which should be decoded to an equivalent byte arrays. Because we need to put them as the input of a cryptographic process. For example, assume that we have message for an authorized party in text and we need to encrypt it before transmission. The encryption process accepts a byte array as the input so we need to convert the message to a byte array :
+
+```
+$ echo -n 'Hello, World' | od -t x1
+0000000    48  65  6c  6c  6f  20  57  6f  72  6c  64 
+```
+ or in other representation way :
+
+ ```
+ $ echo -n 'Hello, World' | xxd -ps
+ 48656c6c6f2c20576f726c64 
+ ```
+
+But what does it mean really? It's very important for you to understand what happens exactly in this conversion.
+Take a look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e` character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? 
+Yes, There many different standard text to binary standards such as `UTF-8`, `UTF-16`, `ISO 8859-13`, `Windows-1257` and etc.
+It's very important to exactly know that what encoding is used by the `String` encode and decode methods in different programming languages while most of the developers do not consider this point.    
+Let see to the output of the following command :
+
+```
+$ echo -n 'پاسارگاد' | od -t x
+0000000    d9  be  d8  a7  d8  b3  d8  a7  d8  b1  da  af  d8  a7  d8  af  
+```
+
+The `پاسارگاد` string contains the persian characters, so it can be encoded by `UTF-8` standard. In this standard, each character will be shown by using one to four one-byte (8-bit) code units. For example, character `پ` be mapped to `0xD9 0xBE` two-bytes code unit.
+
+Now, assume that you have received/reached to a binary data such as `[0xFF 0xE2]` and would like to convert it to a string. What would you do? The next section `Binary to Text Encoding` tries to answer to this question.
+
+## Source Codes
+
+### Python
+
+In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
+
 # Binary-to-text Encoding
 
 The purpose of encoding is to transform data so that it can be properly (and safely) consumed by a different type of system, e.g. binary data being sent over the response of an API calling, or viewing special characters on a debug console or unit test function. The goal is not to keep information secret, but rather to ensure that it’s able to be properly consumed.
@@ -135,36 +171,3 @@ $ openssl enc -base64 -d <<< /+I= | od -vt x1
 ##### Python
 In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 
 
-# Text-to-binary decoding
-
-In many situations, we have some text values which should be decoded to an equivalent byte arrays. Because we need to put them as the input of a cryptographic process. For example, assume that we have message for an authorized party in text and we need to encrypt it before transmission. The encryption process accepts a byte array as the input so we need to convert the message to a byte array :
-
-```
-$ echo -n 'Hello, World' | od -t x1
-0000000    48  65  6c  6c  6f  20  57  6f  72  6c  64 
-```
- or in other representation way :
-
- ```
- $ echo -n 'Hello, World' | xxd -ps
- 48656c6c6f2c20576f726c64 
- ```
-
-But what does it mean really? It's very important for you to understand what happens exactly in this conversion.
-Take a look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e` character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? 
-Yes, There many different standard text to binary standards such as `UTF-8`, `UTF-16`, `ISO 8859-13`, `Windows-1257` and etc.
-It's very important to exactly know that what encoding is used by the `String` encode and decode methods in different programming languages while most of the developers do not consider this point.    
-Let see to the output of the following command :
-
-```
-$ echo -n 'پاسارگاد' | od -t x
-0000000    d9  be  d8  a7  d8  b3  d8  a7  d8  b1  da  af  d8  a7  d8  af  
-```
-
-The `پاسارگاد` string contains the persian characters, so it can be encoded by `UTF-8` standard. In this standard, each character will be shown by using one to four one-byte (8-bit) code units. For example, character `پ` be mapped to `0xD9 0xBE` two-bytes code unit.
-
-## Source Codes
-
-### Python
-
-In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/cryptolib) folder, you can find the `binary_encoder.py` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/python/cryptography-in-use/tests](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/python/cryptography-in-use/tests) folder as the `unittest_binary_encoder.py` source code. 

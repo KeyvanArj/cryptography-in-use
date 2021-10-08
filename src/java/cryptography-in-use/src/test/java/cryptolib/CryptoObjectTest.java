@@ -2,11 +2,6 @@ package cryptolib;
 
 import org.junit.jupiter.api.Test;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.json.JSONElement;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Assertions;
@@ -15,8 +10,6 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
-
-import com.google.gson.JsonObject;
 
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
@@ -31,7 +24,7 @@ public class CryptoObjectTest {
     @BeforeEach                                         
     public void setUp() {
         _cryptoObject = new CryptoObject();
-        _pfxFilePath = "D:/workspace/cryptography-in-use/test-data/private/signer_bundle.pfx";
+        _pfxFilePath = TestConfig.CRYPTOGRAPHY_IN_USE_TEST_DATA_PATH + "/private/signer_bundle.pfx";
         _pfxFilePassword = "123456";
     }
 
@@ -67,19 +60,9 @@ public class CryptoObjectTest {
         String udid = "11671fe4-9652-91fb-c9d9";
         String data = mobileNo + ":" + udid;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedhash = digest.digest(data.getBytes(StandardCharsets.UTF_8)); 
-        String sha256hex = new String(Hex.encode(encodedhash));
+        byte[] encodedHash = digest.digest(data.getBytes(StandardCharsets.UTF_8)); 
+        String sha256hex = new String(Hex.encode(encodedHash));
         String cms = _cryptoObject.cmsSignText(sha256hex);
-        // System.out.println("cms : " +  cms);
-        // JsonObject requestBody = new JsonObject();
-        // requestBody.addProperty("cms", cms);
-        // HttpResponse <JsonNode> httpResponse = Unirest.post("https://zoomid.hamrahkish.com/falcon/v1/organizations/mellipass/users/" + mobileNo + "/register")
-        //                                               .header("Content-Type", "application/json")
-        //                                               .body(requestBody)
-        //                                               .asJson();
-        // System.out.println(httpResponse.getStatus() + " " + httpResponse.getStatusText());
-        // if(httpResponse.getStatus() != 500) {
-        //     System.out.println(httpResponse.getBody().toPrettyString());                                              
-        // }
+        System.out.println("cms : " +  cms);
     }
 }

@@ -28,7 +28,13 @@ You can download and install it from it's [official website](https://git-scm.com
 ### Maven
 
 You need this tool to build and run Java source codes. To install it, 
-just follow the instructions on [Installing Apache Maven](https://maven.apache.org/install.html) 
+just follow the instructions on [Installing Apache Maven](https://maven.apache.org/install.html).
+
+On macOS the easiest way is to use `Homebrew`:
+
+```
+$ brew install maven
+```
 
 ## JavaScript
 
