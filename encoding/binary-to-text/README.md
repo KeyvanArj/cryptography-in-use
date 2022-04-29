@@ -40,46 +40,71 @@ In [src/java/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptog
 
 # Binary-to-text Encoding
 
-The purpose of encoding is to transform data so that it can be properly (and safely) consumed by a different type of system, e.g. binary data being sent over the response of an API calling, or viewing special characters on a debug console or unit test function. The goal is not to keep information secret, but rather to ensure that it’s able to be properly consumed.
-Encoding transforms data into another format using a scheme that is publicly available so that it can easily be reversed. It does not require a key as the only thing required to decode it is the algorithm that was used to encode it.
+## Table of contents
+
+- ### [Purpose](#purpose)
+- ### [Hexadecimal (Base16)](#Hexadecimal-(Base16))
+    - #### [Advantages](#advantages)
+    - #### [Disadvantages](#disadvantages)
+- ### [Base64](#base64)
+    - ### [Examples](#examples)
+        - #### [Manual encoding](#manual-encoding)
+        - #### [Create a binary file](#create-a-binary-file)
+        - #### [Encode to standard Base64](#encode-to-standard-base64)
+        - #### [Decode from standard Base64](#decode-from-standard-base64)
+- ### [Text-to-binary decoding](#text-to-binary-decoding)
+
+## Purpose
+
+To understand the purpose of Encoding, please check [here](../../README.md#purpose)
 
 ## Hexadecimal (Base16)
 
-Base16 can also refer to a binary to text encoding belonging to the same family as Base32, Base58, and Base64.
+The Hexadecimal is a numeral system made up of 16 symbols to write and share numerical values. Base16 can also refer to
+a binary to text encoding belonging to the same family as Base32, Base58, and Base64.
 
-In this case, data is broken into 4-bit sequences, and each value (between 0 and 15 inclusively) is encoded using 16 symbols from the ASCII character set. Although any 16 symbols from the ASCII character set can be used, in practice the ASCII digits '0'–'9' and the letters 'A'–'F' (or the lowercase 'a'–'f') are always chosen in order to align with standard written notation for hexadecimal numbers.
+In this case, data is broken into 4-bit sequences, and each value (between 0 and 15 inclusively) is encoded using 16
+symbols from the ASCII character set. Although any 16 symbols from the ASCII character set can be used, in practice the
+ASCII digits '0'–'9' and the letters 'A'–'F' (or the lowercase 'a'–'f') are always chosen in order to align with
+standard written notation for hexadecimal numbers.
+
+### Advantages
 
 There are several advantages of Base16 encoding:
 
-- Most programming languages already have facilities to parse ASCII-encoded hexadecimal
-- Being exactly half a byte, 4-bits is easier to process than the 5 or 6 bits of Base32 and Base64 respectively
-The symbols 0-9 and A-F are universal in hexadecimal notation, so it is easily understood at a glance without needing to rely on a symbol lookup table
-- Many CPU architectures have dedicated instructions that allow access to a half-byte (otherwise known as a "nibble"), making it more efficient in hardware than Base32 and Base64
+- Most programming languages already have facilities to parse ASCII-encoded hexadecimal.
+- Being exactly half a byte (4-bits) is easier to process than the 5 or 6 bits of Base32 and Base64 respectively. The
+  symbols 0-9 and A-F are universal in hexadecimal notation, so it would be easily understood at a glance without
+  needing to rely on a symbol lookup table.
+- Many CPU architectures have dedicated instructions that allow access to a half-byte (otherwise known as a "nibble"),
+  making Base16 more efficient in hardware than Base32 and Base64.
+
+### Disadvantages
 
 The main disadvantages of Base16 encoding are:
 
-- Space efficiency is only 50%, since each 4-bit value from the original data will be encoded as an 8-bit byte. In contrast, Base32 and Base64 encodings have a space efficiency of 63% and 75% respectively.
+- Space efficiency is only 50%, since each 4-bit value from the original data will be encoded as an 8-bit byte. In
+  contrast, Base32 and Base64 encodings have a space efficiency of 63% and 75% respectively.
 - Possible added complexity of having to accept both uppercase and lowercase letters.
 
 ## Base64
 
-Here, we are talking about the `Base64` encoding from [RFC4648 - The Base16, Base32, and Base64 Data Encodings](https://tools.ietf.org/html/rfc4648).
+Here, we are talking about the `Base64` encoding
+from [RFC4648 - The Base16, Base32, and Base64 Data Encodings](https://tools.ietf.org/html/rfc4648).
 
 There are two different versions defined in RFC 4648:
 
 * Standard
 * With URL and Filename Safe Alphabet
 
-The encoding process represents 24-bit groups of input bits as output
-strings of 4 encoded characters.  Proceeding from left to right, a
-24-bit input group is formed by concatenating 3 8-bit input groups.
-These 24 bits are then treated as 4 concatenated 6-bit groups, each
-of which is translated into a single character in the base 64
-alphabet.
+The encoding process takes 24-bit groups as input and represents 4 encoded characters string as output.
 
-Each 6-bit group is used as an index into an array of 64 printable
-characters.  The character referenced by the index is placed in the
-output string.
+The encoding process represents 24-bit groups of input bits as output strings of 4 encoded characters. Proceeding from
+left to right, a 24-bit input group is formed by concatenating 3 8-bit input groups. These 24 bits are then treated as 4
+concatenated 6-bit groups, each of which is translated into a single character in the base 64 alphabet.
+
+Each 6-bit group is used as an index into an array of 64 printable characters. The character referenced by the index is
+placed in the output string.
 
 The Base 64 Alphabet Table
 
@@ -102,23 +127,22 @@ The Base 64 Alphabet Table
         15 P            32 g            49 x
         16 Q            33 h            50 y
 
-Special processing is performed if fewer than 24 bits are available
-at the end of the data being encoded.  A full encoding quantum is
-always completed at the end of a quantity.  When fewer than 24 input
-bits are available in an input group, bits with value zero are added
-(on the right) to form an integral number of 6-bit groups.
-Since it encodes by group of 3 bytes, when last group of 3 bytes miss one byte then = is used, when it miss 2 bytes then == is used for padding.
+Special processing is performed if fewer than 24 bits are available at the end of the data being encoded. A full
+encoding quantum is always completed at the end of a quantity. When fewer than 24 input bits are available in an input
+group, bits with value zero are added (on the right) to form an integral number of 6-bit groups. Since it encodes by
+group of 3 bytes, when last group of 3 bytes miss one byte then = is used, when it miss 2 bytes then == is used for
+padding.
 
-In `URL/Filename safe` version, the `-` is used for `62` instead of `+` , 
-and the `_` is used for `63` instead of `/` . This encoding may be referred to as "base64url".  
-This encoding should not be regarded as the same as the "base64" encoding and
-should not be referred to as only "base64". 
+In `URL/Filename safe` version, the `-` is used for `62` instead of `+` , and the `_` is used for `63` instead of `/`.
+This encoding may be referred to as "base64url".  
+This encoding should not be regarded as the same as the "base64" encoding and should not be referred to as only "base64"
+.
 
-In `OpenSSL` , the `Standard` version has been implemented since OpenSSL 1.1.1j  16 Feb 2021.
+In `OpenSSL` , the `Standard` version has been implemented since OpenSSL 1.1.1j 16 Feb 2021.
 
-### Example
+### Examples
 
-#### manual encoding
+#### Manual encoding
 
 Suppose that the input byte array is [0xff, 0xe2].
 
@@ -140,31 +164,30 @@ The output length is not the multiplier of 4, so add `=` as the padding characte
 
 `/` `+` `I` `=`
 
-If we try to do same one for `base64url` :
+If we try to do same one for `base64url`:
 
 `_` `-` `I` `=`
 
-##### create a binary file
+#### Create a binary file
 
-You can use `echo` in command line interface : 
+You can use `echo` in command line interface:
 
 ``` 
 $  echo -n -e \\xff\\xe2 > data_binary.bin
 ```
 
-To check the content of the binary file :
+To check the content of the binary file:
 
 ``` 
 $  hexdump data_binary.bin
 ```
 
-##### encode to standard Base64
+#### Encode to standard Base64
 
 ``` 
 $ openssl enc -base64 -e -in data_binary.bin
 ```
-
-##### decode from standard Base64
+#### Decode from standard Base64
 
 ```
 $ openssl enc -base64 -d <<< /+I= | od -vt x1
@@ -177,3 +200,25 @@ In [src/python/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/crypt
 
 ##### Java
 In [src/java/cryptography-in-use/cryptolib](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/src/main/java/cryptolib) folder, you can find the `BinaryEncoder.java` source code contains the `hex` and `base64` encoder/decoders implementations. Their unit-tests also are available in [src/java/cryptography-in-use/test](https://github.com/KeyvanArj/cryptography-in-use/tree/main/src/java/cryptography-in-use/test/java/cryptolib) folder as the `BinaryEncoderTest.java` source code. 
+=======
+In many situations, we have some text values which should be decoded to an equivalent byte arrays to use as the input of
+a cryptographic process. For example, assume that we have message for an authorized party in text and we need to encrypt
+it before transmission. The encryption process accepts a byte array as the input, so we need to convert the message to a
+byte array :
+
+```
+$ echo -n 'Hello, World' | od -t x1
+0000000    48  65  6c  6c  6f  20  57  6f  72  6c  64 
+```
+
+or in other representation way:
+
+ ```
+ $ echo -n 'Hello, World' | xxd -ps
+ 48656c6c6f2c20576f726c64 
+ ```
+
+But what does it mean really? It's very important for you to understand what happens exactly in this conversion. Take a
+look at the `ASCII Table` again. `0x48` refers to the hexadecimal representation of `H` character, `0x65` refers to `e`
+character and so on. So, every character in the `Hello, World` message is converted to a hexadecimal value
+from `ASCII Table`. It means that we have done the `ASCII` decoding process. Did we have any other option? Yes,   
